@@ -16,7 +16,7 @@
 	<key>MinimumVersion</key>
 	<string>0.6.1</string>
 	<key>ParentRecipe</key>
-	<string>com.isd720.download.BeanLoader</string>
+	<string>com.github.nstrauss.download.BeanLoader</string>
 	<key>Process</key>
 	<array>
 		<dict>

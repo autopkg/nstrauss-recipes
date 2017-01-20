@@ -7,7 +7,7 @@
 	<key>Description</key>
 	<string>Downloads the latest version of Bean Loader and creates a package.</string>
 	<key>Identifier</key>
-	<string>com.isd720.pkg.BeanLoader</string>
+	<string>com.github.nstrauss.pkg.BeanLoader</string>
 	<key>Input</key>
 	<dict>
 		<key>BUNDLE_ID</key>
@@ -18,7 +18,7 @@
 	<key>MinimumVersion</key>
 	<string>0.6.1</string>
 	<key>ParentRecipe</key>
-	<string>com.isd720.download.BeanLoader</string>
+	<string>com.github.nstrauss.download.BeanLoader</string>
 	<key>Process</key>
 	<array>
 		<dict>
