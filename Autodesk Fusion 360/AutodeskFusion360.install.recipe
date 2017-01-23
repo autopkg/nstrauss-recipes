@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>Description</key>
-	<string>Downloads and installs the current release version of Autodesk Fusion 360.</string>
+	<string>Downloads and installs the latest version of Autodesk Fusion 360 for Education.</string>
 	<key>Identifier</key>
 	<string>com.github.nstrauss.install.AutodeskFusion360</string>
 	<key>Input</key>
