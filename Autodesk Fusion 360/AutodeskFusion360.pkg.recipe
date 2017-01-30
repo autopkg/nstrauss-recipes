@@ -62,6 +62,8 @@
             </dict>
         </dict>
         <dict>
+        <key>Arguments</key>
+        <dict>
             <key>path_list</key>
             <array>
                 <string>%RECIPE_CACHE_DIR%/unpack</string>
