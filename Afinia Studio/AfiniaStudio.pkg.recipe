@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Description</key>
+	<string>Downloads and packages latest version of Afinia Studio.</string>
+	<key>Identifier</key>
+	<string>com.github.jkosowsk.pkg.afiniastudio</string>
+	<key>Input</key>
+	<dict>
+		<key>NAME</key>
+		<string>AfiniaStudio</string>
+	</dict>
+	<key>ParentRecipe</key>
+	<string>com.github.jkosowsk.download.afiniastudio</string>
+	<key>Process</key>
+    <array>
+	    <dict>
+            <key>Processor</key>
+            <string>Unarchiver</string>
+            <key>Arguments</key>
+            <dict>
+                <key>destination_path</key>
+                <string>%RECIPE_CACHE_DIR%/app</string>
+                <key>purge_destination</key>
+                <string>true</string>
+        	</dict>
+        </dict>
+		<dict>
+		    <key>Processor</key>
+    		<string>CodeSignatureVerifier</string>
+		    <key>Arguments</key>
+		    <dict>
+		        <key>input_path</key>
+		        <string>%RECIPE_CACHE_DIR%/app/Afinia Studio/Afinia Studio.app</string>
+		        <key>requirement</key>
+		        <string>identifier "com.afinia.AfiniaStudio" and anchor apple generic and certificate leaf[subject.CN] = 0x4d616320446576656c6f7065723a20e4bf8ae5ae8f20e983ad2028394642394144394d363229 and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
+		    </dict>
+		</dict>
+        <dict>
+            <key>Processor</key>
+            <string>Versioner</string>
+            <key>Arguments</key>
+            <dict>
+                <key>input_plist_path</key>
+                <string>%RECIPE_CACHE_DIR%/app/Afinia Studio/Afinia Studio.app/Contents/Info.plist</string>
+                <key>plist_version_key</key>
+                <string>CFBundleShortVersionString</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>PkgRootCreator</string>
+            <key>Arguments</key>
+            <dict>
+                <key>pkgroot</key>
+                <string>%RECIPE_CACHE_DIR%/%NAME%</string>
+                <key>pkgdirs</key>
+                <dict>
+                    <key>Applications</key>
+                    <string>0775</string>
+                </dict>
+            </dict>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>Copier</string>
+            <key>Arguments</key>
+            <dict>
+                <key>source_path</key>
+                <string>%RECIPE_CACHE_DIR%/app/Afinia Studio/Afinia Studio.app</string>
+                <key>destination_path</key>
+                <string>%pkgroot%/Applications/Afinia Studio.app</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>PkgCreator</string>
+            <key>Arguments</key>
+            <dict>
+                <key>pkg_request</key>
+                <dict>
+                    <key>pkgname</key>
+                    <string>%NAME%-%version%</string>
+                    <key>version</key>
+                    <string>%version%</string>
+                    <key>id</key>
+                    <string>com.afinia.AfiniaStudio</string>
+                    <key>options</key>
+                    <string>purge_ds_store</string>
+                    <key>chown</key>
+                    <array>
+                        <dict>
+                            <key>path</key>
+                            <string>Applications</string>
+                            <key>user</key>
+                            <string>root</string>
+                            <key>group</key>
+                            <string>admin</string>
+                        </dict>
+                    </array>
+                </dict>
+            </dict>
+        </dict>
+    </array>
+</dict>
+</plist>
