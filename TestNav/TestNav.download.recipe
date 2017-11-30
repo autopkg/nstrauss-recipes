@@ -23,7 +23,7 @@
 				<key>result_output_var_name</key>
 				<string>version</string>
 				<key>url</key>
-				<string>http://download.testnav.com/_testnavinstallers/</string>
+				<string>http://download.testnav.com/installers/</string>
 			</dict>
 			<key>Processor</key>
 			<string>URLTextSearcher</string>
@@ -32,7 +32,7 @@
 			<key>Arguments</key>
 			<dict>
 				<key>url</key>
-				<string>http://download.testnav.com/_testnavinstallers/testnav-%version%.dmg</string>
+				<string>http://download.testnav.com/installers/testnav-%version%.dmg</string>
 			</dict>
 			<key>Processor</key>
 			<string>URLDownloader</string>
