@@ -1,0 +1,16 @@
+#!/bin/bash
+
+AD_domain=""
+
+# Write default AD domain
+defaults write /Library/Preferences/menu.nomad.NoMADLoginAD.plist ADDomain "$AD_domain"
+
+# Write security authorization DB plist 
+security authorizationdb write system.login.console < /private/tmp/evaluate-mechanisms/console-ad-usercreate
+
+# Find loginwindow processes and kill if any exist
+if pgrep loginwindow; then 
+    killall -HUP loginwindow
+fi
+
+exit 0
