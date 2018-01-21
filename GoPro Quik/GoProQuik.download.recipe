@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Description</key>
+	<string>Downloads latest version of GoPro Quik</string>
+	<key>Identifier</key>
+	<string>com.bitbucket.nstrauss.GoProQuik</string>
+	<key>Input</key>
+	<dict>
+		<key>NAME</key>
+		<string>GoPro Quik</string>
+	</dict>
+	<key>Process</key>
+	<array>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>url</key>
+				<string>https://gopro.com/downloads/Mac/Quik/latest</string>
+				<key>filename</key>
+				<string>quik.dmg</string>
+			</dict>
+			<key>Processor</key>
+			<string>CURLDownloader</string>
+		</dict>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>source_pkg</key>
+				<string>%pathname%/GoPro Quik.pkg</string>
+			</dict>
+			<key>Processor</key>
+			<string>PkgCopier</string>
+		</dict>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>flat_pkg_path</key>
+				<string>%RECIPE_CACHE_DIR%/GoPro Quik.pkg</string>
+				<key>destination_path</key>
+				<string>%RECIPE_CACHE_DIR%/GoPro_Quik-unpacked</string>
+			</dict>
+			<key>Processor</key>
+			<string>FlatPkgUnpacker</string>
+		</dict>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>pkg_payload_path</key>
+				<string>%destination_path%/GoPro_Quik.pkg/Payload</string>
+				<key>destination_path</key>
+				<string>%RECIPE_CACHE_DIR%/GoPro_Quik-payload</string>
+			</dict>
+			<key>Processor</key>
+			<string>PkgPayloadUnpacker</string>
+		</dict>
+		<dict>
+            <key>Arguments</key>
+            <dict>
+                <key>input_plist_path</key>
+                <string>%destination_path%/Applications/GoPro Quik.app/Contents/Info.plist</string>
+                <key>plist_version_key</key>
+                <string>CFBundleShortVersionString</string>
+            </dict>
+            <key>Processor</key>
+            <string>Versioner</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>source_pkg</key>
+                <string>%RECIPE_CACHE_DIR%/GoPro Quik.pkg</string>
+                <key>pkg_path</key>
+                <string>%RECIPE_CACHE_DIR%/GoPro_Quik-%version%.pkg</string>
+            </dict>
+            <key>Processor</key>
+            <string>PkgCopier</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>path_list</key>
+                <array>
+                	<string>%RECIPE_CACHE_DIR%/GoPro Quik.pkg</string>
+                	<string>%RECIPE_CACHE_DIR%/GoPro_Quik-payload</string>
+                	<string>%RECIPE_CACHE_DIR%/GoPro_Quik-unpacked</string>
+				</array>               
+            </dict>
+            <key>Processor</key>
+            <string>PathDeleter</string>
+        </dict>
+		<dict>
+			<key>Processor</key>
+			<string>EndOfCheckPhase</string>
+		</dict>
+		<dict>
+            <key>Arguments</key>
+            <dict>
+                <key>input_path</key>
+                <string>%RECIPE_CACHE_DIR%/GoPro_Quik-%version%.pkg</string>
+                <key>expected_authority_names</key>
+                <array>
+                    <string>Developer ID Installer: Woodman Labs, Inc.</string>
+                    <string>Developer ID Certification Authority</string>
+                    <string>Apple Root CA</string>
+                </array>
+            </dict>
+            <key>Processor</key>
+            <string>CodeSignatureVerifier</string>
+        </dict>
+	</array>
+</dict>
+</plist>
