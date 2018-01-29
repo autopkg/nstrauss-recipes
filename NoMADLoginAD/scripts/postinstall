@@ -6,7 +6,7 @@ AD_domain=""
 defaults write /Library/Preferences/menu.nomad.NoMADLoginAD.plist ADDomain "$AD_domain"
 
 # Write security authorization DB plist 
-security authorizationdb write system.login.console < /private/tmp/evaluate-mechanisms/console-ad-usercreate
+security authorizationdb write system.login.console < /private/tmp/evaluate-mechanisms/console-ad
 
 # Find loginwindow processes and kill if any exist
 if pgrep loginwindow; then 
