@@ -1,11 +1,18 @@
 #!/bin/bash
 
 AD_domain=""
+SSL="false"
 
 # Write default AD domain
 defaults write /Library/Preferences/menu.nomad.NoMADLoginAD.plist ADDomain "$AD_domain"
 
-# Write security authorization DB plist 
+# Enable SSL
+defaults write /Library/Preferences/menu.nomad.NoMADLoginAD.plist LDAPOverSSL -bool "$SSL"
+
+# Backup existing security authdb settings
+security authorizationdb read system.login.console > /private/tmp/evaluate-mechanisms/console.bak
+
+# Write NoMADLoginAD security authdb mechanisms
 security authorizationdb write system.login.console < /private/tmp/evaluate-mechanisms/console-ad
 
 # Find loginwindow processes and kill if any exist
