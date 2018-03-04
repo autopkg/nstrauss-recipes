@@ -1,13 +1,9 @@
 #!/bin/bash
 
 AD_domain=""
-SSL="false"
 
 # Write default AD domain
 defaults write /Library/Preferences/menu.nomad.NoMADLoginAD.plist ADDomain "$AD_domain"
-
-# Enable SSL
-defaults write /Library/Preferences/menu.nomad.NoMADLoginAD.plist LDAPOverSSL -bool "$SSL"
 
 # Backup existing security authdb settings
 security authorizationdb read system.login.console > /private/tmp/evaluate-mechanisms/console.bak

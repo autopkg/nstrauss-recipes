@@ -2,22 +2,22 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Description</key>
-	<string>Packages NoMADADLoginAD.bundle which exists locally in /Library/Security/SecurityAgentPlugins</string>
-	<key>Identifier</key>
-	<string>com.nstrauss.github.pkg.NoMADLoginAD</string>
-	<key>Input</key>
-	<dict>
-		<key>NAME</key>
-		<string>NoMADLoginAD</string>
+    <key>Description</key>
+    <string>Packages NoMADADLoginAD.bundle which exists locally in /Library/Security/SecurityAgentPlugins</string>
+    <key>Identifier</key>
+    <string>com.nstrauss.github.pkg.NoMADLoginAD</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>NoMADLoginAD</string>
         <key>BUNDLE_DIR</key>
         <string>/Library/Security/SecurityAgentPlugins</string>
         <key>MECHANISMS_DIR</key>
-		<string>%RECIPE_DIR%/evaluate-mechanisms</string>
-	</dict>
-	<key>MinimumVersion</key>
+        <string>%RECIPE_DIR%/evaluate-mechanisms</string>
+    </dict>
+    <key>MinimumVersion</key>
     <string>1.0.0</string>
-	<key>Process</key>
+    <key>Process</key>
     <array>
         <dict>
             <key>Processor</key>
@@ -73,7 +73,7 @@
                 <key>destination_path</key>
                 <string>%pkgroot%/private/tmp/evaluate-mechanisms</string>
             </dict>
-        </dict>		
+        </dict>
         <dict>
             <key>Processor</key>
             <string>PkgCreator</string>
