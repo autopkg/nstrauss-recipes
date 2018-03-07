@@ -47,7 +47,7 @@
                 <key>input_path</key>
                 <string>%pathname%/Bean Loader.app</string>
                 <key>requirement</key>
-                <string>identifier "com.punchthrough.LightBlue-Bean.Bean-Loader" and anchor apple generic and certificate leaf[subject.CN] = "3rd Party Mac Developer Application: Punch Through Design LLC (R5JUTH26F4)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
+                <string>anchor apple generic and identifier "com.punchthrough.LightBlue-Bean.Bean-Loader" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = R5JUTH26F4)</string>
             </dict>
             <key>Processor</key>
             <string>CodeSignatureVerifier</string>
