@@ -2,8 +2,8 @@
 
 # Preference key reference
 # https://gitlab.com/orchardandgrove-oss/NoMADLogin-AD/wikis/Configuration/preferences
-# Add other preference keys as you need them.
-# Defaults commands are used with Jamf Pro since profiles do not reliably install before NoMAD Login loads.
+# Add other preference keys as you need them
+# Defaults commands are used with Jamf Pro since profiles do not reliably install before NoMAD Login loads
 
 domain="domain_here"
 background_image="/Library/Desktop Pictures/Sierra.jpg"
