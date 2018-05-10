@@ -1,9 +1,26 @@
 #!/bin/bash
 
-AD_domain=""
+# Preference key reference
+# https://gitlab.com/orchardandgrove-oss/NoMADLogin-AD/wikis/Configuration/preferences
+# Add other preference keys as you need them.
+# Defaults commands are used with Jamf Pro since profiles do not reliably install before NoMAD Login loads.
+
+domain="domain_here"
+background_image="/Library/Desktop Pictures/Sierra.jpg"
+logo="/tmp/logo.png"
+login_screen="NO"
 
 # Write default AD domain
-defaults write /Library/Preferences/menu.nomad.NoMADLoginAD.plist ADDomain "$AD_domain"
+defaults write /Library/Preferences/menu.nomad.login.ad.plist ADDomain "$domain"
+
+# Set background image
+defaults write /Library/Preferences/menu.nomad.login.ad.plist BackgroundImage "$background_image"
+
+# Set login window logo
+defaults write /Library/Preferences/menu.nomad.login.ad.plist LoginLogo "$logo"
+
+# Enable or disable login screen
+defaults write /Library/Preferences/menu.nomad.login.ad.plist LoginScreen -bool "$login_screen"
 
 # Backup existing security authdb settings
 security authorizationdb read system.login.console > /private/tmp/evaluate-mechanisms/console.bak
