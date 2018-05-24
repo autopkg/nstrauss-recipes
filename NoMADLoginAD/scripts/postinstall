@@ -29,9 +29,7 @@ security authorizationdb read system.login.console > /private/tmp/evaluate-mecha
 # Write NoMADLoginAD security authdb mechanisms
 security authorizationdb write system.login.console < /private/tmp/evaluate-mechanisms/console-ad
 
-# Find loginwindow processes and kill if any exist
-if pgrep loginwindow; then 
-    killall -HUP loginwindow
-fi
+# Kill loginwindow process to force NoMAD Login to launch
+killall -HUP loginwindow
 
 exit 0
