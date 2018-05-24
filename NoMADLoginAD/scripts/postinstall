@@ -22,6 +22,7 @@ defaults write /Library/Preferences/menu.nomad.login.ad.plist LoginLogo "$logo"
 # Enable or disable login screen
 defaults write /Library/Preferences/menu.nomad.login.ad.plist LoginScreen -bool "$login_screen"
 
+### Do not edit below this line ###
 # Backup existing security authdb settings
 security authorizationdb read system.login.console > /private/tmp/evaluate-mechanisms/console.bak
 
