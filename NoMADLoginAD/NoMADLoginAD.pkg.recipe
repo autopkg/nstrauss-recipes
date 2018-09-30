@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Packages NoMADADLoginAD.bundle which exists locally in /Library/Security/SecurityAgentPlugins</string>
+    <string>Packages local versions of NoMADADLoginAD.bundle and authchanger.</string>
     <key>Identifier</key>
-    <string>com.nstrauss.github.pkg.NoMADLoginAD</string>
+    <string>com.github.nstrauss.pkg.NoMADLoginAD</string>
     <key>Input</key>
     <dict>
         <key>NAME</key>
         <string>NoMADLoginAD</string>
         <key>BUNDLE_DIR</key>
         <string>/Library/Security/SecurityAgentPlugins</string>
-        <key>MECHANISMS_DIR</key>
-        <string>%RECIPE_DIR%/evaluate-mechanisms</string>
+        <key>AUTHCHANGER_DIR</key>
+        <string>/usr/local/bin</string>
     </dict>
     <key>MinimumVersion</key>
     <string>1.0.0</string>
@@ -39,16 +39,10 @@
                 <string>%RECIPE_CACHE_DIR%/%NAME%</string>
                 <key>pkgdirs</key>
                 <dict>
-                    <key>Library</key>
-                    <string>0775</string>
-                    <key>Library/Security</key>
-                    <string>0755</string>
                     <key>Library/Security/SecurityAgentPlugins</key>
                     <string>0755</string>
-                    <key>private</key>
+                    <key>usr/local/bin</key>
                     <string>0755</string>
-                    <key>private/tmp</key>
-                    <string>1777</string>
                 </dict>
             </dict>
         </dict>
@@ -60,7 +54,7 @@
                 <key>source_path</key>
                 <string>%BUNDLE_DIR%/NoMADLoginAD.bundle</string>
                 <key>destination_path</key>
-                <string>%pkgroot%/Library/Security/SecurityAgentPlugins/NoMADLoginAD.bundle</string>
+                <string>%pkgroot%/%BUNDLE_DIR%/NoMADLoginAD.bundle</string>
             </dict>
         </dict>
         <dict>
@@ -69,9 +63,9 @@
             <key>Arguments</key>
             <dict>
                 <key>source_path</key>
-                <string>%MECHANISMS_DIR%</string>
+                <string>%AUTHCHANGER_DIR%/authchanger</string>
                 <key>destination_path</key>
-                <string>%pkgroot%/private/tmp/evaluate-mechanisms</string>
+                <string>%pkgroot%/%AUTHCHANGER_DIR%/authchanger</string>
             </dict>
         </dict>
         <dict>
@@ -86,7 +80,7 @@
                     <key>version</key>
                     <string>%version%</string>
                     <key>id</key>
-                    <string>menu.nomad.NoMADLoginAD</string>
+                    <string>menu.nomad.login.ad</string>
                     <key>scripts</key>
                     <string>scripts</string>
                     <key>options</key>
@@ -103,19 +97,13 @@
                         </dict>
                         <dict>
                             <key>path</key>
-                            <string>Library</string>
+                            <string>usr</string>
                             <key>user</key>
                             <string>root</string>
                             <key>group</key>
                             <string>wheel</string>
-                        </dict>
-                        <dict>
-                            <key>path</key>
-                            <string>private</string>
-                            <key>user</key>
-                            <string>root</string>
-                            <key>group</key>
-                            <string>wheel</string>
+                            <key>mode</key>
+                            <string>0755</string>
                         </dict>
                     </array>
                 </dict>

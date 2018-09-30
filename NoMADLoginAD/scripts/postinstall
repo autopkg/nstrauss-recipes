@@ -2,19 +2,21 @@
 
 # Preference key reference
 # https://gitlab.com/orchardandgrove-oss/NoMADLogin-AD/wikis/Configuration/preferences
-# Add other preference keys as you need them
-# Defaults commands are used with Jamf Pro since profiles do not reliably install before NoMAD Login loads
+domain="domain.com"
+background_image="/path/to/image.png"
+background_image_alpha="0"
+keychain_add="TRUE"
+logo="/path/to/logo.png"
+login_screen="FALSE"
 
-domain="domain_here"
-background_image="/Library/Desktop Pictures/Sierra.jpg"
-logo="/tmp/logo.png"
-login_screen="NO"
-
-# Write default AD domain
+# Set default AD domain
 defaults write /Library/Preferences/menu.nomad.login.ad.plist ADDomain "$domain"
 
 # Set background image
 defaults write /Library/Preferences/menu.nomad.login.ad.plist BackgroundImage "$background_image"
+
+# Set background image transparency
+defaults write /Library/Preferences/menu.nomad.login.ad.plist BackgroundImageAlpha -int "$background_image_alpha"
 
 # Set login window logo
 defaults write /Library/Preferences/menu.nomad.login.ad.plist LoginLogo "$logo"
@@ -22,14 +24,16 @@ defaults write /Library/Preferences/menu.nomad.login.ad.plist LoginLogo "$logo"
 # Enable or disable login screen
 defaults write /Library/Preferences/menu.nomad.login.ad.plist LoginScreen -bool "$login_screen"
 
-### Do not edit below this line ###
-# Backup existing security authdb settings
-security authorizationdb read system.login.console > /private/tmp/evaluate-mechanisms/console.bak
+# Adds a NoMAD entry into the keychain
+defaults write /Library/Preferences/menu.nomad.login.ad.plist KeychainAddNoMAD -bool "$keychain_add"
 
-# Write NoMADLoginAD security authdb mechanisms
-security authorizationdb write system.login.console < /private/tmp/evaluate-mechanisms/console-ad
+# Should NoLo create a Keychain if none exists
+defaults write /Library/Preferences/menu.nomad.login.ad.plist KeychainCreate -bool "$keychain_add"
+
+# Set security authorization database mechanisms with authchanger
+/usr/local/bin/authchanger -reset -AD
 
 # Kill loginwindow process to force NoMAD Login to launch
-killall -HUP loginwindow
+/usr/bin/killall -HUP loginwindow
 
 exit 0
