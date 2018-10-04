@@ -101,7 +101,7 @@
                 <string>%RECIPE_CACHE_DIR%/GoPro_Quik-%version%.pkg</string>
                 <key>expected_authority_names</key>
                 <array>
-                    <string>Developer ID Installer: Woodman Labs, Inc.</string>
+                    <string>Developer ID Installer: GoPro, Inc. (5R97Y7Q7FD)</string>
                     <string>Developer ID Certification Authority</string>
                     <string>Apple Root CA</string>
                 </array>
