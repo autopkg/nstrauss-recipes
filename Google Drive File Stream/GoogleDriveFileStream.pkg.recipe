@@ -47,7 +47,7 @@
                 <key>input_plist_path</key>
                 <string>%RECIPE_CACHE_DIR%/payload/Google Drive File Stream.app/Contents/Info.plist</string>
                 <key>plist_version_key</key>
-                <string>CFBundleShortVersionString</string>
+                <string>CFBundleVersion</string>
             </dict>
         </dict>
         <dict>
