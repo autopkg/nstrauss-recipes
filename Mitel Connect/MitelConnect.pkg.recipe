@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Downloads the latest version of Google Drive File Stream and builds a pkg.</string>
+    <string>Downloads the latest version of Mitel Connect and builds a pkg.</string>
     <key>Identifier</key>
     <string>com.github.nstrauss.pkg.MitelConnect</string>
     <key>Input</key>
