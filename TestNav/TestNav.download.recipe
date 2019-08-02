@@ -10,6 +10,8 @@
     <dict>
         <key>NAME</key>
         <string>TestNav</string>
+        <key>SEARCH_URL</key>
+        <string>https://download.testnav.com/_testnavinstallers/installerVersions.json</string>
     </dict>
     <key>MinimumVersion</key>
     <string>0.6.1</string>
@@ -18,21 +20,19 @@
         <dict>
             <key>Arguments</key>
             <dict>
-                <key>re_pattern</key>
-                <string>testnav-([0-9\.]+).dmg</string>
-                <key>result_output_var_name</key>
-                <string>version</string>
-                <key>url</key>
-                <string>http://download.testnav.com/installers/</string>
+                <key>json_url</key>
+                <string>%SEARCH_URL%</string>
+                <key>json_key</key>
+                <string>mac</string>
             </dict>
             <key>Processor</key>
-            <string>URLTextSearcher</string>
+            <string>SimpleJSONParser</string>
         </dict>
         <dict>
             <key>Arguments</key>
             <dict>
                 <key>url</key>
-                <string>http://download.testnav.com/installers/testnav-%version%.dmg</string>
+                <string>https://download.testnav.com/_testnavinstallers/%json_value%</string>
             </dict>
             <key>Processor</key>
             <string>URLDownloader</string>
@@ -42,15 +42,15 @@
             <string>EndOfCheckPhase</string>
         </dict>
         <dict>
-            <key>Processor</key>
-            <string>CodeSignatureVerifier</string>
             <key>Arguments</key>
             <dict>
                 <key>input_path</key>
                 <string>%pathname%/TestNav.app</string>
                 <key>requirement</key>
-                <string>identifier TestNavDesktopApp and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "9EGT93JZWD"</string>
+                <string>identifier "com.pearson.testnav.desktopapp" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "9EGT93JZWD"</string>
             </dict>
+            <key>Processor</key>
+            <string>CodeSignatureVerifier</string>
         </dict>
     </array>
 </dict>
