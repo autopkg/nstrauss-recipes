@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Downloads latest Google Earth Pro disk image.</string>
+    <key>Identifier</key>
+    <string>com.github.nstrauss.download.GoogleEarthPro</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>GoogleEarthPro</string>
+        <key>SEARCH_URL</key>
+        <string>https://support.google.com/earth/answer/168344</string>
+        <key>RE_PATTERN</key>
+        <string>&lt;a href=&quot;(?P&lt;url&gt;https:\/\/.*\/googleearthpromac.*\.dmg)&quot;&gt;</string>
+    </dict>
+    <key>MiniumumVersion</key>
+    <string>1.0</string>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>re_pattern</key>
+                <string>%RE_PATTERN%</string>
+                <key>url</key>
+                <string>%SEARCH_URL%</string>
+            </dict>
+            <key>Processor</key>
+            <string>URLTextSearcher</string>
+        </dict>
+         <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>filename</key>
+                <string>GoogleEarthPro.dmg</string>
+                <key>url</key>
+                <string>%match%</string>
+            </dict>
+            <key>Processor</key>
+            <string>URLDownloader</string>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>EndOfCheckPhase</string>
+        </dict>
+        <dict>  
+            <key>Arguments</key>
+            <dict>
+                <key>input_path</key>
+                <string>%pathname%/*Earth Pro*.pkg</string>
+                <key>expected_authority_names</key>
+                <array>
+                    <string>Developer ID Installer: Google, Inc. (EQHXZ8M8AV)</string>
+                    <string>Developer ID Certification Authority</string>
+                    <string>Apple Root CA</string>
+                </array>
+            </dict>
+            <key>Processor</key>
+            <string>CodeSignatureVerifier</string>
+        </dict>
+    </array>
+</dict>
+</plist>
