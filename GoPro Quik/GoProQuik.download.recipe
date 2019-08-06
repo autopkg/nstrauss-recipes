@@ -98,7 +98,7 @@
             <key>Arguments</key>
             <dict>
                 <key>input_path</key>
-                <string>%RECIPE_CACHE_DIR%/GoPro_Quik-%version%.pkg</string>
+                <string>%RECIPE_CACHE_DIR%/GoProQuik-%version%.pkg</string>
                 <key>expected_authority_names</key>
                 <array>
                     <string>Developer ID Installer: GoPro, Inc. (5R97Y7Q7FD)</string>
