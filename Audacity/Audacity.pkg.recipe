@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Downloads the latest version of Audacity and builds a package.</string>
+    <key>Identifier</key>
+    <string>com.github.nstrauss.pkg.Audacity</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>Audacity</string>
+    </dict>
+    <key>ParentRecipe</key>
+    <string>com.github.rustymyers.download.Audacity</string>
+    <key>MiniumumVersion</key>
+    <string>1.0</string>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>input_plist_path</key>
+                <string>%pathname%/Audacity.app/Contents/Info.plist</string>
+                <key>plist_version_key</key>
+                <string>CFBundleVersion</string>
+            </dict>
+            <key>Processor</key>
+            <string>Versioner</string>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>AppPkgCreator</string>
+        </dict>
+    </array>
+</dict>
+</plist>
