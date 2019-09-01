@@ -15,10 +15,15 @@
 # limitations under the License.
 
 from __future__ import absolute_import
+
 import json
-import urllib
 
 from autopkglib import Processor, ProcessorError  # noqa: F401
+
+try:
+    from urllib import request as urllib  # For Python 3
+except ImportError:
+    import urllib  # For Python 2
 
 __all__ = ["SimpleJSONParser"]
 
