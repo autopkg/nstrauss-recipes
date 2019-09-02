@@ -21,9 +21,9 @@ import json
 from autopkglib import Processor, ProcessorError  # noqa: F401
 
 try:
-    from urllib import request as urllib  # For Python 3
+    from urllib.request import urlopen  # For Python 3
 except ImportError:
-    import urllib  # For Python 2
+    from urllib2 import urlopen  # For Python 2
 
 __all__ = ["SimpleJSONParser"]
 
@@ -48,7 +48,7 @@ class SimpleJSONParser(Processor):
 
     def main(self):
         url = self.env.get("json_url")
-        response = urllib.urlopen(url)
+        response = urlopen(url)
         key = self.env.get("json_key")
         self.env["json_value"] = json.loads(response.read())[key]
         self.output("{}".format(self.env["json_value"]))
