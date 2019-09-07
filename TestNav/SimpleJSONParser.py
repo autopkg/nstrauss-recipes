@@ -14,10 +14,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import absolute_import
+
 import json
-import urllib
 
 from autopkglib import Processor, ProcessorError  # noqa: F401
+
+try:
+    from urllib.request import urlopen  # For Python 3
+except ImportError:
+    from urllib2 import urlopen  # For Python 2
 
 __all__ = ["SimpleJSONParser"]
 
@@ -42,7 +48,7 @@ class SimpleJSONParser(Processor):
 
     def main(self):
         url = self.env.get("json_url")
-        response = urllib.urlopen(url)
+        response = urlopen(url)
         key = self.env.get("json_key")
         self.env["json_value"] = json.loads(response.read())[key]
         self.output("{}".format(self.env["json_value"]))
