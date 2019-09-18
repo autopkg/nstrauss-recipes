@@ -20,6 +20,11 @@
         <dict>
             <key>Arguments</key>
             <dict>
+                <key>curl_opts</key>
+                <array>
+                    <string>--user-agent</string>
+                    <string>Macintosh</string>
+                </array>
                 <key>filename</key>
                 <string>%NAME%.zip</string>
                 <key>url</key>
