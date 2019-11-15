@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Downloads the latest version of PLTW Kite Student Portal.</string>
+    <key>Identifier</key>
+    <string>com.github.nstrauss.download.PLTWKiteStudentPortal</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>PLTW Kite Student Portal</string>
+        <key>DOWNLOAD_URL</key>
+        <string>https://files.kiteaai.org/installers/pltwstudentportal/2019/mac/PLTW%20Kite%20Student%20Portal.dmg</string>
+    </dict>
+    <key>MinimumVersion</key>
+    <string>1.0</string>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>filename</key>
+                <string>%NAME%.dmg</string>
+                <key>url</key>
+                <string>%DOWNLOAD_URL%</string>
+            </dict>
+            <key>Processor</key>
+            <string>URLDownloader</string>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>EndOfCheckPhase</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>input_path</key>
+                <string>%pathname%/%NAME%.app</string>
+                <key>requirement</key>
+                <string>identifier "us.cete.PLTW-Student-Portal" and anchor apple generic and certificate leaf[subject.CN] = "Mac Developer: Chaitanya Nandibatla (ET7C93QL89)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
+            </dict>
+            <key>Processor</key>
+            <string>CodeSignatureVerifier</string>
+        </dict>
+    </array>
+</dict>
+</plist>
