@@ -1,0 +1,20 @@
+# install4j response file for OpenWebStart 1.1.0
+installationDate$Long=1575936865781
+sys.adminRights$Boolean=true
+sys.fileAssociation.extensions$StringArray="jnlp","jnlpx"
+sys.fileAssociation.launchers$StringArray="313","313"
+sys.installationDir=/Applications/OpenWebStart
+sys.languageId=en
+ows.jvm.manager.server.allowFromJnlp=true
+ows.jvm.manager.vendor=Amazon.com Inc.
+ows.jvm.manager.vendor.locked=true
+ows.jvm.manager.updateStrategy=DO_NOTHING_ON_LOCAL_MATCH
+ows.update.activated=false
+ows.update.activated.locked=true
+ows.update.strategy.settings=NEVER
+ows.update.strategy.settings.locked=true
+ows.update.strategy.launch=NEVER
+ows.update.strategy.launch.locked=true
+deployment.proxy.bypass.local=false
+deployment.proxy.type=0
+
