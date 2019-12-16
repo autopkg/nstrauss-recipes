@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Download the latest version of Cricut Design Space desktop app disk image.</string>
+    <key>Identifier</key>
+    <string>com.github.nstrauss.download.CricutDesignSpaceBeta</string>
+    <key>Input</key>
+    <dict>
+        <key>DOWNLOAD_URL</key>
+        <string>https://s3-us-west-2.amazonaws.com/staticcontent.cricut.com/d/software/osx-native</string>
+        <key>NAME</key>
+        <string>CricutDesignSpace</string>
+        <key>RE_PATTERN1</key>
+        <string>src="(main.*?)"</string>
+        <key>RE_PATTERN2</key>
+        <string>applicationVersion:"(.*?)"</string>
+        <key>SEARCH_URL</key>
+        <string>https://design-beta2.cricut.com</string>
+    </dict>
+    <key>MiniumumVersion</key>
+    <string>1.0</string>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>re_pattern</key>
+                <string>%RE_PATTERN1%</string>
+                <key>result_output_var_name</key>
+                <string>main_var</string>
+                <key>url</key>
+                <string>%SEARCH_URL%</string>
+            </dict>
+            <key>Processor</key>
+            <string>URLTextSearcher</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>re_pattern</key>
+                <string>%RE_PATTERN2%</string>
+                <key>result_output_var_name</key>
+                <string>version</string>
+                <key>url</key>
+                <string>%SEARCH_URL%/%main_var%</string>
+            </dict>
+            <key>Processor</key>
+            <string>URLTextSearcher</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>filename</key>
+                <string>CricutDesignSpace.dmg</string>
+                <key>url</key>
+                <string>%DOWNLOAD_URL%/Cricut%20Design%20Space%20Install%20v%version%.dmg</string>
+            </dict>
+            <key>Processor</key>
+            <string>URLDownloader</string>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>EndOfCheckPhase</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>input_path</key>
+                <string>%pathname%/Cricut Design Space.app</string>
+                <key>requirement</key>
+                <string>identifier "com.cricut.design" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "25627ZFVT7"</string>
+            </dict>
+            <key>Processor</key>
+            <string>CodeSignatureVerifier</string>
+        </dict>
+    </array>
+</dict>
+</plist>
