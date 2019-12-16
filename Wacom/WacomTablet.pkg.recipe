@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Downloads the latest disk image of Wacom Tablet drivers and copies package.</string>
+    <key>Identifier</key>
+    <string>com.github.nstrauss.pkg.WacomTablet</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>WacomTablet</string>
+    </dict>
+    <key>MiniumumVersion</key>
+    <string>1.0</string>
+    <key>ParentRecipe</key>
+    <string>com.github.rustymyers.download.WacomTablet</string>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>pkg_path</key>
+                <string>%RECIPE_CACHE_DIR%/WacomTablet-%version%.pkg</string>
+                <key>source_pkg</key>
+                <string>%pathname%/Install Wacom Tablet.pkg</string>
+            </dict>
+            <key>Processor</key>
+            <string>PkgCopier</string>
+        </dict>
+    </array>
+</dict>
+</plist>

@@ -1,2 +1,2 @@
-# autopkg-recipes
-Public AutoPkg recipes. Mostly for use at Shakopee Public Schools. 
+# nstrauss-recipes
+Public AutoPkg recipes. Many education environment focused recipes, mostly for use at Shakopee Public Schools.
