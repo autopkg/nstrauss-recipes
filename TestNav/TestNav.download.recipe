@@ -14,7 +14,7 @@
         <string>https://download.testnav.com/_testnavinstallers/installerVersions.json</string>
     </dict>
     <key>MinimumVersion</key>
-    <string>0.6.1</string>
+    <string>1.4</string>
     <key>Process</key>
     <array>
         <dict>
