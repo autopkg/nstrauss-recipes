@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Download the latest Lego Mindstorms Education EV3 Classroom disk image.</string>
+    <key>Identifier</key>
+    <string>com.github.nstrauss.download.LegoMindstormsEducationEV3Classroom</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>EV3 Classroom</string>
+        <key>RE_PATTERN</key>
+        <string>(?P&lt;url&gt;https://le-www-live-s\.legocdn\.com/downloads/LME-Scratch/.*MacOS.*\.dmg)</string>
+        <key>SEARCH_URL</key>
+        <string>https://education.lego.com/en-us/downloads/mindstorms-ev3/software</string>
+    </dict>
+    <key>MiniumumVersion</key>
+    <string>1.0</string>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>re_pattern</key>
+                <string>%RE_PATTERN%</string>
+                <key>result_output_var_name</key>
+                <string>download_url</string>
+                <key>url</key>
+                <string>%SEARCH_URL%</string>
+            </dict>
+            <key>Processor</key>
+            <string>URLTextSearcher</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>url</key>
+                <string>%download_url%</string>
+            </dict>
+            <key>Processor</key>
+            <string>URLDownloader</string>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>EndOfCheckPhase</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>input_path</key>
+                <string>%pathname%/EV3 Classroom.app</string>
+                <key>requirement</key>
+                <string>identifier "com.lego.ev3" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = RS3Y27K2T9</string>
+            </dict>
+            <key>Processor</key>
+            <string>CodeSignatureVerifier</string>
+        </dict>
+    </array>
+</dict>
+</plist>
