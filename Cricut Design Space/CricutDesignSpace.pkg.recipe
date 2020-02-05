@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Download the latest version of Cricut Design Space web plugin installer and creates a package. Postinstall script uses Bitrock unattended silent mode.</string>
+    <string>Download the latest version of Cricut Design Space desktop app disk image and builds a package.</string>
     <key>Identifier</key>
     <string>com.github.nstrauss.pkg.CricutDesignSpace</string>
     <key>Input</key>
@@ -20,66 +20,22 @@
         <dict>
             <key>Arguments</key>
             <dict>
-                <key>pkgroot</key>
-                <string>%RECIPE_CACHE_DIR%/pkg</string>
-                <key>pkgdirs</key>
-                <dict>
-                    <key>private/tmp</key>
-                    <string>1777</string>
-                </dict>
+                <key>input_plist_path</key>
+                <string>%pathname%/Cricut Design Space.app/Contents/Info.plist</string>
+                <key>plist_version_key</key>
+                <string>CFBundleShortVersionString</string>
             </dict>
             <key>Processor</key>
-            <string>PkgRootCreator</string>
+            <string>Versioner</string>
         </dict>
         <dict>
             <key>Arguments</key>
             <dict>
-                <key>destination_path</key>
-                <string>%RECIPE_CACHE_DIR%/pkg/private/tmp/CricutDesignSpace.app</string>
-                <key>source_path</key>
-                <string>%RECIPE_CACHE_DIR%/unzip/Cricut-DesignSpace-Web-%version%.app</string>
-            </dict>
-        <key>Processor</key>
-        <string>Copier</string>
-        </dict>
-        <dict>
-            <key>Arguments</key>
-            <dict>
-                <key>pkgname</key>
-                <string>%NAME%-%version%</string>
-                <key>pkg_request</key>
-                <dict>
-                    <key>chown</key>
-                    <array>
-                        <dict>
-                            <key>path</key>
-                            <string>private</string>
-                            <key>user</key>
-                            <string>root</string>
-                            <key>group</key>
-                            <string>wheel</string>
-                        </dict>
-                        <dict>
-                            <key>path</key>
-                            <string>private/tmp</string>
-                            <key>user</key>
-                            <string>root</string>
-                            <key>group</key>
-                            <string>wheel</string>
-                        </dict>
-                    </array>
-                    <key>id</key>
-                    <string>com.bitrock.appinstaller</string>
-                    <key>options</key>
-                    <string>purge_ds_store</string>
-                    <key>pkgdir</key>
-                    <string>%RECIPE_CACHE_DIR%</string>
-                    <key>version</key>
-                    <string>%version%</string>
-                </dict>
+                <key>pkg_path</key>
+                <string>%RECIPE_CACHE_DIR%/CricutDesignSpace-%version%.pkg</string>
             </dict>
             <key>Processor</key>
-            <string>PkgCreator</string>
+            <string>AppPkgCreator</string>
         </dict>
     </array>
 </dict>

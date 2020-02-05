@@ -3,42 +3,29 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Download the latest version of Cricut Design Space web plugin installer.</string>
+    <string>Download the latest Cricut Design Space disk image.</string>
     <key>Identifier</key>
     <string>com.github.nstrauss.download.CricutDesignSpace</string>
     <key>Input</key>
     <dict>
-        <key>DOWNLOAD_URL</key>
-        <string>https://s3-us-west-2.amazonaws.com/staticcontent.cricut.com/a/software/osx-plugin</string>
         <key>NAME</key>
         <string>CricutDesignSpace</string>
-        <key>RE_PATTERN</key>
-        <string>APPLICATION_VERSION="(.*?)"</string>
-        <key>SEARCH_URL</key>
-        <string>https://design.cricut.com/js/appWebDesign.js</string>
     </dict>
     <key>MiniumumVersion</key>
     <string>1.0</string>
     <key>Process</key>
     <array>
         <dict>
-            <key>Arguments</key>
-            <dict>
-                <key>re_pattern</key>
-                <string>%RE_PATTERN%</string>
-                <key>result_output_var_name</key>
-                <string>version</string>
-                <key>url</key>
-                <string>%SEARCH_URL%</string>
-            </dict>
             <key>Processor</key>
-            <string>URLTextSearcher</string>
+            <string>CricutURLProvider</string>
         </dict>
         <dict>
             <key>Arguments</key>
             <dict>
+                <key>filename</key>
+                <string>%NAME%.dmg</string>
                 <key>url</key>
-                <string>%DOWNLOAD_URL%/Cricut-DesignSpace-Web-%version%.zip</string>
+                <string>%cricut_url%</string>
             </dict>
             <key>Processor</key>
             <string>URLDownloader</string>
@@ -50,24 +37,11 @@
         <dict>
             <key>Arguments</key>
             <dict>
-                <key>archive_path</key>
-                <string>%pathname%</string>
-                <key>destination_path</key>
-                <string>%RECIPE_CACHE_DIR%/unzip</string>
-                <key>purge_destination</key>
-                <true/>
+                <key>input_path</key>
+                <string>%pathname%/Cricut Design Space.app</string>
+                <key>requirement</key>
+                <string>identifier "com.cricut.design" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "25627ZFVT7"</string>
             </dict>
-            <key>Processor</key>
-            <string>Unarchiver</string>
-        </dict>
-        <dict>
-            <key>Arguments</key>
-                <dict>
-                    <key>input_path</key>
-                    <string>%RECIPE_CACHE_DIR%/unzip/Cricut-DesignSpace-Web-%version%.app</string>
-                    <key>requirement</key>
-                    <string>identifier "com.bitrock.appinstaller" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "25627ZFVT7"</string>
-                </dict>
             <key>Processor</key>
             <string>CodeSignatureVerifier</string>
         </dict>
