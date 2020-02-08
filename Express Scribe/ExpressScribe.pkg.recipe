@@ -12,71 +12,28 @@
         <string>ExpressScribe</string>
     </dict>
     <key>ParentRecipe</key>
-    <string>com.github.nstrauss.download.ExpressScribe</string>
+    <string>com.github.foigus.download.ExpressScribe</string>
     <key>Process</key>
     <array>
         <dict>
-            <key>Processor</key>
-            <string>AppDmgVersioner</string>
             <key>Arguments</key>
             <dict>
                 <key>dmg_path</key>
-                <string>%RECIPE_CACHE_DIR%/dmg/ExpressScribe_i.dmg</string>
+                <string>%RECIPE_CACHE_DIR%/unarchive/ExpressScribe_i.dmg</string>
             </dict>
+            <key>Processor</key>
+            <string>AppDmgVersioner</string>
         </dict>
         <dict>
-            <key>Processor</key>
-            <string>PkgRootCreator</string>
             <key>Arguments</key>
             <dict>
-                <key>pkgroot</key>
-                <string>%RECIPE_CACHE_DIR%/%NAME%</string>
-                <key>pkgdirs</key>
-                <dict>
-                    <key>Applications</key>
-                    <string>0775</string>
-                </dict>
+                <key>app_path</key>
+                <string>%RECIPE_CACHE_DIR%/unarchive/ExpressScribe_i.dmg/ExpressScribe.app</string>
+                <key>pkg_path</key>
+                <string>%RECIPE_CACHE_DIR%/ExpressScribe-%version%.pkg</string>
             </dict>
-        </dict>
-        <dict>
             <key>Processor</key>
-            <string>Copier</string>
-            <key>Arguments</key>
-            <dict>
-                <key>source_path</key>
-                <string>%RECIPE_CACHE_DIR%/dmg/%NAME%_i.dmg/%app_name%</string>
-                <key>destination_path</key>
-                <string>%pkgroot%/Applications/%app_name%</string>
-            </dict>
-        </dict>
-        <dict>
-            <key>Processor</key>
-            <string>PkgCreator</string>
-            <key>Arguments</key>
-            <dict>
-                <key>pkg_request</key>
-                <dict>
-                    <key>pkgname</key>
-                    <string>%NAME%-%version%</string>
-                    <key>version</key>
-                    <string>%version%</string>
-                    <key>id</key>
-                    <string>%bundleid%</string>
-                    <key>options</key>
-                    <string>purge_ds_store</string>
-                    <key>chown</key>
-                    <array>
-                        <dict>
-                            <key>path</key>
-                            <string>Applications</string>
-                            <key>user</key>
-                            <string>root</string>
-                            <key>group</key>
-                            <string>admin</string>
-                        </dict>
-                    </array>
-                </dict>
-            </dict>
+            <string>AppPkgCreator</string>
         </dict>
     </array>
 </dict>
