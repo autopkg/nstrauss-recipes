@@ -22,6 +22,15 @@
         <dict>
             <key>Arguments</key>
             <dict>
+                <key>warning_message</key>
+                <string>Bean Loader has been discontinued. This recipe will eventually be removed. https://punchthrough.com/bean/</string>
+            </dict>
+            <key>Processor</key>
+            <string>DeprecationWarning</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
                 <key>dmg_path</key>
                 <string>%pathname%</string>
                 <key>items_to_copy</key>
