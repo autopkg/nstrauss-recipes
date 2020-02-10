@@ -33,8 +33,6 @@
             <string>EndOfCheckPhase</string>
         </dict>
         <dict>
-            <key>Processor</key>
-            <string>CodeSignatureVerifier</string>
             <key>Arguments</key>
             <dict>
                 <key>input_path</key>
@@ -46,6 +44,8 @@
                     <string>Apple Root CA</string>
                 </array>
             </dict>
+            <key>Processor</key>
+            <string>CodeSignatureVerifier</string>
         </dict>
     </array>
 </dict>
