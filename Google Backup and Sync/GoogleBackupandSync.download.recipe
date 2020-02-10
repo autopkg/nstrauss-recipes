@@ -9,7 +9,7 @@
     <key>Input</key>
     <dict>
         <key>NAME</key>
-        <string>BackupandSync</string>
+        <string>GoogleBackupandSync</string>
         <key>DOWNLOAD_URL</key>
         <string>https://dl.google.com/drive/InstallBackupAndSync.dmg</string>
     </dict>
@@ -33,8 +33,6 @@
             <string>EndOfCheckPhase</string>
         </dict>
         <dict>
-            <key>Processor</key>
-            <string>CodeSignatureVerifier</string>
             <key>Arguments</key>
             <dict>
                 <key>input_path</key>
@@ -42,6 +40,8 @@
                 <key>requirement</key>
                 <string>identifier "com.google.GoogleDrive" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = EQHXZ8M8AV</string>
             </dict>
+            <key>Processor</key>
+            <string>CodeSignatureVerifier</string>
         </dict>
     </array>
 </dict>
