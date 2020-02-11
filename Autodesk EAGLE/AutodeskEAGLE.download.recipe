@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Downloads that latest version of Autodesk EAGLE.</string>
+    <key>Identifier</key>
+    <string>com.github.nstrauss.download.AutodeskEAGLE</string>
+    <key>Input</key>
+    <dict>
+        <key>DOWNLOAD_URL</key>
+        <string>https://www.autodesk.com/eagle-download-mac</string>
+        <key>NAME</key>
+        <string>AutodeskEAGLE</string>
+    </dict>
+    <key>MiniumumVersion</key>
+    <string>1.0</string>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>filename</key>
+                <string>AutodeskEAGLE.pkg</string>
+                <key>url</key>
+                <string>%DOWNLOAD_URL%</string>
+            </dict>
+            <key>Processor</key>
+            <string>URLDownloader</string>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>EndOfCheckPhase</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>input_path</key>
+                <string>%pathname%</string>
+                <key>expected_authority_names</key>
+                <array>
+                    <string>Developer ID Installer: Autodesk (XXKJ396S2Y)</string>
+                    <string>Developer ID Certification Authority</string>
+                    <string>Apple Root CA</string>
+                </array>
+            </dict>
+            <key>Processor</key>
+            <string>CodeSignatureVerifier</string>
+        </dict>
+    </array>
+</dict>
+</plist>
