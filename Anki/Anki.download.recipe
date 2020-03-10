@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Downloads the latest Anki disk image.</string>
+    <key>Identifier</key>
+    <string>com.github.nstrauss.download.Anki</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>Anki</string>
+    </dict>
+    <key>MiniumumVersion</key>
+    <string>1.0</string>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>github_repo</key>
+                <string>ankitects/anki</string>
+                <key>asset_regex</key>
+                <string>.*(mac).dmg*$</string>
+            </dict>
+            <key>Processor</key>
+            <string>GitHubReleasesInfoProvider</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>filename</key>
+                <string>Anki-%version%.dmg</string>
+            </dict>
+            <key>Processor</key>
+            <string>URLDownloader</string>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>EndOfCheckPhase</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>input_path</key>
+                <string>%pathname%/Anki.app</string>
+                <key>requirement</key>
+                <string>identifier "net.ankiweb.dtop" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "7ZM8SLJM4P"</string>
+            </dict>
+            <key>Processor</key>
+            <string>CodeSignatureVerifier</string>
+        </dict>
+    </array>
+</dict>
+</plist>
