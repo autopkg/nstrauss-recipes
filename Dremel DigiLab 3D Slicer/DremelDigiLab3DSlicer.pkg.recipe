@@ -16,58 +16,13 @@
     <key>Process</key>
     <array>
         <dict>
-            <key>Processor</key>
-            <string>PkgRootCreator</string>
             <key>Arguments</key>
             <dict>
-                <key>pkgroot</key>
-                <string>%RECIPE_CACHE_DIR%/%NAME%</string>
-                <key>pkgdirs</key>
-                <dict>
-                    <key>Applications</key>
-                    <string>0775</string>
-                </dict>
+                <key>app_path</key>
+                <string>%RECIPE_CACHE_DIR%/app/Dremel3DSlicer-%version%-mac/Dremel DigiLab 3D Slicer.app</string>
             </dict>
-        </dict>
-        <dict>
             <key>Processor</key>
-            <string>Copier</string>
-            <key>Arguments</key>
-            <dict>
-                <key>source_path</key>
-                <string>%RECIPE_CACHE_DIR%/app/Dremel3DSlicer-%version%-Darwin/Dremel DigiLab 3D Slicer.app</string>
-                <key>destination_path</key>
-                <string>%pkgroot%/Applications/Dremel DigiLab 3D Slicer.app</string>
-            </dict>
-        </dict>
-        <dict>
-            <key>Processor</key>
-            <string>PkgCreator</string>
-            <key>Arguments</key>
-            <dict>
-                <key>pkg_request</key>
-                <dict>
-                    <key>pkgname</key>
-                    <string>%NAME%-%version%</string>
-                    <key>version</key>
-                    <string>%version%</string>
-                    <key>id</key>
-                    <string>com.eht3.slicer</string>
-                    <key>options</key>
-                    <string>purge_ds_store</string>
-                    <key>chown</key>
-                    <array>
-                        <dict>
-                            <key>path</key>
-                            <string>Applications</string>
-                            <key>user</key>
-                            <string>root</string>
-                            <key>group</key>
-                            <string>admin</string>
-                        </dict>
-                    </array>
-                </dict>
-            </dict>
+            <string>AppPkgCreator</string>
         </dict>
     </array>
 </dict>
