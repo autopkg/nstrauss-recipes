@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Downloads the latest version of Splashtop Business and copies a versioned package.</string>
+    <key>Identifier</key>
+    <string>com.github.nstrauss.pkg.SplashtopBusiness</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>Splashtop Business</string> 
+    </dict>
+    <key>MiniumumVersion</key>
+    <string>1.0</string>
+    <key>ParentRecipe</key>
+    <string>com.github.peetinc.download.SplashtopBusinessAccess</string>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>destination_path</key>
+                <string>%RECIPE_CACHE_DIR%/unpack</string>
+                <key>flat_pkg_path</key>
+                <string>%pathname%/Splashtop Business.pkg</string>
+            </dict>
+            <key>Processor</key>
+            <string>FlatPkgUnpacker</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>destination_path</key>
+                <string>%RECIPE_CACHE_DIR%/payload</string>
+                <key>pkg_payload_path</key>
+                <string>%RECIPE_CACHE_DIR%/unpack/splashtopBusiness.pkg/Payload</string>
+            </dict>
+            <key>Processor</key>
+            <string>PkgPayloadUnpacker</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>input_plist_path</key>
+                <string>%RECIPE_CACHE_DIR%/payload/Splashtop Business.app/Contents/Info.plist</string>
+                <key>plist_version_key</key>
+                <string>CFBundleVersion</string>
+            </dict>
+            <key>Processor</key>
+            <string>Versioner</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>source_pkg</key>
+                <string>%pathname%/Splashtop Business.pkg</string>
+                <key>pkg_path</key>
+                <string>%RECIPE_CACHE_DIR%/SplashtopBusiness-%version%.pkg</string>
+            </dict>
+            <key>Processor</key>
+            <string>PkgCopier</string>
+        </dict>
+    </array>
+</dict>
+</plist>
