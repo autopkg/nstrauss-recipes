@@ -1,0 +1,6 @@
+# Respondus LockDown Browser recipes
+Forked from [aysiu-recipes](https://github.com/autopkg/aysiu-recipes). This is their new home. Note recipe names have changed slightly. Munki recipes not included.
+
+LockDown Browser recipes will not work out of the box. You need to supply your own institution ID and lab hash (for lab recipes). Generally recommended to use a [recipe override](https://github.com/autopkg/autopkg/wiki/Recipe-Overrides) with those values defined. Keep them secret as they are specific to your organization.
+
+The package recipes use install recipes as parents because part of LockDown's configuration occurs in a postinstall script which specifically references the name of the package. The institution ID and hash are referenced directly in the package name, and the package name can't be changed for the postinstall script to succeed. Yay. Keep in mind running the package recipes also inherently installs LockDown Browser to the Applications folder. It is not cleaned up post-install. If you want that behavior to change please open a PR.

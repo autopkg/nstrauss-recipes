@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Download and install the latest Respondus LockDown Browser lab version.</string>
+    <key>Identifier</key>
+    <string>com.github.nstrauss.install.RespondusLockDownBrowserLab</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>LockDownBrowserLab</string>
+    </dict>
+    <key>ParentRecipe</key>
+    <string>com.github.nstrauss.download.RespondusLockDownBrowserLab</string>
+    <key>MiniumumVersion</key>
+    <string>1.0.0</string>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>pkg_path</key>
+                <string>%RECIPE_CACHE_DIR%/%NAME%/Install*</string>
+            </dict>
+            <key>Processor</key>
+            <string>Installer</string>
+        </dict>
+    </array>
+</dict>
+</plist>

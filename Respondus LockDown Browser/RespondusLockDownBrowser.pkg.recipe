@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Download, install, and package the latest Respondus LockDown Browser.</string>
+    <key>Identifier</key>
+    <string>com.github.nstrauss.pkg.RespondusLockDownBrowser</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>LockDownBrowser</string>
+    </dict>
+    <key>ParentRecipe</key>
+    <string>com.github.nstrauss.install.RespondusLockDownBrowser</string>
+    <key>MiniumumVersion</key>
+    <string>1.0.0</string>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>input_plist_path</key>
+                <string>/Applications/LockDown Browser.app/Contents/Info.plist</string>
+                <key>plist_version_key</key>
+                <string>CFBundleShortVersionString</string>
+            </dict>
+            <key>Processor</key>
+            <string>Versioner</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>info_path</key>
+                <string>/Applications/LockDown Browser.app/Contents/Info.plist</string>
+                <key>plist_keys</key>
+                <dict>
+                    <key>LDBMinorBuild</key>
+                    <string>minor_build</string>
+                </dict>
+            </dict>
+            <key>Processor</key>
+            <string>PlistReader</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>app_path</key>
+                <string>/Applications/LockDown Browser.app</string>
+                <key>pkg_path</key>
+                <string>%RECIPE_CACHE_DIR%/RespondusLockDownBrowser-%version%.%minor_build%.pkg</string>
+            </dict>
+            <key>Processor</key>
+            <string>AppPkgCreator</string>
+        </dict>
+    </array>
+</dict>
+</plist>
