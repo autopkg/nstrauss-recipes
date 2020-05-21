@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Set perms on smart agent directory
+chmod go= /usr/local/bin/SmartAgentJS
+
+# Start mobilefilter daemon and load the kernel extension
+/usr/local/bin/mobilefilter -d

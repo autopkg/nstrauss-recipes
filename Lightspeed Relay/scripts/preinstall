@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# Remove existing SmartAgentJS directory to avoid conflicts
+rm -rf /usr/local/bin/SmartAgentJS
