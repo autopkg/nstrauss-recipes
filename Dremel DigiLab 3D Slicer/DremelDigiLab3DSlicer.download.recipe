@@ -20,6 +20,10 @@
         <dict>
             <key>Arguments</key>
             <dict>
+                <key>curl_opts</key>
+                <array>
+                    <string>-k</string>
+                </array>
                 <key>re_pattern</key>
                 <string>([0-9\.]+)-mac</string>
                 <key>result_output_var_name</key>
