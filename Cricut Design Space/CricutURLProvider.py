@@ -17,6 +17,7 @@
 from __future__ import absolute_import
 
 import re
+from distutils.version import LooseVersion
 from xml.etree import ElementTree
 
 from autopkglib import Processor, ProcessorError, URLGetter  # noqa: F401
@@ -36,7 +37,8 @@ class CricutURLProvider(URLGetter):
     description = __doc__
     input_variables = {}
     output_variables = {
-        "cricut_url": {"description": "Latest Cricut Design Space download URL."}
+        "cricut_url": {
+            "description": "Latest Cricut Design Space download URL."}
     }
 
     def tag_uri_and_name(self, elem):
@@ -56,23 +58,24 @@ class CricutURLProvider(URLGetter):
         url_frags = []
         uri = self.tag_uri_and_name(xml_root)[0]
         for frag in list(xml_root.iter("{%s}Key" % uri)):
-            if re.search("([0-9\.]+).dmg", frag.text):
+            if re.search("([0-9\.]+).dmg", frag.text):  # noqa W605
                 url_frags.append(frag.text)
 
         # Strip fragment list to get versions
-        versions = []
-        for version in url_frags:
+        cricut_versions = []
+        for cricut_version in url_frags:
             try:
-                vers_split = re.split("([0-9]+)", version)[1:6]
+                vers_split = re.split("([0-9]+)", cricut_version)[1:6]
             except IndexError:
                 pass
-            versions.append("".join(vers_split))
+            cricut_versions.append("".join(vers_split))
 
-        if versions:
+        if cricut_versions:
+            sort_vers = sorted(cricut_versions, key=LooseVersion, reverse=True)
             self.env["cricut_url"] = (
                 CRICUT_BASE_URL
                 + "Cricut%20Design%20Space%20Install%20v"
-                + (max(versions))
+                + sort_vers[0]
                 + ".dmg"
             )
             self.output("{}".format(self.env["cricut_url"]))
