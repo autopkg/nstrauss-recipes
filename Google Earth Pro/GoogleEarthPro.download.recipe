@@ -13,7 +13,7 @@
         <key>SEARCH_URL</key>
         <string>https://support.google.com/earth/answer/168344</string>
         <key>RE_PATTERN</key>
-        <string>&lt;a href=&quot;(?P&lt;url&gt;https:\/\/.*\/googleearthpromac.*\.dmg)&quot;&gt;</string>
+        <string>&lt;a href=&quot;(?P&lt;url&gt;https:\/\/.*\/googleearthpromac.*\.dmg)&quot;</string>
     </dict>
     <key>MiniumumVersion</key>
     <string>1.0</string>
@@ -52,7 +52,7 @@
                 <string>%pathname%/*Earth Pro*.pkg</string>
                 <key>expected_authority_names</key>
                 <array>
-                    <string>Developer ID Installer: Google, Inc. (EQHXZ8M8AV)</string>
+                    <string>Developer ID Installer: Google LLC (EQHXZ8M8AV)</string>
                     <string>Developer ID Certification Authority</string>
                     <string>Apple Root CA</string>
                 </array>
