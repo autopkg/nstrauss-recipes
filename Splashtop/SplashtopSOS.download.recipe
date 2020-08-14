@@ -10,10 +10,8 @@
     <dict>
         <key>NAME</key>
         <string>Splashtop SOS</string>
-        <key>SEARCH_URL</key>
-        <string>https://www.splashtop.com/downloads</string>
-        <key>RE_PATTERN</key>
-        <string>href="(.*?.SplashtopSOS.dmg)"</string>
+        <key>DOWNLOAD_URL</key>
+        <string>https://download.splashtop.com/sos/SplashtopSOS.dmg</string>
     </dict>
     <key>MiniumumVersion</key>
     <string>1.0</string>
@@ -22,21 +20,8 @@
         <dict>
             <key>Arguments</key>
             <dict>
-                <key>result_output_var_name</key>
-                <string>download_url</string>
-                <key>re_pattern</key>
-                <string>%RE_PATTERN%</string>
                 <key>url</key>
-                <string>%SEARCH_URL%</string>
-            </dict>
-            <key>Processor</key>
-            <string>URLTextSearcher</string>
-        </dict>
-        <dict>
-            <key>Arguments</key>
-            <dict>
-                <key>url</key>
-                <string>%download_url%</string>
+                <string>%DOWNLOAD_URL%</string>
             </dict>
             <key>Processor</key>
             <string>URLDownloader</string>
