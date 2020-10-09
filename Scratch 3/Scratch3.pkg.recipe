@@ -3,16 +3,16 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Downloads the latest version of Scratch Desktop and builds a package.</string>
+    <string>Downloads the latest version of Scratch 3 and builds a package. Previously Scratch Desktop.</string>
     <key>Identifier</key>
-    <string>com.github.nstrauss.pkg.ScratchDesktop</string>
+    <string>com.github.nstrauss.pkg.Scratch3</string>
     <key>Input</key>
     <dict>
         <key>NAME</key>
-        <string>Scratch Desktop</string>
+        <string>Scratch 3</string>
     </dict>
     <key>ParentRecipe</key>
-	<string>com.github.aysiu.download.ScratchDesktop</string>
+	<string>com.github.nstrauss.download.Scratch3</string>
     <key>MiniumumVersion</key>
     <string>1.0</string>
     <key>Process</key>
@@ -21,7 +21,7 @@
             <key>Arguments</key>
             <dict>
                 <key>input_plist_path</key>
-                <string>%pathname%/Scratch Desktop.app/Contents/Info.plist</string>
+                <string>%pathname%/Scratch 3.app/Contents/Info.plist</string>
             </dict>
             <key>Processor</key>
             <string>Versioner</string>
@@ -30,7 +30,7 @@
             <key>Arguments</key>
             <dict>
                 <key>pkg_path</key>
-                <string>%RECIPE_CACHE_DIR%/ScratchDesktop-%version%.pkg</string>
+                <string>%RECIPE_CACHE_DIR%/Scratch3-%version%.pkg</string>
             </dict>
             <key>Processor</key>
             <string>AppPkgCreator</string>
