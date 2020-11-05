@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Downloads the latest version of HUE Intuition.</string>
+    <key>Identifier</key>
+    <string>com.github.nstrauss.download.HUEIntuition</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>HUE Intution</string>
+        <key>DOWNLOAD_URL</key>
+        <string>https://files.huehd.com/downloads/HUEIntuitionMAC.zip</string>
+    </dict>
+    <key>MiniumumVersion</key>
+    <string>1.0</string>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>url</key>
+                <string>%DOWNLOAD_URL%</string>
+            </dict>
+            <key>Processor</key>
+            <string>URLDownloader</string>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>Unarchiver</string>
+            <key>Arguments</key>
+            <dict>
+                <key>destination_path</key>
+                <string>%RECIPE_CACHE_DIR%/unzip</string>
+                <key>purge_destination</key>
+                <string>true</string>
+            </dict>
+            <key>Processor</key>
+            <string>Unarchiver</string>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>EndOfCheckPhase</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>input_path</key>
+                <string>%RECIPE_CACHE_DIR%/unzip/*/HUE*.pkg</string>
+                <key>expected_authority_names</key>
+                <array>
+                    <string>Developer ID Installer: iCreate to Educate (F8U2V94BA3)</string>
+                    <string>Developer ID Certification Authority</string>
+                    <string>Apple Root CA</string>
+                </array>
+            </dict>
+            <key>Processor</key>
+            <string>CodeSignatureVerifier</string>
+        </dict>
+    </array>
+</dict>
+</plist>
