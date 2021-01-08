@@ -9,7 +9,7 @@
     <key>Input</key>
     <dict>
         <key>DOWNLOAD_URL</key>
-        <string>http://upgrade01.sky.shoretel.com/ClientInstall</string>
+        <string>https://upgrade01.sky.shoretel.com/ClientInstall</string>
         <key>NAME</key>
         <string>MitelConnect</string>
     </dict>
