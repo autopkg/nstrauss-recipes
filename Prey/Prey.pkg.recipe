@@ -54,10 +54,10 @@
         <dict>
             <key>Arguments</key>
             <dict>
-                <key>pkgname</key>
-                <string>%NAME%-%version%</string>
                 <key>pkg_request</key>
                 <dict>
+                    <key>pkgname</key>
+                    <string>%NAME%-%version%</string>
                     <key>chown</key>
                     <array>
                         <dict>
