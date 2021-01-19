@@ -96,10 +96,10 @@
             <dict>
                 <key>force_pkg_build</key>
                 <string>True</string>
-                <key>pkgname</key>
-                <string>%NAME%Kextless-%version%</string>
                 <key>pkg_request</key>
                 <dict>
+                    <key>pkgname</key>
+                    <string>%NAME%Kextless-%version%</string>
                     <key>id</key>
                     <string>com.lightspeedsystems.mobilefilter</string>
                     <key>chown</key>
