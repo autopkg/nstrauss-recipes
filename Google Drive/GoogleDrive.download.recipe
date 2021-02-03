@@ -3,15 +3,15 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Downloads latest Google Drive File Stream disk image.</string>
+    <string>Downloads latest Google Drive disk image. Note Google Drive File Stream was rebranded to Google Drive for desktop, and this recipe updated to reflect the name change.</string>
     <key>Identifier</key>
-    <string>com.github.nstrauss.download.GoogleDriveFileStream</string>
+    <string>com.github.nstrauss.download.GoogleDrive</string>
     <key>Input</key>
     <dict>
         <key>NAME</key>
-        <string>GoogleDriveFileStream</string>
+        <string>GoogleDrive</string>
         <key>DOWNLOAD_URL</key>
-        <string>https://dl.google.com/drive-file-stream/GoogleDriveFileStream.dmg</string>
+        <string>https://dl.google.com/drive-file-stream/GoogleDrive.dmg</string>
     </dict>
     <key>MinimumVersion</key>
     <string>0.2.0</string>
@@ -36,7 +36,7 @@
             <key>Arguments</key>
             <dict>
                 <key>input_path</key>
-                <string>%pathname%/%NAME%.pkg</string>
+                <string>%pathname%/GoogleDrive.pkg</string>
                 <key>expected_authority_names</key>
                 <array>
                     <string>Developer ID Installer: Google LLC (EQHXZ8M8AV)</string>

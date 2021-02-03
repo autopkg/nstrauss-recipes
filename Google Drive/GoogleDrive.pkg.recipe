@@ -3,18 +3,18 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Downloads the latest version of Google Drive File Stream and builds a pkg.</string>
+    <string>Downloads the latest version of Google Drive for desktop and builds a pkg. Note Google Drive File Stream was rebranded to Google Drive for desktop, and this recipe updated to reflect the name change.</string>
     <key>Identifier</key>
-    <string>com.github.nstrauss.pkg.GoogleDriveFileStream</string>
+    <string>com.github.nstrauss.pkg.GoogleDrive</string>
     <key>Input</key>
     <dict>
         <key>NAME</key>
-        <string>GoogleDriveFileStream</string>
+        <string>GoogleDrive</string>
     </dict>
     <key>MinimumVersion</key>
     <string>0.4.0</string>
     <key>ParentRecipe</key>
-    <string>com.github.nstrauss.download.GoogleDriveFileStream</string>
+    <string>com.github.nstrauss.download.GoogleDrive</string>
     <key>Process</key>
     <array>
         <dict>
@@ -23,7 +23,7 @@
                 <key>destination_path</key>
                 <string>%RECIPE_CACHE_DIR%/unpack</string>
                 <key>flat_pkg_path</key>
-                <string>%pathname%/GoogleDriveFileStream.pkg</string>
+                <string>%pathname%/GoogleDrive.pkg</string>
             </dict>
             <key>Processor</key>
             <string>FlatPkgUnpacker</string>
@@ -34,7 +34,7 @@
                 <key>destination_path</key>
                 <string>%RECIPE_CACHE_DIR%/payload</string>
                 <key>pkg_payload_path</key>
-                <string>%RECIPE_CACHE_DIR%/unpack/GoogleDriveFileStream.pkg/Payload</string>
+                <string>%RECIPE_CACHE_DIR%/unpack/GoogleDrive.pkg/Payload</string>
             </dict>
             <key>Processor</key>
             <string>PkgPayloadUnpacker</string>
@@ -43,7 +43,7 @@
             <key>Arguments</key>
             <dict>
                 <key>input_plist_path</key>
-                <string>%RECIPE_CACHE_DIR%/payload/Google Drive File Stream.app/Contents/Info.plist</string>
+                <string>%RECIPE_CACHE_DIR%/payload/Google Drive.app/Contents/Info.plist</string>
                 <key>plist_version_key</key>
                 <string>CFBundleVersion</string>
             </dict>
@@ -54,9 +54,9 @@
             <key>Arguments</key>
             <dict>
                 <key>source_pkg</key>
-                <string>%pathname%/GoogleDriveFileStream.pkg</string>
+                <string>%pathname%/GoogleDrive.pkg</string>
                 <key>pkg_path</key>
-                <string>%RECIPE_CACHE_DIR%/GoogleDriveFileStream-%version%.pkg</string>
+                <string>%RECIPE_CACHE_DIR%/GoogleDrive-%version%.pkg</string>
             </dict>
             <key>Processor</key>
             <string>PkgCopier</string>
