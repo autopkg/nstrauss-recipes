@@ -13,7 +13,7 @@
         <key>NAME</key>
         <string>Scratch 3</string>
     </dict>
-    <key>MiniumumVersion</key>
+    <key>MinimumVersion</key>
     <string>1.0</string>
     <key>Process</key>
     <array>

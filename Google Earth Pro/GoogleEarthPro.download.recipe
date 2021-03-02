@@ -15,7 +15,7 @@
         <key>RE_PATTERN</key>
         <string>&lt;a href=&quot;(?P&lt;url&gt;https:\/\/.*\/googleearthpromac.*\.dmg)&quot;</string>
     </dict>
-    <key>MiniumumVersion</key>
+    <key>MinimumVersion</key>
     <string>1.0</string>
     <key>Process</key>
     <array>

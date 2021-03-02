@@ -13,7 +13,7 @@
         <key>DOWNLOAD_URL</key>
         <string>https://public-gs.s3.amazonaws.com/software/scandimension/sol/SOL.dmg</string>
     </dict>
-    <key>MiniumumVersion</key>
+    <key>MinimumVersion</key>
     <string>1.0</string>
     <key>Process</key>
     <array>

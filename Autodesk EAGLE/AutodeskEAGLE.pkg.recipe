@@ -13,7 +13,7 @@
     </dict>
     <key>ParentRecipe</key>
     <string>com.github.nstrauss.download.AutodeskEAGLE</string>
-    <key>MiniumumVersion</key>
+    <key>MinimumVersion</key>
     <string>1.0</string>
     <key>Process</key>
     <array>
