@@ -13,7 +13,7 @@
         <key>SEARCH_URL</key>
         <string>https://www.loom.com/v1/desktop/download/mac</string>
     </dict>
-    <key>MiniumumVersion</key>
+    <key>MinimumVersion</key>
     <string>1.0</string>
     <key>Process</key>
     <array>

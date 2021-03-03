@@ -15,7 +15,7 @@
         <key>SEARCH_URL</key>
         <string>https://www.minitab.com/en-us/downloads</string>
     </dict>
-    <key>MiniumumVersion</key>
+    <key>MinimumVersion</key>
     <string>1.0</string>
     <key>Process</key>
     <array>
