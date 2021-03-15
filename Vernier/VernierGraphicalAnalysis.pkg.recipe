@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Recipe description</string>
+    <string>Downloads the current release of Vernier's Graphical Analysis and create a versioned package.</string>
     <key>Identifier</key>
     <string>com.github.nstrauss.pkg.VernierGraphicalAnalysis</string>
     <key>Input</key>
@@ -14,7 +14,7 @@
     <key>MinimumVersion</key>
     <string>1.0</string>
     <key>ParentRecipe</key>
-    <string>com.github.wardsparadox.download.vernier.graphicalanalysis</string>
+    <string>com.github.nstrauss.download.VernierGraphicalAnalysis</string>
     <key>Process</key>
     <array>
         <dict>
