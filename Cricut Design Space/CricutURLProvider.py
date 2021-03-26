@@ -17,7 +17,7 @@
 from __future__ import absolute_import
 
 import re
-from distutils.version import LooseVersion
+from pkg_resources import parse_version
 from xml.etree import ElementTree
 
 from autopkglib import Processor, ProcessorError, URLGetter  # noqa: F401
@@ -71,7 +71,7 @@ class CricutURLProvider(URLGetter):
             cricut_versions.append("".join(vers_split))
 
         if cricut_versions:
-            sort_vers = sorted(cricut_versions, key=LooseVersion, reverse=True)
+            sort_vers = sorted(cricut_versions, key=parse_version, reverse=True)
             self.env["cricut_url"] = (
                 CRICUT_BASE_URL
                 + "Cricut%20Design%20Space%20Install%20v"
