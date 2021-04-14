@@ -21,7 +21,7 @@
                 <key>json_url</key>
                 <string>https://s3-us-west-2.amazonaws.com/staticcontent.cricut.com/a/software/osx-native/latest.json</string>
                 <key>json_key</key>
-                <string>rolloutVersion</string>
+                <string>rolloutInstallFile</string>
             </dict>
             <key>Processor</key>
             <string>SimpleJSONParser</string>
@@ -32,7 +32,7 @@
                 <key>filename</key>
                 <string>%NAME%.dmg</string>
                 <key>url</key>
-                <string>https://staticcontent.cricut.com/a/software/osx-native/Cricut%20Design%20Space%20Install%20v%json_value%.dmg</string>
+                <string>https://staticcontent.cricut.com/a/software/osx-native/%json_value%</string>
             </dict>
             <key>Processor</key>
             <string>URLDownloader</string>
