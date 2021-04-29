@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Download the latest version of College Board's 2021 Digital AP Exams app.</string>
+    <key>Identifier</key>
+    <string>com.github.nstrauss.download.2021DigitalAPExams</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>2021DigitalAPExams</string>
+        <key>SEARCH_URL</key>
+        <string>https://apcentral.collegeboard.org/about-ap-2021/updates/digital-exams/download-testing-app</string>
+        <key>RE_PATTERN</key>
+        <string>href="(.*?.dmg)"</string>
+    </dict>
+    <key>MiniumumVersion</key>
+    <string>1.0</string>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>re_pattern</key>
+                <string>%RE_PATTERN%</string>
+                <key>result_output_var_name</key>
+                <string>download_url</string>
+                <key>url</key>
+                <string>%SEARCH_URL%</string>
+            </dict>
+            <key>Processor</key>
+            <string>URLTextSearcher</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>url</key>
+                <string>%download_url%</string>
+            </dict>
+            <key>Processor</key>
+            <string>URLDownloader</string>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>EndOfCheckPhase</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>input_path</key>
+                <string>%pathname%/*.app</string>
+                <key>requirement</key>
+                <string>identifier "com.electron.cb-exam-player" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = PR7A4U5UM9</string>
+            </dict>
+            <key>Processor</key>
+            <string>CodeSignatureVerifier</string>
+        </dict>
+    </array>
+</dict>
+</plist>
