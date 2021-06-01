@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Downloads the latest of Pearson OnVUE.</string>
+    <key>Identifier</key>
+    <string>com.github.nstrauss.download.OnVUE</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>OnVUE</string>
+        <key>DOWNLOAD_URL</key>
+        <string>https://download.onvue.com/onvue</string>
+        <key>SEARCH_URL</key>
+        <string>https://op-prd-1.pvue2.com/proctorservst/api/v3/info/onvue</string>
+    </dict>
+    <key>MinimumVersion</key>
+    <string>1.0</string>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>json_url</key>
+                <string>%SEARCH_URL%</string>
+                <key>json_key</key>
+                <string>osx_latest_version</string>
+            </dict>
+            <key>Processor</key>
+            <string>SimpleJSONParser</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>url</key>
+                <string>%DOWNLOAD_URL%/OnVUE-%json_value%.zip</string>
+            </dict>
+            <key>Processor</key>
+            <string>URLDownloader</string>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>EndOfCheckPhase</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+           <dict>
+                <key>destination_path</key>
+                <string>%RECIPE_CACHE_DIR%/app</string>
+                <key>purge_destination</key>
+                <string>true</string>
+            </dict>
+            <key>Processor</key>
+            <string>Unarchiver</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>input_path</key>
+                <string>%RECIPE_CACHE_DIR%/app/OnVUE.app</string>
+                <key>requirement</key>
+                <string>identifier "com.electron.onvue" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = TG93K26B9F</string>
+            </dict>
+            <key>Processor</key>
+            <string>CodeSignatureVerifier</string>
+        </dict>
+    </array>
+</dict>
+</plist>
