@@ -29,5 +29,5 @@ Due to certificate trust changes in Big Sur, it's now a requirement to install t
 2. Create a new folder. Copy SmartAgent.dmg (1.6.0+), ca_key.pem, ca.pem, localhost_key.pem, and localhost.pem to the folder.
 ![Relay folder structure](RelaySmartAgentKextlessCA.png)
 3. `autopkg repo-add nstrauss-recipes`
-4. `autopkg run RelaySmartAgentKextlessCA.pkg.recipe --key RELAY_DIR="/path/to/Relay"
+4. `autopkg run RelaySmartAgentKextlessCA.pkg.recipe --key RELAY_DIR="/path/to/Relay"`
 6. A new package will be created which includes certificate material installed to /usr/local/etc/
