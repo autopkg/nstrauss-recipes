@@ -74,17 +74,6 @@
         <dict>
             <key>Arguments</key>
             <dict>
-                <key>path_list</key>
-                <array>
-                    <string>%RECIPE_CACHE_DIR%/payload/Library/Extensions</string>
-                </array>
-            </dict>
-            <key>Processor</key>
-            <string>PathDeleter</string>
-        </dict>
-        <dict>
-            <key>Arguments</key>
-            <dict>
                 <key>destination_path</key>
                 <string>%RECIPE_CACHE_DIR%/payload/usr/local/bin/SmartAgentJS</string>
                 <key>source_path</key>

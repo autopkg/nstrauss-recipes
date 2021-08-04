@@ -1,3 +1,4 @@
+> **_NOTE:_** The Lightspeed provided Relay package changed significantly in version 1.7.0. RelaySmartAgent and RelaySmartAgentKextless recipes remain unchanged for now. They only support versions before 1.7.0. RelaySmartAgentKextlessCA has been updated to be compatible with 1.7.0+, which is the recommended recipe for Big Sur and later.
 # Lightspeed Relay Smart Agent
 Lightspeed's documentation only provides a DMG method to mount and install the containing package. This is an alternative package installer which takes required files from the mounted DMG and repackages. Keep in mind this is not directly supported by Lightspeed, and they may not be able to help if something goes wrong. This package has been tested on thousands of Macs without a problem. 
 
