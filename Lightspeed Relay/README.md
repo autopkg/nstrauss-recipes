@@ -18,7 +18,7 @@ The kextless recipe is meant to be used with smart agent version 1.5.0 or later.
 Some applications without proxy support might not be filtered. Depending on your environment, that may be a good or bad thing.
 
 ## Kextless Recipe with Certificate Material
-Due to certificate trust changes in Big Sur, it's now a requirement to install the Lightspeed CA certificate via MDM. Relay smart agent 1.6.0 no longer generates and installs a trusted root certificate using the included `makeca` utility. Customers need to get access to the utility from Lightspeed support. Running `makeca` will generate a new root certificate and supporting certificate material.
+Due to certificate trust changes in Big Sur, it's now a requirement to install the Lightspeed CA certificate via MDM. Relay smart agent 1.6.0 no longer generates and installs a trusted root certificate using the included `makeca` utility. Customers can get the utility here - [https://help.lightspeedsystems.com/s/article/Lightspeed-Filter-Agent-for-MacOS-Installation-Instructions](https://help.lightspeedsystems.com/s/article/Lightspeed-Filter-Agent-for-MacOS-Installation-Instructions). Running `makeca` will generate a new root certificate and supporting certificate material.
 
 - ca_key.pem
 - ca.cer
