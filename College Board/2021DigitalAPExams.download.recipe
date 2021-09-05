@@ -11,9 +11,9 @@
         <key>NAME</key>
         <string>2021DigitalAPExams</string>
         <key>SEARCH_URL</key>
-        <string>https://apcentral.collegeboard.org/about-ap-2021/updates/digital-exams/download-testing-app</string>
+        <string>https://download.app.collegeboard.org/downloads/latest-mac.yml</string>
         <key>RE_PATTERN</key>
-        <string>href="(.*?.dmg)"</string>
+        <string>url: (.*\.dmg)</string>
     </dict>
     <key>MiniumumVersion</key>
     <string>1.0</string>
@@ -25,7 +25,7 @@
                 <key>re_pattern</key>
                 <string>%RE_PATTERN%</string>
                 <key>result_output_var_name</key>
-                <string>download_url</string>
+                <string>download_filename</string>
                 <key>url</key>
                 <string>%SEARCH_URL%</string>
             </dict>
@@ -35,8 +35,21 @@
         <dict>
             <key>Arguments</key>
             <dict>
+                <key>find</key>
+                <string> </string>
+                <key>input_string</key>
+                <string>%download_filename%</string>
+                <key>replace</key>
+                <string>%20</string>
+            </dict>
+            <key>Processor</key>
+            <string>com.github.homebysix.FindAndReplace/FindAndReplace</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
                 <key>url</key>
-                <string>%download_url%</string>
+                <string>https://download.app.collegeboard.org/downloads/%output_string%</string>
             </dict>
             <key>Processor</key>
             <string>URLDownloader</string>
