@@ -11,9 +11,9 @@
         <key>NAME</key>
         <string>EV3 Classroom</string>
         <key>RE_PATTERN</key>
-        <string>(?P&lt;url&gt;https://le-www-live-s\.legocdn\.com/downloads/LME-Scratch/.*MacOS.*\.dmg)</string>
+        <string>(?P&lt;url&gt;https://education\.lego\.com/_/downloads/.*\.dmg)</string>
         <key>SEARCH_URL</key>
-        <string>https://education.lego.com/en-us/downloads/mindstorms-ev3/software</string>
+        <string>https://education.lego.com/page-data/en-us/downloads/mindstorms-ev3/software/page-data.json</string>
     </dict>
     <key>MinimumVersion</key>
     <string>1.0</string>
@@ -51,7 +51,7 @@
                 <key>input_path</key>
                 <string>%pathname%/EV3 Classroom.app</string>
                 <key>requirement</key>
-                <string>identifier "com.lego.ev3.edu" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = RS3Y27K2T9</string>
+                <string>identifier "com.lego.ev3" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = RS3Y27K2T9</string>
             </dict>
             <key>Processor</key>
             <string>CodeSignatureVerifier</string>
