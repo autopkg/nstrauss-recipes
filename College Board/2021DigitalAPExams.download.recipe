@@ -10,47 +10,16 @@
     <dict>
         <key>NAME</key>
         <string>2021DigitalAPExams</string>
-        <key>SEARCH_URL</key>
-        <string>https://download.app.collegeboard.org/downloads/latest-mac.yml</string>
-        <key>RE_PATTERN</key>
-        <string>url: (.*\.dmg)</string>
     </dict>
     <key>MiniumumVersion</key>
     <string>1.0</string>
     <key>Process</key>
     <array>
         <dict>
-            <key>Arguments</key>
-            <dict>
-                <key>re_pattern</key>
-                <string>%RE_PATTERN%</string>
-                <key>result_output_var_name</key>
-                <string>download_filename</string>
-                <key>url</key>
-                <string>%SEARCH_URL%</string>
-            </dict>
             <key>Processor</key>
-            <string>URLTextSearcher</string>
+            <string>DigitalAPExamURLProvider</string>
         </dict>
         <dict>
-            <key>Arguments</key>
-            <dict>
-                <key>find</key>
-                <string> </string>
-                <key>input_string</key>
-                <string>%download_filename%</string>
-                <key>replace</key>
-                <string>%20</string>
-            </dict>
-            <key>Processor</key>
-            <string>com.github.homebysix.FindAndReplace/FindAndReplace</string>
-        </dict>
-        <dict>
-            <key>Arguments</key>
-            <dict>
-                <key>url</key>
-                <string>https://download.app.collegeboard.org/downloads/%output_string%</string>
-            </dict>
             <key>Processor</key>
             <string>URLDownloader</string>
         </dict>
