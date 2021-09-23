@@ -10,8 +10,6 @@
     <dict>
         <key>NAME</key>
         <string>Loom</string>
-        <key>SEARCH_URL</key>
-        <string>https://www.loom.com/v1/desktop/download/mac</string>
     </dict>
     <key>MinimumVersion</key>
     <string>1.0</string>
@@ -20,19 +18,17 @@
         <dict>
             <key>Arguments</key>
             <dict>
-                <key>json_url</key>
-                <string>%SEARCH_URL%</string>
-                <key>json_key</key>
-                <string>url</string>
+                <key>loom_arch</key>
+                <string>x86</string>
             </dict>
             <key>Processor</key>
-            <string>SimpleJSONParser</string>
+            <string>LoomArchPicker</string>
         </dict>
         <dict>
             <key>Arguments</key>
             <dict>
                 <key>url</key>
-                <string>%json_value%</string>
+                <string>%loom_url%</string>
             </dict>
             <key>Processor</key>
             <string>URLDownloader</string>

@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #
-# Copyright 2019 Nathaniel Strauss
+# Copyright 2021 Nathaniel Strauss
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,27 +20,33 @@ import json
 
 from autopkglib import Processor, ProcessorError, URLGetter  # noqa: F401
 
-__all__ = ["SimpleJSONParser"]
+__all__ = ["LoomArchPicker"]
 
 
-class SimpleJSONParser(URLGetter):
-    """Processor to output specified value of a JSON formatted file."""
+class LoomArchPicker(URLGetter):
+    """Processor to output the download URL of a specificied Loom architecture."""
 
     description = __doc__
     input_variables = {
-        "json_key": {"required": True, "descripton": "JSON key value to be parsed.",},
-        "json_url": {"required": True, "description": "URL of the JSON to be parsed.",},
+        "loom_arch": {"required": False, "default": "x86", "descripton": "x86 or arm64. Defaults to x86.",},
     }
-    output_variables = {"json_value": {"description": "JSON value from input key."}}
+    output_variables = {"loom_url": {"description": "Loom download URL for the specificed arch."}}
 
     def main(self):
-        url = self.env.get("json_url")
+        loom_arch = self.env.get("loom_arch")
+        url = "https://www.loom.com/v1/desktop/download/mac"
         response = self.download(url)
-        key = self.env.get("json_key")
-        self.env["json_value"] = json.loads(response)[key]
-        self.output("{}".format(self.env["json_value"]))
+
+        if loom_arch == "x86":
+            self.env["loom_url"] = json.loads(response)["urls"][0]
+        elif loom_arch == "arm64":
+            self.env["loom_url"] = json.loads(response)["urls"][1]
+        else:
+            self.env["loom_url"] = json.loads(response)["urls"][0] 
+
+        self.output("{}".format(self.env["loom_url"]))
 
 
 if __name__ == "__main__":
-    processor = SimpleJSONParser()
+    processor = LoomArchPicker()
     processor.execute_shell()
