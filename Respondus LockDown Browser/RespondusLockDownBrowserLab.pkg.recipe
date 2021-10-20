@@ -49,6 +49,8 @@
                 <string>/Applications/LockDown Browser.app</string>
                 <key>pkg_path</key>
                 <string>%RECIPE_CACHE_DIR%/RespondusLockDownBrowserLab-%version%.%minor_build%.pkg</string>
+                <key>version</key>
+                <string>%version%.%minor_build%</string>
             </dict>
             <key>Processor</key>
             <string>AppPkgCreator</string>
