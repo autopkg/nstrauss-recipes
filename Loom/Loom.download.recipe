@@ -10,6 +10,8 @@
     <dict>
         <key>NAME</key>
         <string>Loom</string>
+        <key>LOOM_ARCH</key>
+        <string>x86</string>
     </dict>
     <key>MinimumVersion</key>
     <string>1.0</string>
@@ -19,7 +21,7 @@
             <key>Arguments</key>
             <dict>
                 <key>loom_arch</key>
-                <string>x86</string>
+                <string>%LOOM_ARCH%</string>
             </dict>
             <key>Processor</key>
             <string>LoomArchPicker</string>
