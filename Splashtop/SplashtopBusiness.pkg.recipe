@@ -9,7 +9,7 @@
     <key>Input</key>
     <dict>
         <key>NAME</key>
-        <string>Splashtop Business</string> 
+        <string>Splashtop Business</string>
     </dict>
     <key>MinimumVersion</key>
     <string>1.0</string>
@@ -17,6 +17,15 @@
     <string>com.github.peetinc.download.SplashtopBusinessAccess</string>
     <key>Process</key>
     <array>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>warning_message</key>
+                <string>This recipe is outdated and will stop working in the future. Please switch to Peet McKinney's recipes available https://github.com/autopkg/peetinc-recipes/tree/master/SplashtopBusiness</string>
+            </dict>
+            <key>Processor</key>
+            <string>DeprecationWarning</string>
+        </dict>
         <dict>
             <key>Arguments</key>
             <dict>
