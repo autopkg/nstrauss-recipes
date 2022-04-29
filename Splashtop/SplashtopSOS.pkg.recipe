@@ -18,6 +18,15 @@
         <dict>
             <key>Arguments</key>
             <dict>
+                <key>warning_message</key>
+                <string>This recipe is outdated and will stop working in the future. Please switch to Peet McKinney's recipes available https://github.com/autopkg/peetinc-recipes/tree/master/SplashtopSOS</string>
+            </dict>
+            <key>Processor</key>
+            <string>DeprecationWarning</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
                 <key>input_plist_path</key>
                 <string>%pathname%/Splashtop SOS.app/Contents/Info.plist</string>
                 <key>plist_version_key</key>
