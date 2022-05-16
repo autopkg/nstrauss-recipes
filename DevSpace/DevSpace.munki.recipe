@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Downloads the latest version of DevSpace, creates a package, and imports the package into your Munki repo.</string>
+    <string>Downloads the latest version of DevSpace, creates a package, and imports into a Munki repo.</string>
     <key>Identifier</key>
     <string>com.github.nstrauss.munki.DevSpace</string>
     <key>Input</key>
