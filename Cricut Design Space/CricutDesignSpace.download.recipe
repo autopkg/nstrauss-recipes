@@ -26,13 +26,24 @@
             <key>Processor</key>
             <string>SimpleJSONParser</string>
         </dict>
+       <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>json_url</key>
+                <string>https://apis.cricut.com/desktopdownload/InstallerFile?shard=a&amp;operatingSystem=osxnative&amp;fileName=%json_value%</string>
+                <key>json_key</key>
+                <string>result</string>
+            </dict>
+            <key>Processor</key>
+            <string>SimpleJSONParser</string>
+        </dict>
         <dict>
             <key>Arguments</key>
             <dict>
                 <key>filename</key>
                 <string>%NAME%.dmg</string>
                 <key>url</key>
-                <string>https://staticcontent.cricut.com/a/software/osx-native/%json_value%</string>
+                <string>%json_value%</string>
             </dict>
             <key>Processor</key>
             <string>URLDownloader</string>
