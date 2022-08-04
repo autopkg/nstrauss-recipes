@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/local/autopkg/python
 #
 # Copyright 2021 Dan Kuehling, based on work by Allister Banks and Hannes Juutilainen
 #
