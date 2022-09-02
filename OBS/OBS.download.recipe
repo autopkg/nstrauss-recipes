@@ -3,15 +3,18 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Download the latest OBS disk image.</string>
+    <string>Download the latest OBS disk image.
+    For ARCH use "x86_64" for Intel or "arm64" for ARM</string>
     <key>Identifier</key>
     <string>com.github.nstrauss.download.OBS</string>
     <key>Input</key>
     <dict>
         <key>NAME</key>
         <string>OBS</string>
+        <key>ARCH</key>
+        <string>x86_64</string>        
         <key>RE_PATTERN</key>
-        <string>href="(.*?.dmg)"</string>
+        <string>href="(.*?%ARCH%.dmg)"</string>
         <key>SEARCH_URL</key>
         <string>https://obsproject.com/download</string>
     </dict>
