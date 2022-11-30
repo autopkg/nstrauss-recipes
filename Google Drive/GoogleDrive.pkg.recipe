@@ -34,10 +34,10 @@
                 <key>destination_path</key>
                 <string>%RECIPE_CACHE_DIR%/payload</string>
                 <key>pkg_payload_path</key>
-                <string>%RECIPE_CACHE_DIR%/unpack/GoogleDrive_x86_64.pkg/Payload</string>
+                <string>%RECIPE_CACHE_DIR%/unpack/GoogleDrive_arm64.pkg/Payload</string>
             </dict>
             <key>Processor</key>
-            <string>PkgPayloadUnpacker</string>
+            <string>DrivePayloadUnpacker</string>
         </dict>
         <dict>
             <key>Arguments</key>
