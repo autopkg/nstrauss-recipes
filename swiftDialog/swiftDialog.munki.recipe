@@ -15,7 +15,7 @@
             <key>MUNKI_NAME</key>
             <string>swiftDialog</string>
             <key>MUNKI_REPO_SUBDIR</key>
-            <string>apps/%NAME%</string>
+            <string>apps/swiftDialog</string>
             <key>MUNKI_CATEGORY</key>
             <string>Utilities</string>
             <key>DISPLAY_NAME</key>
