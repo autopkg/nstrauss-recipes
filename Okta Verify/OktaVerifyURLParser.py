@@ -88,8 +88,6 @@ class OktaVerifyURLParser(URLGetter):
             "Content-Type: application/json",
             "-d",
             f"{auth}",
-            "-c",
-            f"{self.env['RECIPE_CACHE_DIR']}/okta-cookie",
         ]
         curl_cmd = self.prepare_curl_cmd(f"{okta_url}/api/v1/authn")
         authn = self.download_with_curl(curl_cmd)
