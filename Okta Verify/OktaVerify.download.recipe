@@ -8,10 +8,14 @@
     <string>com.github.nstrauss.download.OktaVerify</string>
     <key>Input</key>
     <dict>
-        <key>DOWNLOAD_URL</key>
-        <string>https://autopkg.okta.com/artifacts/OKTA_VERIFY_MACOS/3.9.0/OktaVerify-3.9.0-700-6c4c2f1.pkg</string>
         <key>NAME</key>
         <string>OktaVerify</string>
+        <key>OKTA_ORG_ID</key>
+        <string></string>
+        <key>OKTA_USERNAME</key>
+        <string></string>
+        <key>OKTA_PASSWORD</key>
+        <string></string>
     </dict>
     <key>MinimumVersion</key>
     <string>1.0</string>
@@ -20,11 +24,37 @@
         <dict>
             <key>Arguments</key>
             <dict>
+                <key>okta_org_id</key>
+                <string>%OKTA_ORG_ID%</string>
+                <key>okta_username</key>
+                <string>%OKTA_USERNAME%</string>
+                <key>okta_password</key>
+                <string>%OKTA_PASSWORD%</string>
+            </dict>
+            <key>Processor</key>
+            <string>OktaVerifyURLParser</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>curl_opts</key>
+                <array/>
                 <key>url</key>
-                <string>%DOWNLOAD_URL%</string>
+                <string>%okta_verify_url%</string>
             </dict>
             <key>Processor</key>
             <string>URLDownloader</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>path_list</key>
+                <array>
+                    <string>%RECIPE_CACHE_DIR%/okta-cookie</string>
+                </array>
+            </dict>
+            <key>Processor</key>
+            <string>PathDeleter</string>
         </dict>
         <dict>
             <key>Processor</key>
