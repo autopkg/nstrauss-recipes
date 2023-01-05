@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Description</key>
+	<string>Downloads the latest version of kubectl, creates a package, and imports the package into your Munki repo.</string>
+	<key>Identifier</key>
+	<string>com.github.nstrauss.munki.kubectl</string>
+	<key>Input</key>
+	<dict>
+        <key>ARCHITECTURE</key>
+        <string>x86_64</string>
+        <key>MUNKI_CATEGORY</key>
+        <string>Engineering</string>
+		<key>MUNKI_REPO_SUBDIR</key>
+		<string>apps/kubectl</string>
+		<key>NAME</key>
+		<string>kubectl</string>
+		<key>pkginfo</key>
+		<dict>
+			<key>catalogs</key>
+			<array>
+				<string>testing</string>
+			</array>
+            <key>category</key>
+            <string>%MUNKI_CATEGORY%</string>
+			<key>description</key>
+			<string>The Kubernetes command-line tool, kubectl, allows you to run commands against Kubernetes clusters. You can use kubectl to deploy applications, inspect and manage cluster resources, and view logs.</string>
+			<key>developer</key>
+			<string>Kubernetes</string>
+            <key>display_name</key>
+            <string>%NAME%</string>
+			<key>name</key>
+			<string>%NAME%</string>
+            <key>supported_architectures</key>
+            <array>
+                <string>%ARCHITECTURE%</string>
+            </array>
+			<key>unattended_install</key>
+			<true/>
+			<key>unattended_uninstall</key>
+			<true/>
+		</dict>
+	</dict>
+	<key>MinimumVersion</key>
+	<string>1.1</string>
+	<key>ParentRecipe</key>
+	<string>com.github.nstrauss.pkg.kubectl</string>
+	<key>Process</key>
+	<array>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>faux_root</key>
+				<string>%RECIPE_CACHE_DIR%/pkgroot</string>
+				<key>installs_item_paths</key>
+				<array>
+					<string>/usr/local/bin/kubectl</string>
+				</array>
+			</dict>
+			<key>Processor</key>
+			<string>MunkiInstallsItemsCreator</string>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>MunkiPkginfoMerger</string>
+		</dict>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>repo_subdirectory</key>
+				<string>%MUNKI_REPO_SUBDIR%</string>
+			</dict>
+			<key>Processor</key>
+			<string>MunkiImporter</string>
+		</dict>
+	</array>
+</dict>
+</plist>
