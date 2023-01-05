@@ -16,24 +16,13 @@ Intel (amd64) or Apple silicon (arm64) version.
         <string>amd64</string>
         <key>NAME</key>
         <string>kubectl</string>
+        <key>version</key>
+        <string>1.21.0</string>
     </dict>
     <key>MinimumVersion</key>
     <string>1.1</string>
     <key>Process</key>
     <array>
-        <dict>
-            <key>Arguments</key>
-            <dict>
-                <key>re_pattern</key>
-                <string>v(\S+)</string>
-                <key>result_output_var_name</key>
-                <string>version</string>
-                <key>url</key>
-                <string>https://storage.googleapis.com/kubernetes-release/release/stable.txt</string>
-            </dict>
-            <key>Processor</key>
-            <string>URLTextSearcher</string>
-        </dict>
         <dict>
             <key>Arguments</key>
             <dict>
