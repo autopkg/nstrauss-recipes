@@ -22,6 +22,15 @@
         <dict>
             <key>Arguments</key>
             <dict>
+                <key>warning_message</key>
+                <string>This recipe will soon be removed. Minitab has dropped Mac support for newer versions. https://www.minitab.com/en-us/products/minitab/system-requirements/</string>
+            </dict>
+            <key>Processor</key>
+            <string>DeprecationWarning</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
                 <key>re_pattern</key>
                 <string>%RE_PATTERN%</string>
                 <key>url</key>
