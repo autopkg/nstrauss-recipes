@@ -13,7 +13,7 @@
         <key>RE_PATTERN</key>
         <string>(?P&lt;url&gt;https:\/\/files3\.minitab\.com\/prodinstalls\/minitab\/minitab[0-9]+\/(?P&lt;version&gt;[0-9.]+)\/mac\/massdeploy\/Minitab\.v[0-9.]+\.zip)</string>
         <key>SEARCH_URL</key>
-        <string>https://www.minitab.com/en-us/downloads</string>
+        <string>https://www.minitab.com/en-us/support/downloads</string>
     </dict>
     <key>MinimumVersion</key>
     <string>1.0</string>
