@@ -1,0 +1,3 @@
+# Generic recipes
+
+Generic recipes are those which do nothing by themselves and are intended to be templates to be filled out in overrides. The intent is to avoid private repos where some internal organizational details may be exposed in public recipes. By creating general use templates which work in many, but not all, scenarios the majority of the work can be done in overrides. Considering many download and Munki recipes tend to follow a similar pattern, often only changing download URL and regex patterns, these are meant as a shortcut. They may or may not fit your use case. Create an override, fill out or add input variables as needed, and change identifier/recipe names.

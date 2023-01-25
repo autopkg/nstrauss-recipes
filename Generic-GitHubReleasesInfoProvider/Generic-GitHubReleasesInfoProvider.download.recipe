@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Download a GitHub release using GitHubReleasesInfoProvider. Only supports .pkg. This is a generic template recipe intended to be used with an override.</string>
+    <key>Identifier</key>
+    <string>com.github.nstrauss.download.Generic-GitHubReleasesInfoProvider</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string></string>
+        <key>GITHUB_REPO</key>
+        <string></string>
+        <key>GITHUB_REGEX</key>
+        <string></string>
+        <key>GITHUB_PRERELEASES</key>
+        <string></string>
+        <key>GITHUB_LATEST_ONLY</key>
+        <string></string>
+        <key>GITHUB_SORT_HIGHEST</key>
+        <string></string>
+        <key>AUTHORITY_NAME</key>
+        <string></string>
+    </dict>
+    <key>MinimumVersion</key>
+    <string>1.0</string>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>github_repo</key>
+                <string>%GITHUB_REPO%</string>
+                <key>asset_regex</key>
+                <string>%GITHUB_REGEX%</string>
+                <key>include_prereleases</key>
+                <string>%GITHUB_PRERELEASES%</string>
+                <key>sort_by_highest_tag_names</key>
+                <string>%GITHUB_SORT_HIGHEST%</string>
+            </dict>
+            <key>Processor</key>
+            <string>GitHubReleasesInfoProvider</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>filename</key>
+                <string>%NAME%-%version%.pkg</string>
+                <key>url</key>
+                <string>%asset_url%</string>
+                <key>request_headers</key>
+                <dict>
+                    <key>Authorization</key>
+                    <string>token %GITHUB_TOKEN%</string>
+                    <key>Accept</key>
+                    <string>application/octet-stream</string>
+                </dict>
+            </dict>
+            <key>Processor</key>
+            <string>URLDownloader</string>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>EndOfCheckPhase</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>input_path</key>
+                <string>%pathname%</string>
+                <key>expected_authority_names</key>
+                <array>
+                    <string>Developer ID Installer: %AUTHORITY_NAME%</string>
+                    <string>Developer ID Certification Authority</string>
+                    <string>Apple Root CA</string>
+                </array>
+            </dict>
+            <key>Processor</key>
+            <string>CodeSignatureVerifier</string>
+        </dict>
+    </array>
+</dict>
+</plist>
