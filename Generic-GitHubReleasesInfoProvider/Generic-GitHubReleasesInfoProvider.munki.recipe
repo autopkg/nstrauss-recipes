@@ -8,11 +8,17 @@
     <string>com.github.nstrauss.munki.Generic-GitHubReleasesInfoProvider</string>
     <key>Input</key>
     <dict>
+        <key>INSTALL_PATH1</key>
+        <string></string>
+        <key>INSTALL_PATH2</key>
+        <string></string>
         <key>MUNKI_CATEGORY</key>
         <string></string>
         <key>MUNKI_REPO_SUBDIR</key>
         <string></string>
         <key>NAME</key>
+        <string></string>
+        <key>PAYLOAD_UNPACKER_PKG_PATH</key>
         <string></string>
         <key>pkginfo</key>
         <dict>
@@ -42,6 +48,46 @@
     <string>com.github.nstrauss.download.Generic-GitHubReleasesInfoProvider</string>
     <key>Process</key>
     <array>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>destination_path</key>
+                <string>%RECIPE_CACHE_DIR%/unpack</string>
+                <key>flat_pkg_path</key>
+                <string>%pathname%</string>
+            </dict>
+            <key>Processor</key>
+            <string>FlatPkgUnpacker</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>destination_path</key>
+                <string>%RECIPE_CACHE_DIR%/payload</string>
+                <key>pkg_payload_path</key>
+                <string>%RECIPE_CACHE_DIR%%PAYLOAD_UNPACKER_PKG_PATH%</string>
+            </dict>
+            <key>Processor</key>
+            <string>PkgPayloadUnpacker</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>faux_root</key>
+                <string>%RECIPE_CACHE_DIR%/payload/</string>
+                <key>installs_item_paths</key>
+                <array>
+                    <string>%INSTALL_PATH1%</string>
+                    <string>%INSTALL_PATH2%</string>
+                </array>
+            </dict>
+            <key>Processor</key>
+            <string>MunkiInstallsItemsCreator</string>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>MunkiPkginfoMerger</string>
+        </dict>
         <dict>
             <key>Arguments</key>
             <dict>
