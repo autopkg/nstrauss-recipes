@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Downloads the latest version of Wireshark.
+
+ARCHITECTURE key values:
+x86_64: "intel"
+arm64: "arm"
+    </string>
+    <key>Identifier</key>
+    <string>com.github.nstrauss.download.Wireshark</string>
+    <key>Input</key>
+    <dict>
+        <key>WIRESHARK_ARCH</key>
+        <string>intel</string>
+        <key>NAME</key>
+        <string>Wireshark</string>
+    </dict>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>url</key>
+                <string>https://www.wireshark.org/download.html</string>
+                <key>re_pattern</key>
+                <string>href=&quot;(?P&lt;download_url&gt;https:\/\/[^&quot;]*%WIRESHARK_ARCH%[^&quot;]*.dmg)&quot;</string>
+                <key>re_flags</key>
+                <array>
+                    <string>IGNORECASE</string>
+                </array>
+            </dict>
+            <key>Processor</key>
+            <string>URLTextSearcher</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>url</key>
+                <string>%download_url%</string>
+                <key>filename</key>
+                <string>%NAME%-%WIRESHARK_ARCH%.dmg</string>
+            </dict>
+            <key>Processor</key>
+            <string>URLDownloader</string>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>EndOfCheckPhase</string>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>CodeSignatureVerifier</string>
+            <key>Arguments</key>
+            <dict>
+                <key>input_path</key>
+                <string>%pathname%/Wireshark.app</string>
+                <key>requirement</key>
+                <string>identifier "org.wireshark.Wireshark" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "7Z6EMTD2C6"</string>
+            </dict>
+        </dict>
+    </array>
+</dict>
+</plist>
