@@ -26,6 +26,5 @@ if [[ ! -z "$user_id" ]]; then
     done
 fi
 
+/usr/bin/killall "1Password"
 /usr/bin/killall "1Password 7"
-
-exit 0
