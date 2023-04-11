@@ -19,14 +19,25 @@
             <key>Arguments</key>
             <dict>
                 <key>json_url</key>
-                <string>https://s3-us-west-2.amazonaws.com/staticcontent.cricut.com/a/software/osx-native/latest.json</string>
+                <string>https://apis.cricut.com/desktopdownload/UpdateJson?operatingSystem=osxnative&amp;shard=a</string>
+                <key>json_key</key>
+                <string>result</string>
+            </dict>
+            <key>Processor</key>
+            <string>SimpleJSONParser</string>
+        </dict>
+       <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>json_url</key>
+                <string>%json_value%</string>
                 <key>json_key</key>
                 <string>rolloutInstallFile</string>
             </dict>
             <key>Processor</key>
             <string>SimpleJSONParser</string>
         </dict>
-       <dict>
+        <dict>
             <key>Arguments</key>
             <dict>
                 <key>json_url</key>
