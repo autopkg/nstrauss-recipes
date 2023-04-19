@@ -27,6 +27,7 @@ Use either x86_64 or arm64 for ARCHITECTURE key.
             </array>
             <key>category</key>
             <string>%MUNKI_CATEGORY%</string>
+            <key>description</key>
             <string>With the Session Manager plugin for the AWS CLI, you can start and end sessions with your compute nodes managed by Systems Manager, from your local machine using the AWS CLI.</string>
             <key>developer</key>
             <string>Amazon</string>
