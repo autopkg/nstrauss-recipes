@@ -27,12 +27,11 @@ Use either x86_64 or arm64 for ARCHITECTURE key.
             </array>
             <key>category</key>
             <string>%MUNKI_CATEGORY%</string>
-            <key>description</key>
-            <string>Session Manager is a fully managed AWS Systems Manager capability. With Session Manager, you can manage your Amazon Elastic Compute Cloud (Amazon EC2) instances, edge devices, on-premises servers, and virtual machines (VMs).</string>
+            <string>With the Session Manager plugin for the AWS CLI, you can start and end sessions with your compute nodes managed by Systems Manager, from your local machine using the AWS CLI.</string>
             <key>developer</key>
             <string>Amazon</string>
             <key>display_name</key>
-            <string>%NAME%</string>
+            <string>AWS Session Manager plugin</string>
             <key>name</key>
             <string>%NAME%</string>
             <key>postinstall_script</key>
