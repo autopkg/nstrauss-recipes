@@ -39,7 +39,13 @@ Use either x86_64 or arm64 for ARCHITECTURE key.
             <string>#!/bin/zsh
 
 # https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html#install-plugin-macos-signed
-ln -s /usr/local/sessionmanagerplugin/bin/session-manager-plugin /usr/local/bin/session-manager-plugin</string>
+pkg_bin=/usr/local/sessionmanagerplugin/bin/session-manager-plugin
+symlink_bin=/usr/local/bin/session-manager-plugin
+
+if [[ -e "$symlink_bin" ]]; then
+    /bin/rm -f "$symlink_bin"
+fi
+/bin/ln -s "$pkg_bin" "$symlink_bin"</string>
             <key>supported_architectures</key>
             <array>
                 <string>%ARCHITECTURE%</string>
