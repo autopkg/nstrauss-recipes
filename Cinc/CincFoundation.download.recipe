@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Downloads the latest Cinc Foundation package.</string>
+    <key>Identifier</key>
+    <string>com.github.nstrauss.download.CincFoundation</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>CincFoundation</string>
+    </dict>
+    <key>MiniumumVersion</key>
+    <string>1.0</string>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>re_pattern</key>
+                <string>(?&lt;=stable\/)(.*)(?=.dmg)</string>
+                <key>result_output_var_name</key>
+                <string>url_fragment</string>
+                <key>url</key>
+                <string>https://omnitruck.cinc.sh/stable/cinc-foundation/metadata?v=latest&amp;p=mac_os_x&amp;pv=12&amp;m=x86_64</string>
+            </dict>
+            <key>Processor</key>
+            <string>URLTextSearcher</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>url</key>
+                <string>https://ftp.osuosl.org/pub/cinc/files/stable/%url_fragment%.dmg</string>
+            </dict>
+            <key>Processor</key>
+            <string>URLDownloader</string>
+        </dict>
+    </array>
+</dict>
+</plist>
