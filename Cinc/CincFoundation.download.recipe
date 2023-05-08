@@ -3,18 +3,13 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Downloads the latest Cinc Workstation package version. Only supports stable channel, which also appears to be the only updated one.
-
-Use either x86_64 or arm64 for the CINC_ARCHITECTURE key.
-    </string>
+    <string>Downloads the latest Cinc Foundation package version.</string>
     <key>Identifier</key>
-    <string>com.github.nstrauss.download.CincWorkstation</string>
+    <string>com.github.nstrauss.download.CincFoundation</string>
     <key>Input</key>
     <dict>
-        <key>CINC_ARCHITECTURE</key>
-        <string>arm64</string>
         <key>NAME</key>
-        <string>CincWorkstation</string>
+        <string>CincFoundation</string>
     </dict>
     <key>MiniumumVersion</key>
     <string>1.0</string>
@@ -28,7 +23,7 @@ Use either x86_64 or arm64 for the CINC_ARCHITECTURE key.
                 <key>result_output_var_name</key>
                 <string>url_fragment</string>
                 <key>url</key>
-                <string>https://omnitruck.cinc.sh/stable/cinc-workstation/metadata?v=latest&amp;p=mac_os_x&amp;pv=12&amp;m=%CINC_ARCHITECTURE%</string>
+                <string>https://omnitruck.cinc.sh/stable/cinc-foundation/metadata?v=latest&amp;p=mac_os_x&amp;pv=12&amp;m=x86_64</string>
             </dict>
             <key>Processor</key>
             <string>URLTextSearcher</string>
