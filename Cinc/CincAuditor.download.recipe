@@ -3,12 +3,12 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Downloads the latest Cinc Auditor package version. Use either x86_64 or arm64 for the CINC_ARCHITECTURE key.</string>
+    <string>Downloads the latest Cinc Auditor package. Use either x86_64 or arm64 for the ARCHITECURE key.</string>
     <key>Identifier</key>
     <string>com.github.nstrauss.download.CincAuditor</string>
     <key>Input</key>
     <dict>
-        <key>CINC_ARCHITECTURE</key>
+        <key>ARCHITECTURE</key>
         <string>arm64</string>
         <key>NAME</key>
         <string>CincAuditor</string>
@@ -25,7 +25,7 @@
                 <key>result_output_var_name</key>
                 <string>url_fragment</string>
                 <key>url</key>
-                <string>https://omnitruck.cinc.sh/stable/cinc-auditor/metadata?v=latest&amp;p=mac_os_x&amp;pv=12&amp;m=%CINC_ARCHITECTURE%</string>
+                <string>https://omnitruck.cinc.sh/stable/cinc-auditor/metadata?v=latest&amp;p=mac_os_x&amp;pv=12&amp;m=%ARCHITECTURE%</string>
             </dict>
             <key>Processor</key>
             <string>URLTextSearcher</string>
@@ -33,6 +33,8 @@
         <dict>
             <key>Arguments</key>
             <dict>
+                <key>filename</key>
+                <string>cinc-auditor-%ARCHITECTURE%.dmg</string>
                 <key>url</key>
                 <string>https://ftp.osuosl.org/pub/cinc/files/stable/%url_fragment%.dmg</string>
             </dict>

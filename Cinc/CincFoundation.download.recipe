@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Downloads the latest Cinc Foundation package version.</string>
+    <string>Downloads the latest Cinc Foundation package.</string>
     <key>Identifier</key>
     <string>com.github.nstrauss.download.CincFoundation</string>
     <key>Input</key>
