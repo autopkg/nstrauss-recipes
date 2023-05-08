@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Downloads the latest Cinc Foundation package and imports into Munki. Use either x86_64 or arm64 for the ARCHITECURE key.
+    <string>Downloads the latest Cinc Foundation package and imports into Munki. Use either x86_64 or arm64 for the ARCHITECTURE key.
     </string>
     <key>Identifier</key>
     <string>com.github.nstrauss.munki.CincFoundation</string>
