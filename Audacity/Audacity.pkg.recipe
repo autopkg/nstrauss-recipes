@@ -10,9 +10,11 @@
     <dict>
         <key>NAME</key>
         <string>Audacity</string>
+        <key>ARCHITECTURE</key>
+        <string>universal</string>
     </dict>
     <key>ParentRecipe</key>
-    <string>com.github.rustymyers.download.Audacity</string>
+    <string>com.github.dataJAR-recipes.download.Audacity</string>
     <key>MinimumVersion</key>
     <string>1.0</string>
     <key>Process</key>
