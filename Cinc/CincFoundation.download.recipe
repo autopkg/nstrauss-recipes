@@ -3,13 +3,17 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Downloads the latest Cinc Foundation package.</string>
+    <string>Downloads the latest Cinc Foundation package. Use either x86_64 or arm64 for the ARCHITECTURE key.</string>
     <key>Identifier</key>
     <string>com.github.nstrauss.download.CincFoundation</string>
     <key>Input</key>
     <dict>
+        <key>ARCHITECTURE</key>
+        <string>x86_64</string>
         <key>NAME</key>
         <string>CincFoundation</string>
+        <key>PRODUCT_VERSION</key>
+        <string>11</string>
     </dict>
     <key>MiniumumVersion</key>
     <string>1.0</string>
@@ -23,7 +27,7 @@
                 <key>result_output_var_name</key>
                 <string>url_fragment</string>
                 <key>url</key>
-                <string>https://omnitruck.cinc.sh/stable/cinc-foundation/metadata?v=latest&amp;p=mac_os_x&amp;pv=12&amp;m=x86_64</string>
+                <string>https://omnitruck.cinc.sh/stable/cinc-foundation/metadata?v=latest&amp;p=mac_os_x&amp;pv=%PRODUCT_VERSION%&amp;m=%ARCHITECTURE%</string>
             </dict>
             <key>Processor</key>
             <string>URLTextSearcher</string>
