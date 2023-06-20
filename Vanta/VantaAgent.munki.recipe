@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Downloads the latest Vanta Agent package and imports into Munki.</string>
+    <key>Identifier</key>
+    <string>com.github.nstrauss.munki.VantaAgent</string>
+    <key>Input</key>
+    <dict>
+        <key>MUNKI_CATEGORY</key>
+        <string>Security</string>
+        <key>MUNKI_REPO_SUBDIR</key>
+        <string>apps/Vanta</string>
+        <key>NAME</key>
+        <string>VantaAgent</string>
+        <key>VANTA_KEY</key>
+        <string></string>       
+        <key>pkginfo</key>
+        <dict>
+            <key>catalogs</key>
+            <array>
+                <string>testing</string>
+            </array>
+            <key>category</key>
+            <string>%MUNKI_CATEGORY%</string>
+            <key>description</key>
+            <string>The Vanta Agent is an osquery based, read-only binary which reports compliance data to Vanta. The agent does not read sensitive information like passwords, emails, or browsing history.</string>
+            <key>developer</key>
+            <string>Vanta</string>
+            <key>display_name</key>
+            <string>Vanta Agent</string>
+            <key>name</key>
+            <string>%NAME%</string>
+            <key>preinstall_script</key>
+            <string>#!/bin/zsh
+
+vanta_owner=$(scutil &lt;&lt;&lt; "show State:/Users/ConsoleUser" | awk '/Name :/ &amp;&amp; ! /loginwindow/ { print $3 }')
+config="{\"AGENT_KEY\":\"$VANTA_KEY\",\"OWNER_EMAIL\":\"$vanta_owner\",\"NEEDS_OWNER\":true}"
+config_path="/etc/vanta.conf"
+
+echo "$config" | tee "$config_path"
+/bin/chmod 400 "$config_path"
+/usr/sbin/chown root:wheel "$config_path"
+            </string>
+            <key>postinstall_script</key>
+            <string>#!/bin/zsh
+
+/usr/local/vanta/vanta-cli hide
+            </string>
+            <key>unattended_install</key>
+            <true/>
+            <key>unattended_uninstall</key>
+            <true/>
+        </dict>
+    </dict>
+    <key>MinimumVersion</key>
+    <string>1.0</string>
+    <key>ParentRecipe</key>
+    <string>com.github.nstrauss.download.VantaAgent</string>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>info_path</key>
+                <string>%RECIPE_CACHE_DIR%/info.plist</string>
+                <key>pkg_path</key>
+                <string>%pathname%</string>
+            </dict>
+            <key>Processor</key>
+            <string>MunkiInfoCreator</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>input_plist_path</key>
+                <string>%RECIPE_CACHE_DIR%/info.plist</string>
+                <key>plist_version_key</key>
+                <string>version</string>
+            </dict>
+            <key>Processor</key>
+            <string>Versioner</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>additional_pkginfo</key>
+                <dict>
+                    <key>installcheck_script</key>
+                    <string>#!/bin/zsh
+
+installed=1
+not_installed=0
+
+vanta_cli="/usr/local/vanta/vanta-cli"
+target_version=%version%
+
+missing="Vanta Agent not installed (target version: ${target_version}). Install/update needed."
+not_latest="Vanta Agent not at latest version (current version ${current_version}, target version: ${target_version}). Install/update needed."
+up_to_date="Vanta Agent already at least version (current version: ${current_version}, target version: ${target_version}). No install/update needed."
+
+if [[ ! -f "$vanta_cli" ]]; then
+    echo "$missing"
+    exit "$not_installed"
+fi
+
+current_version=$($vanta_cli --version)
+
+if [[ "$current_version" != "$target_version" ]]; then
+    echo "$not_latest"
+    exit "$not_installed"
+elif [[ "$current_version" == "$target_version" ]]; then
+    echo "$up_to_date"
+    exit "$installed"
+else
+    exit 0
+fi
+                    </string>
+                </dict>
+            </dict>
+            <key>Processor</key>
+            <string>MunkiPkginfoMerger</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>pkg_path</key>
+                <string>%pathname%</string>
+                <key>repo_subdirectory</key>
+                <string>%MUNKI_REPO_SUBDIR%</string>
+            </dict>
+            <key>Processor</key>
+            <string>MunkiImporter</string>
+        </dict>
+    </array>
+</dict>
+</plist>
