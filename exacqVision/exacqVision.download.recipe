@@ -3,7 +3,9 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Downloads the latest version of exacqVision Client.</string>
+    <string>Downloads the latest version of exacqVision Client.
+Use arm64 or x86 for ARCHITECTURE.
+    </string>
     <key>Identifier</key>
     <string>com.github.nstrauss.download.exacqVision</string>
     <key>Input</key>
@@ -14,6 +16,8 @@
         <string>https://www.exacq.com/support/downloads.php</string>
         <key>DOWNLOAD_URL</key>
         <string>https://exacq.com/public</string>
+        <key>ARCHITECTURE</key>
+        <string>arm64</string>
     </dict>
     <key>MinimumVersion</key>
     <string>0.2.9</string>
@@ -51,9 +55,9 @@
             <key>Arguments</key>
             <dict>
                 <key>url</key>
-                <string>%DOWNLOAD_URL%/%MAIN_VERSION%/exacqVisionClient_%version%_x64.dmg</string>
+                <string>%DOWNLOAD_URL%/%MAIN_VERSION%/exacqVisionClient_%version%_%ARCHITECTURE%.dmg</string>
                 <key>filename</key>
-                <string>exacqVisionClient_%version%_x64.dmg</string>
+                <string>exacqVisionClient_%version%_%ARCHITECTURE%.dmg</string>
             </dict>
         </dict>
         <dict>
