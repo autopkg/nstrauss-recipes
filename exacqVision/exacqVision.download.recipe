@@ -4,7 +4,7 @@
 <dict>
     <key>Description</key>
     <string>Downloads the latest version of exacqVision Client.
-Specify arm64 or x86 for ARCHITECTURE, defaults to arm64 because we are living in the future 
+Use arm64 or x86 for ARCHITECTURE.
     </string>
     <key>Identifier</key>
     <string>com.github.nstrauss.download.exacqVision</string>
@@ -16,8 +16,8 @@ Specify arm64 or x86 for ARCHITECTURE, defaults to arm64 because we are living i
         <string>https://www.exacq.com/support/downloads.php</string>
         <key>DOWNLOAD_URL</key>
         <string>https://exacq.com/public</string>
-		<key>ARCHITECTURE</key>
-		<string>arm64</string>
+        <key>ARCHITECTURE</key>
+        <string>arm64</string>
     </dict>
     <key>MinimumVersion</key>
     <string>0.2.9</string>
