@@ -36,7 +36,7 @@
             <string>#!/bin/zsh
 
 vanta_owner=$(scutil &lt;&lt;&lt; "show State:/Users/ConsoleUser" | awk '/Name :/ &amp;&amp; ! /loginwindow/ { print $3 }')
-config="{\"AGENT_KEY\":\"$VANTA_KEY\",\"OWNER_EMAIL\":\"$vanta_owner\",\"NEEDS_OWNER\":true}"
+config="{\"AGENT_KEY\":\"%VANTA_KEY%\",\"OWNER_EMAIL\":\"$vanta_owner\",\"NEEDS_OWNER\":true}"
 config_path="/etc/vanta.conf"
 
 echo "$config" | tee "$config_path"
@@ -47,6 +47,12 @@ echo "$config" | tee "$config_path"
             <string>#!/bin/zsh
 
 /usr/local/vanta/vanta-cli hide
+            </string>
+            <key>uninstall_script</key>
+            <string>#!/bin/zsh
+
+/usr/local/vanta/vanta-cli uninstall --deactivate --secret=%VANTA_KEY%
+/usr/sbin/pkgutil --forget com.vanta.agent
             </string>
             <key>unattended_install</key>
             <true/>
