@@ -3,9 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Downloads the latest version of exacqVision Client.
-Use arm64 or x86 for ARCHITECTURE.
-    </string>
+    <string>Downloads the latest version of exacqVision Client. Use arm64 or x64 for ARCHITECTURE.</string>
     <key>Identifier</key>
     <string>com.github.nstrauss.download.exacqVision</string>
     <key>Input</key>
