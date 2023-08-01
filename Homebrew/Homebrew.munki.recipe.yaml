@@ -1,4 +1,4 @@
-Description: Download the latest Homebrew package version from GitHub.
+Description: Download the latest Homebrew package version from GitHub and import into Munki.
 Identifier: com.github.nstrauss.munki.Homebrew
 MinimumVersion: "2.3"
 ParentRecipe: com.github.nstrauss.download.Homebrew
