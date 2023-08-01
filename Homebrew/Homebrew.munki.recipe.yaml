@@ -1,0 +1,58 @@
+Description: Download the latest Homebrew package version from GitHub and import into Munki.
+Identifier: com.github.nstrauss.munki.Homebrew
+MinimumVersion: "2.3"
+ParentRecipe: com.github.nstrauss.download.Homebrew
+
+Input:
+  NAME: Homebrew
+  MUNKI_REPO_SUBDIR: apps/Homebrew
+  pkginfo:
+    catalogs:
+      - testing
+    description: The missing package manager for macOS.
+    developer: Homebrew
+    display_name: "%NAME%"
+    name: "%NAME%"
+    unattended_install: true
+    unattended_uninstall: true
+    uninstall_method: uninstall_script
+    uninstall_script: |
+      #!/bin/bash
+
+      NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"
+
+Process:
+  - Processor: MunkiPkginfoMerger
+    Arguments:
+      additional_pkginfo: 
+        installcheck_script: |
+          #!/bin/zsh
+
+          installed=1
+          not_installed=0
+          target_version="%version%"
+
+          if [[ $(uname -m) == "x86_64" ]]; then
+            brew="/usr/local/Homebrew/bin/brew"
+          else
+            brew="/opt/homebrew/bin/brew"
+          fi
+
+          if [[ ! -f "$brew" ]]; then
+            exit "$not_installed"
+          fi
+
+          current_version=$($brew --version | /usr/bin/head -n 1 | /usr/bin/awk '{ print $2 }')
+
+          if [[ "$current_version" != "$target_version" ]]; then
+              exit "$not_installed"
+          elif [[ "$current_version" == "$target_version" ]]; then
+              exit "$installed"
+          else
+              exit "$not_installed"
+          fi
+
+  - Processor: MunkiImporter
+    Arguments:
+      pkg_path: "%pathname%"
+      repo_subdirectory: "%MUNKI_REPO_SUBDIR%"
