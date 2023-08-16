@@ -1,4 +1,4 @@
-Description: Download the latest Chrome for Testing version and build a package. Specify a version string or use "latest"
+Description: Download the specified Chrome for Testing version and build a package.
 Identifier: com.github.nstrauss.pkg.ChromeforTesting
 MinimumVersion: "2.3"
 ParentRecipe: com.github.nstrauss.download.ChromeforTesting

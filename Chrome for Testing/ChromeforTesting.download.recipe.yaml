@@ -1,9 +1,9 @@
 Description: |
-  Download the latest Chrome for Testing version. Specify a version string or use "latest"
+  Download the specified Chrome for Testing version.
 
   DOWNLOAD_ARCH: arm64 or x64
-  DOWNLOAD_VERSION: latest or a quoted version string
-  RELEASE_CHANNEL: Stable, Beta, Dev, Canary
+  DOWNLOAD_VERSION: latest or a quoted version string e.g. "116.0.5845.96"
+  RELEASE_CHANNEL: Stable, Beta, Dev, or Canary
 Identifier: com.github.nstrauss.download.ChromeforTesting
 MinimumVersion: "2.3"
 
