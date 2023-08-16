@@ -1,0 +1,42 @@
+Description: |
+  Download the specieid Chrome for Testing version and import into Munki.
+
+  Use either x86_64 or arm64 for ARCHITECTURE key.
+Identifier: com.github.nstrauss.munki.ChromeforTesting
+MinimumVersion: "2.3"
+ParentRecipe: com.github.nstrauss.download.ChromeforTesting
+
+Input:
+  ARCHITECTURE: arm64
+  NAME: Chrome for Testing
+  MUNKI_CATEGORY: Browsers
+  MUNKI_REPO_SUBDIR: apps/google/GoogleChrome
+  pkginfo:
+    catalogs:
+      - testing
+    category: "%MUNKI_CATEGORY"
+    description: Chrome for Testing is a Chrome flavor that specifically targets web app testing and automation use cases.
+    developer: Google
+    display_name: "%NAME%"
+    name: ChromeforTesting
+    supported_architectures:
+      - "%ARCHITECTURE%"
+    unattended_install: true
+    unattended_uninstall: true
+
+
+Process:
+  - Processor: Versioner
+    Arguments:
+      input_plist_path: "%RECIPE_CACHE_DIR%/%NAME%/chrome-mac-%DOWNLOAD_ARCH%/Google %NAME%.app/Contents/Info.plist"
+      plist_version_key: CFBundleShortVersionString
+
+  - Processor: DmgCreator
+    Arguments:
+      dmg_root: "%RECIPE_CACHE_DIR%/%NAME%/chrome-mac-%DOWNLOAD_ARCH%"
+      dmg_path: "%RECIPE_CACHE_DIR%/Chrome_for_Testing-%ARCHITECTURE%-%version%.dmg"
+
+  - Processor: MunkiImporter
+    Arguments:
+      pkg_path: "%dmg_path%"
+      repo_subdirectory: "%MUNKI_REPO_SUBDIR%"
