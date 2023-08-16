@@ -1,0 +1,19 @@
+Description: Download the latest Chrome for Testing version and build a package. Specify a version string or use "latest"
+Identifier: com.github.nstrauss.pkg.ChromeforTesting
+MinimumVersion: "2.3"
+ParentRecipe: com.github.nstrauss.download.ChromeforTesting
+
+Input:
+  NAME: Chrome for Testing
+
+Process:
+  - Processor: Versioner
+    Arguments:
+      input_plist_path: "%RECIPE_CACHE_DIR%/%NAME%/chrome-mac-%DOWNLOAD_ARCH%/Google %NAME%.app/Contents/Info.plist"
+      plist_version_key: CFBundleShortVersionString
+
+  - Processor: AppPkgCreator
+    Arguments:
+      app_path: "%RECIPE_CACHE_DIR%/%NAME%/chrome-mac-%DOWNLOAD_ARCH%/*.app"
+      bundle_id: com.google.chrome.for.testing
+      pkg_path: "%RECIPE_CACHE_DIR%/Chrome_for_Testing-%version%.pkg"
