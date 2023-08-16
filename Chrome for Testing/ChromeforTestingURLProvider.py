@@ -65,11 +65,15 @@ class ChromeforTestingURLProvider(URLGetter):
             )
         else:
             feed = json.loads(self.download(KNOWN_GOOD_VERSIONS))
-            download = [d for d in feed["versions"] if d["version"] == desired_version]
+            downloads = [d for d in feed["versions"] if d["version"] == desired_version]
+            if not downloads:
+                raise ProcessorError(
+                    f"No known good versions matching {desired_version}. Check to make sure chrome_version is valid."
+                )
             download_url = "".join(
                 [
                     u["url"]
-                    for u in download[0]["downloads"]["chrome"]
+                    for u in downloads[0]["downloads"]["chrome"]
                     if u["platform"] == f"mac-{arch}"
                 ][0]
             )
