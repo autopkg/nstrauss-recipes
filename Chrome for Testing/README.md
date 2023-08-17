@@ -1,7 +1,7 @@
 # Chrome for Testing
-Chrome for Testing recipes use Google provided JSON API endpoints to get version and release channel information. In most cases, define `DOWNLOAD_VERSION` as `"latest"` and `RELEASE_CHANNEL` to one of `Stable`, `Beta`, `Dev`, or `Canary` to get the corresponding version. However, in the spirit of testing against pinned versions, the download recipe can also use a static version string input variable.
+Chrome for Testing recipes use Google provided JSON API endpoints to get version and release channel information. In most cases, set `DOWNLOAD_VERSION` to "latest" and `RELEASE_CHANNEL` to one of `Stable`, `Beta`, `Dev`, or `Canary` to get the corresponding version. However, in the spirit of testing against pinned versions, the download recipe can also use a static string input variable.
 
-Note binaries are not universal. An architecture still needs to be specified. At this time Chrome for Testing is only adhoc code signed. There is no code signature verification in place. 
+Binaries are not universal and as such an architecture still needs to be specified. At this time Chrome for Testing is only adhoc code signed. There is no code signature verification in place. 
 
 ### What it is and isn't
 
@@ -10,6 +10,6 @@ Note binaries are not universal. An architecture still needs to be specified. At
 > Chrome for Testing has been created purely for browser automation and testing purposes, and is not suitable for daily browsing.
 
 ### References
-https://developer.chrome.com/blog/chrome-for-testing/
-https://github.com/GoogleChromeLabs/chrome-for-testing
+https://developer.chrome.com/blog/chrome-for-testing/  
+https://github.com/GoogleChromeLabs/chrome-for-testing  
 https://github.com/GoogleChromeLabs/chrome-for-testing#json-api-endpoints
