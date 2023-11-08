@@ -41,6 +41,7 @@
 /usr/bin/killall "Okta Verify"
 /bin/rm -rf "/Applications/Okta Verify.app"
 pkgutil --forget com.okta.mobile
+exit 0
             </string>
         </dict>
     </dict>
