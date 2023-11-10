@@ -79,6 +79,15 @@ exit 0
             <key>Processor</key>
             <string>MunkiImporter</string>
         </dict>
+        <dict>
+            <key>Processor</key>
+            <string>PathDeleter</string>
+            <key>Arguments</key>
+            <dict>
+                <key>path_list</key>
+                <string>%RECIPE_CACHE_DIR%/payload/Applications/Okta Verify.app</string>
+            </dict>
+        </dict>
     </array>
 </dict>
 </plist>
