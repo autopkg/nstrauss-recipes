@@ -26,6 +26,8 @@
                 <string>%pathname%</string>
                 <key>destination_path</key>
                 <string>%RECIPE_CACHE_DIR%/unpack</string>
+                <key>purge_destination</key>
+                <true/>
             </dict>
         </dict>
         <dict>
@@ -37,6 +39,8 @@
                 <string>%RECIPE_CACHE_DIR%/unpack/Payload</string>
                 <key>destination_path</key>
                 <string>%RECIPE_CACHE_DIR%/payload/Applications</string>
+                <key>purge_destination</key>
+                <true/>
             </dict>
         </dict>
         <dict>
