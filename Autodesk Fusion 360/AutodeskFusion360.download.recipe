@@ -11,7 +11,7 @@
         <key>NAME</key>
         <string>Autodesk Fusion 360</string>
         <key>DOWNLOAD_URL</key>
-        <string>https://dl.appstreaming.autodesk.com/production/installers/Autodesk%20Fusion%20360%20Admin%20Install.pkg</string>
+        <string>https://dl.appstreaming.autodesk.com/production/installers/Autodesk%20Fusion%20Admin%20Install.pkg</string>
     </dict>
     <key>MinimumVersion</key>
     <string>0.6.1</string>
