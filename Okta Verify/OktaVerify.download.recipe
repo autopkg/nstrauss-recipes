@@ -12,10 +12,6 @@
         <string>OktaVerify</string>
         <key>OKTA_ORG_ID</key>
         <string></string>
-        <key>OKTA_USERNAME</key>
-        <string></string>
-        <key>OKTA_PASSWORD</key>
-        <string></string>
     </dict>
     <key>MinimumVersion</key>
     <string>1.0</string>
@@ -24,56 +20,32 @@
         <dict>
             <key>Arguments</key>
             <dict>
-                <key>okta_org_id</key>
-                <string>%OKTA_ORG_ID%</string>
-                <key>okta_username</key>
-                <string>%OKTA_USERNAME%</string>
-                <key>okta_password</key>
-                <string>%OKTA_PASSWORD%</string>
-            </dict>
-            <key>Processor</key>
-            <string>OktaVerifyURLParser</string>
-        </dict>
-        <dict>
-            <key>Arguments</key>
-            <dict>
-                <key>curl_opts</key>
-                <array/>
+                <key>filename</key>
+                <string>%NAME%.pkg</string>
                 <key>url</key>
-                <string>%okta_verify_url%</string>
+                <string>https://%OKTAORG%.okta.com/api/v1/artifacts/OKTA_VERIFY_MACOS/download?releaseChannel=GA</string>
             </dict>
             <key>Processor</key>
             <string>URLDownloader</string>
-        </dict>
-        <dict>
-            <key>Arguments</key>
-            <dict>
-                <key>path_list</key>
-                <array>
-                    <string>%RECIPE_CACHE_DIR%/okta-cookie</string>
-                </array>
-            </dict>
-            <key>Processor</key>
-            <string>PathDeleter</string>
         </dict>
         <dict>
             <key>Processor</key>
             <string>EndOfCheckPhase</string>
         </dict>
         <dict>
-            <key>Processor</key>
-            <string>CodeSignatureVerifier</string>
             <key>Arguments</key>
             <dict>
-                <key>input_path</key>
-                <string>%pathname%</string>
                 <key>expected_authority_names</key>
                 <array>
                     <string>Developer ID Installer: Okta, Inc. (B7F62B65BN)</string>
                     <string>Developer ID Certification Authority</string>
                     <string>Apple Root CA</string>
                 </array>
+                <key>input_path</key>
+                <string>%pathname%</string>
             </dict>
+            <key>Processor</key>
+            <string>CodeSignatureVerifier</string>
         </dict>
     </array>
 </dict>
