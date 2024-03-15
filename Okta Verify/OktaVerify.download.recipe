@@ -5,7 +5,7 @@
     <key>Description</key>
     <string>Download the latest version of Okta Verify. 
     
-    OKTA_DOMAIN: Usually "okta"
+    OKTA_DOMAIN: Usually "okta.com"
     OKTA_ORG: Org tenant - "myorg" part of a subdomain like "myorg.okta.com"
     OKTA_RELEASE_CHANNEL: GA or EA
     </string>
@@ -16,7 +16,7 @@
         <key>NAME</key>
         <string>OktaVerify</string>
         <key>OKTA_DOMAIN</key>
-        <string>okta</string>
+        <string>okta.com</string>
         <key>OKTA_ORG</key>
         <string></string>
         <key>OKTA_RELEASE_CHANNEL</key>
@@ -32,7 +32,7 @@
                 <key>filename</key>
                 <string>%NAME%.pkg</string>
                 <key>url</key>
-                <string>https://%OKTA_ORG%.%OKTA_DOMAIN%.com/api/v1/artifacts/OKTA_VERIFY_MACOS/download?releaseChannel=%OKTA_RELEASE_CHANNEL%</string>
+                <string>https://%OKTA_ORG%.%OKTA_DOMAIN%/api/v1/artifacts/OKTA_VERIFY_MACOS/download?releaseChannel=%OKTA_RELEASE_CHANNEL%</string>
             </dict>
             <key>Processor</key>
             <string>URLDownloader</string>
