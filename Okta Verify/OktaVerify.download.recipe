@@ -16,7 +16,7 @@
         <key>NAME</key>
         <string>OktaVerify</string>
         <key>OKTA_DOMAIN</key>
-        <string>okta</string>
+        <string>okta.com</string>
         <key>OKTA_ORG</key>
         <string></string>
         <key>OKTA_RELEASE_CHANNEL</key>
