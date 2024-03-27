@@ -4,7 +4,7 @@
 <dict>
     <key>Description</key>
     <string>Download the latest OBS disk image and builds a package.
-    For ARCH use "Intel" for Intel/x86_64 or "Apple" for ARM/arm64</string>
+    For ARCH use "intel" for Intel/x86_64 or "apple" for ARM/arm64</string>
     <key>Identifier</key>
     <string>com.github.nstrauss.pkg.OBS</string>
     <key>Input</key>
@@ -12,7 +12,7 @@
         <key>NAME</key>
         <string>OBS</string>
         <key>ARCH</key>
-        <string>Intel</string>
+        <string>intel</string>
     </dict>
     <key>MinimumVersion</key>
     <string>1.0</string>
