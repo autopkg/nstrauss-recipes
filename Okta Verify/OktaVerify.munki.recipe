@@ -3,7 +3,9 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Download Okta Verify, copy to versioned package, and import into Munki.</string>
+    <string>Download Okta Verify, copy to versioned package, and import into Munki.
+
+Set the DERIVE_MIN_OS variable to a non-empty string to set the minimum_os_version via MunkiInstallsItemsCreator. This requires a minimum AutoPkg version of 2.7 please update if you're not already running it.</string>
     <key>Identifier</key>
     <string>com.github.nstrauss.munki.OktaVerify</string>
     <key>Input</key>
@@ -14,6 +16,8 @@
         <string>Security</string>
         <key>MUNKI_REPO_SUBDIR</key>
         <string>apps/OktaVerify</string>
+        <key>DERIVE_MIN_OS</key>
+        <string>YES</string>
         <key>pkginfo</key>
         <dict>
             <key>catalogs</key>
@@ -46,7 +50,7 @@ exit 0
         </dict>
     </dict>
     <key>MinimumVersion</key>
-    <string>1.0</string>
+    <string>2.7</string>
     <key>ParentRecipe</key>
     <string>com.github.nstrauss.pkg.OktaVerify</string>
     <key>Process</key>
@@ -56,6 +60,8 @@ exit 0
             <dict>
                 <key>faux_root</key>
                 <string>%RECIPE_CACHE_DIR%/payload</string>
+                <key>derive_minimum_os_version</key>
+                <string>%DERIVE_MIN_OS%</string>
                 <key>installs_item_paths</key>
                 <array>
                     <string>/Applications/Okta Verify.app</string>
