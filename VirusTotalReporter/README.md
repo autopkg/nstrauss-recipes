@@ -3,7 +3,7 @@
 
 Why use `VirusTotalReporter` over `VirusTotalAnalyzer`?
 - Significant improvements to reporting for new files. `VirusTotalReporter` will optionally submit new files not already in the VirusTotal database, wait for analysis, and returns results in the same run. `VirusTotalAnalyzer` only submits new files, not report on them.  
-- Supports outputting the full VirusTotal report to a recipe's report property list or specificied JSON file.
+- Supports outputting the full VirusTotal report to a recipe's report property list or specified JSON file.
 - Uses VirusTotal's v3 API. The v2 API is deprecated and in some cases provides fewer details or less specific data.
 
 ### Recipe usage
