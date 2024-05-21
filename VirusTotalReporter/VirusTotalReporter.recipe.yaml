@@ -1,0 +1,6 @@
+Description: A stub recipe used to reference VirusTotalReporter as a shared processor in other recipes.
+Identifier: com.github.nstrauss.VirusTotalReporter
+MinimumVersion: "2.3"
+
+Input: {}
+Process: []
