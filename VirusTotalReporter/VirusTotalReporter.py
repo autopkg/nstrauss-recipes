@@ -234,8 +234,8 @@ class VirusTotalReporter(Processor):
         malicious = last_analysis_stats.get("malicious", 0)
         suspicious = last_analysis_stats.get("suspicious", 0)
         undetected = last_analysis_stats.get("undetected", 0)
-        total_detected = str(harmless + malicious + suspicious)
-        total = str(harmless + malicious + suspicious + undetected)
+        total_detected = harmless + malicious + suspicious
+        total = harmless + malicious + suspicious + undetected
 
         self.env["virus_total_analyzer_summary_result"] = {
             "summary_text": "The following items were queried from the VirusTotal database:",
@@ -247,11 +247,11 @@ class VirusTotalReporter(Processor):
             ],
             "data": {
                 "name": os.path.basename(input_path),
-                "detections": total_detected,
-                "harmless": harmless,
-                "malicious": malicious,
-                "suspicious": suspicious,
-                "undetected": undetected,
+                "detections": str(total_detected),
+                "harmless": str(harmless),
+                "malicious": str(malicious),
+                "suspicious": str(suspicious),
+                "undetected": str(undetected),
                 "ratio": f"{total_detected}/{total}",
                 "permalink": f"https://www.virustotal.com/gui/file/{sha256}",
             },
