@@ -234,7 +234,7 @@ class VirusTotalReporter(Processor):
         malicious = last_analysis_stats.get("malicious", 0)
         suspicious = last_analysis_stats.get("suspicious", 0)
         undetected = last_analysis_stats.get("undetected", 0)
-        total_detected = harmless + malicious + suspicious
+        total_detected = malicious + suspicious
         total = harmless + malicious + suspicious + undetected
 
         self.env["virus_total_analyzer_summary_result"] = {
