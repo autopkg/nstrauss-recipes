@@ -22,6 +22,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import base64
 import hashlib
 import json
 import os
@@ -29,6 +30,7 @@ import ssl
 import subprocess
 import time
 from urllib.error import URLError
+from urllib.parse import urlencode
 from urllib.request import HTTPErrorProcessor, HTTPSHandler, Request, build_opener
 
 import certifi
@@ -94,6 +96,11 @@ class VirusTotalReporter(Processor):
             "required": False,
             "description": "Timeout in seconds to wait for a newly submitted file report to be generated.",
         },
+        "url_analysis_fallback": {
+            "default": True,
+            "required": False,
+            "description": "Where a new file submission is over the 650 MB file size limit, attempt to analyze its download URL instead.",
+        },
     }
     output_variables = {
         "virus_total_analyzer_summary_result": {
@@ -127,13 +134,15 @@ class VirusTotalReporter(Processor):
 
         raise ProcessorError("Unable to locate or execute any curl binary.")
 
-    def virustotal_api_v3(self, endpoint: str) -> dict:
+    def virustotal_api_v3(self, endpoint: str, form_data: dict = None) -> dict:
         """Get data from the VirusTotal API using a specified endpoint."""
         url = f"https://www.virustotal.com/api/v3{endpoint}"
+        if form_data:
+            form_data = urlencode(form_data).encode("utf-8")
 
         https_handler = HTTPSHandler(context=self.default_ssl_context())
         opener = build_opener(https_handler, NoExceptionHTTPErrorProcessor())
-        request = Request(url, headers={"x-apikey": self.api_key()})
+        request = Request(url, headers={"x-apikey": self.api_key()}, data=form_data)
 
         try:
             response = opener.open(request, timeout=30)
@@ -178,13 +187,18 @@ class VirusTotalReporter(Processor):
 
         return submit.stdout
 
-    def submit_new_file(self, input_path: str, sha256: str):
+    def submit_new(self, resource: str, type: str, identifier: str):
         """
-        Submit a new file for analysis and wait for the report to complete.
+        Submit a new item for analysis and wait for the report to complete.
         Default timeout is 5 minutes. Timeout length can be configured with submission_timeout.
+
+        type: supports "file" or "url"
         """
-        self.output(f"Submitting new file for analysis: {input_path} ({sha256})")
-        submission = self.curl_new_file(input_path)
+        self.output(f"Submitting new {type} for analysis: {resource} ({identifier})")
+        if type == "file":
+            submission = self.curl_new_file(resource)
+        else:
+            submission, _ = self.virustotal_api_v3("/urls", {"url": f"{resource}"})
         analysis_url = self.load_api_json(submission, "data")["links"]["self"]
 
         timer = 0
@@ -193,10 +207,10 @@ class VirusTotalReporter(Processor):
             timer += 30
             if timer > self.env.get("submission_timeout"):
                 raise ProcessorError(
-                    f"New file submission timed out waiting for analysis to complete. "
-                    "Check report status at https://www.virustotal.com/gui/file/{sha256}"
+                    f"New {type} submission timed out waiting for analysis to complete. "
+                    f"Check report status at https://www.virustotal.com/gui/{type}/{identifier}"
                 )
-            self.output(f"Waiting for new file analysis to complete: {timer} seconds.")
+            self.output(f"Waiting for {type} analysis to complete: {timer} seconds.")
 
             analysis_status, analysis_status_code = self.virustotal_api_v3(
                 analysis_url.split("v3")[1]
@@ -206,8 +220,16 @@ class VirusTotalReporter(Processor):
                 and self.load_api_json(analysis_status, "data")["attributes"]["status"]
                 == "completed"
             ):
-                self.output("Analysis complete. Attempting to get generated report.")
+                self.output("Analysis complete.")
                 break
+
+    def get_base64_unpadded(self, url):
+        """
+        https://docs.virustotal.com/reference/url
+
+        VirusTotal's /urls/ endpoint requires an unpadded base64 encoded URL.
+        """
+        return base64.urlsafe_b64encode(url.encode()).decode().strip("=")
 
     def get_sha256(self, file_path: str) -> str:
         """Get the SHA-256 hash of a file."""
@@ -226,7 +248,7 @@ class VirusTotalReporter(Processor):
                 "Couldn't get VirusTotal API data. Most likely malformed response."
             )
 
-    def process_summary_results(self, report: dict, input_path: str, sha256: str):
+    def process_summary_results(self, report: dict, input_path: str):
         """Write VirusTotal report data."""
         data = self.load_api_json(report, "data")
         last_analysis_stats = data.get("attributes").get("last_analysis_stats")
@@ -243,6 +265,7 @@ class VirusTotalReporter(Processor):
                 "name",
                 "detections",
                 "ratio",
+                "analysis_type",
                 "permalink",
             ],
             "data": {
@@ -253,7 +276,8 @@ class VirusTotalReporter(Processor):
                 "suspicious": str(suspicious),
                 "undetected": str(undetected),
                 "ratio": f"{total_detected}/{total}",
-                "permalink": f"https://www.virustotal.com/gui/file/{sha256}",
+                "analysis_type": data.get("type", "file"),
+                "permalink": f"https://www.virustotal.com/gui/{data.get('type')}/{data.get('id')}",
             },
         }
         if self.env.get("output_full_report"):
@@ -290,7 +314,7 @@ class VirusTotalReporter(Processor):
         report, report_status_code = self.virustotal_api_v3(f"/files/{file_sha256}")
 
         if report_status_code == 200:
-            self.process_summary_results(report, input_path, file_sha256)
+            self.process_summary_results(report, input_path)
             return
 
         # When there's no matching file in the VirusTotal database, submit new if configured
@@ -302,13 +326,25 @@ class VirusTotalReporter(Processor):
         ):
             if round(os.path.getsize(input_path) / (1024 * 1024.0), 2) > 650:
                 self.output(
-                    "WARNING: File is over 650 MB and too large to submit to VirusTotal for analysis. Skipping."
+                    "WARNING: File size is over 650 MB. Too large to submit to VirusTotal for analysis."
+                )
+                if self.env.get("url_analysis_fallback") and self.env.get("url"):
+                    self.output(
+                        "Falling back to get analysis report from download URL instead."
+                    )
+                    url_identifier = self.get_base64_unpadded(self.env["url"])
+                    self.submit_new(self.env.get("url"), "url", url_identifier)
+                    report, _ = self.virustotal_api_v3(f"/urls/{url_identifier}")
+                    self.process_summary_results(report, input_path)
+                    return
+                self.output(
+                    "No download URL input variable found as an alternative. Skipping."
                 )
                 return
 
-            self.submit_new_file(input_path, file_sha256)
+            self.submit_new(input_path, "file", file_sha256)
             report, _ = self.virustotal_api_v3(f"/files/{file_sha256}")
-            self.process_summary_results(report, input_path, file_sha256)
+            self.process_summary_results(report, input_path)
             return
 
         # No report for file found and not configured to submit new
