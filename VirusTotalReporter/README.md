@@ -33,7 +33,7 @@ By default, `VirusTotalReporter` does not submit new files for analysis. If ther
 1. Including analysis only for already submitted files could mean a sizable coverage gap. In workflows where trust and import/upload decisions are made based on VirusTotal detections, files which have never been analyzed are assumed safe, even when they may not be.
 1. The VirusTotal [license](https://docs.virustotal.com/reference/public-vs-premium-api) requires businesses using the free, public API to contribute new files.
 
-In order to submit new files, set `VIRUSTOTAL_SUBMIT_NEW` to true. On submission, `VirusTotalReporter` will check every 30 seconds whether file analysis has completed and then return detection results in the same run. Timeout length is 5 minutes and can be configured with `submission_timeout`. The max file size limit is 650 MB.
+In order to submit new files, set `VIRUSTOTAL_SUBMIT_NEW` to true. On submission, `VirusTotalReporter` will check every 30 seconds whether file analysis has completed and then return detection results in the same run. Timeout length is 5 minutes and can be configured with `submission_timeout`. The max file size limit is 650 MB. When a file is over the limit, analysis of the download URL will be used instead if available. URL analysis fallback behavior is on by default, and can be configured by setting `url_analysis_fallback`. The key `analysis_type` in summary results returns either "file" or "url" depending on the analysis used.
 
 ## VirusTotal API keys
 A community API key is included. To use your own key, follow the [getting started](https://docs.virustotal.com/reference/getting-started) guide to register an account. `VIRUSTOTAL_API_KEY` can be set to use the account specific key.
