@@ -330,7 +330,7 @@ class VirusTotalReporter(Processor):
                 self.output(
                     "WARNING: File size is over 650 MB. Too large to submit to VirusTotal for analysis."
                 )
-                if self.env.get("url_analysis_fallback") and self.env.get("url"):
+                if self.env.get("url_analysis_fallback") is True and self.env.get("url"):
                     self.output(
                         "Falling back to get analysis report from download URL instead."
                     )
@@ -340,7 +340,8 @@ class VirusTotalReporter(Processor):
                     self.process_summary_results(report, input_path)
                     return
                 self.output(
-                    "No download URL input variable found as an alternative. Skipping."
+                    "No download URL input variable found or "
+                    "URL analysis fallback is not configured. Skipping."
                 )
                 return
 
