@@ -187,7 +187,7 @@ class VirusTotalReporter(Processor):
 
         return submit.stdout
 
-    def submit_new(self, resource: str, type: str, identifier: str):
+    def submit_new(self, resource: str, identifier: str, type: str):
         """
         Submit a new item for analysis and wait for the report to complete.
         Default timeout is 5 minutes. Timeout length can be configured with submission_timeout.
@@ -197,8 +197,10 @@ class VirusTotalReporter(Processor):
         self.output(f"Submitting new {type} for analysis: {resource} ({identifier})")
         if type == "file":
             submission = self.curl_new_file(resource)
-        else:
+        elif type == "url":
             submission, _ = self.virustotal_api_v3("/urls", {"url": f"{resource}"})
+        else:
+            raise ProcessorError(f"Unknown type {type} for analysis submission.")
         analysis_url = self.load_api_json(submission, "data")["links"]["self"]
 
         timer = 0
@@ -333,7 +335,7 @@ class VirusTotalReporter(Processor):
                         "Falling back to get analysis report from download URL instead."
                     )
                     url_identifier = self.get_base64_unpadded(self.env["url"])
-                    self.submit_new(self.env.get("url"), "url", url_identifier)
+                    self.submit_new(self.env.get("url"), url_identifier, "url")
                     report, _ = self.virustotal_api_v3(f"/urls/{url_identifier}")
                     self.process_summary_results(report, input_path)
                     return
@@ -342,7 +344,7 @@ class VirusTotalReporter(Processor):
                 )
                 return
 
-            self.submit_new(input_path, "file", file_sha256)
+            self.submit_new(input_path, file_sha256, "file")
             report, _ = self.virustotal_api_v3(f"/files/{file_sha256}")
             self.process_summary_results(report, input_path)
             return
