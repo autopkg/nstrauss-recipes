@@ -335,6 +335,14 @@ class VirusTotalReporter(Processor):
                         "Falling back to get analysis report from download URL instead."
                     )
                     url_identifier = self.get_base64_unpadded(self.env["url"])
+                    report, report_status_code = self.virustotal_api_v3(
+                        f"/urls/{url_identifier}"
+                    )
+
+                    if report_status_code == 200:
+                        self.process_summary_results(report, input_path)
+                        return
+
                     self.submit_new(self.env.get("url"), url_identifier, "url")
                     report, _ = self.virustotal_api_v3(f"/urls/{url_identifier}")
                     self.process_summary_results(report, input_path)
