@@ -162,7 +162,7 @@ class VirusTotalReporter(Processor):
         First get a one time upload URL to support a max file size limit of 650 MB.
         """
         data, _ = self.virustotal_api_v3("/files/upload_url")
-        upload_url = self.load_api_json(data, "data")
+        upload_url = self.load_api_json(data)
         cmd = [
             self.curl_binary(),
             "--request",
@@ -201,7 +201,7 @@ class VirusTotalReporter(Processor):
             submission, _ = self.virustotal_api_v3("/urls", {"url": f"{resource}"})
         else:
             raise ProcessorError(f"Unknown type {type} for analysis submission.")
-        analysis_url = self.load_api_json(submission, "data")["links"]["self"]
+        analysis_url = self.load_api_json(submission)["links"]["self"]
 
         timer = 0
         while True:
@@ -219,7 +219,7 @@ class VirusTotalReporter(Processor):
             )
             if (
                 analysis_status_code == 200
-                and self.load_api_json(analysis_status, "data")["attributes"]["status"]
+                and self.load_api_json(analysis_status)["attributes"]["status"]
                 == "completed"
             ):
                 self.output("Analysis complete.")
@@ -241,18 +241,21 @@ class VirusTotalReporter(Processor):
                 hash_sha256.update(chunk)
         return hash_sha256.hexdigest()
 
-    def load_api_json(self, data: dict, top_level: str) -> dict:
+    def load_api_json(self, data: dict) -> dict:
         """Convert a VirusTotal API response to JSON object."""
+        valid_keys = ["data", "error"]
         try:
-            return json.loads(data)[top_level]
-        except KeyError:
+            json_data = json.loads(data)
+            key = next((k for k in valid_keys if k in json_data), None)
+            return json.loads(data)[key]
+        except (KeyError, json.decoder.JSONDecodeError):
             raise ProcessorError(
-                "Couldn't get VirusTotal API data. Most likely malformed response."
+                f"Couldn't get VirusTotal API data. Error:\n {data}"
             )
 
     def process_summary_results(self, report: dict, input_path: str):
         """Write VirusTotal report data."""
-        data = self.load_api_json(report, "data")
+        data = self.load_api_json(report)
         last_analysis_stats = data.get("attributes").get("last_analysis_stats")
         harmless = last_analysis_stats.get("harmless", 0)
         malicious = last_analysis_stats.get("malicious", 0)
@@ -320,7 +323,7 @@ class VirusTotalReporter(Processor):
             return
 
         # When there's no matching file in the VirusTotal database, submit new if configured
-        error = self.load_api_json(report, "error")
+        error = self.load_api_json(report)
         if (
             report_status_code == 404
             and error.get("code") == "NotFoundError"
