@@ -183,11 +183,11 @@ class VirusTotalReporter(Processor):
             self.output(f"ERROR: {err.stderr.removeprefix('curl: ')}")
             raise ProcessorError(err.stderr) from err
 
-        return submit.stdout
+        return self.load_api_json(submit.stdout)
 
-    def submit_new(self, resource: str, identifier: str, type: str):
+    def submit_new(self, resource: str, identifier: str, type: str) -> dict:
         """
-        Submit a new item for analysis and wait for the report to complete.
+        Submit a new item for analysis, wait for analysis to complete, and return report data.
         Default timeout is 5 minutes. Timeout length can be configured with submission_timeout.
 
         type: supports "file" or "url"
@@ -217,11 +217,12 @@ class VirusTotalReporter(Processor):
             )
             if (
                 analysis_status_code == 200
-                and analysis_status["attributes"]["status"]
-                == "completed"
+                and analysis_status["attributes"]["status"] == "completed"
             ):
                 self.output("Analysis complete.")
                 break
+
+        return self.virustotal_api_v3(f"/{type}s/{identifier}")[0]
 
     def get_base64_unpadded(self, url):
         """
@@ -247,9 +248,7 @@ class VirusTotalReporter(Processor):
             key = next((k for k in valid_keys if k in json_data), None)
             return json.loads(data)[key]
         except (KeyError, json.decoder.JSONDecodeError):
-            raise ProcessorError(
-                f"Couldn't get VirusTotal API data. Error:\n {data}"
-            )
+            raise ProcessorError(f"Couldn't get VirusTotal API data. Error:\n {data}")
 
     def process_summary_results(self, report: dict, input_path: str):
         """Write VirusTotal report data."""
@@ -329,11 +328,12 @@ class VirusTotalReporter(Processor):
                 self.output(
                     "WARNING: File size is over 650 MB. Too large to submit to VirusTotal for analysis."
                 )
-                if self.env.get("url_analysis_fallback") is True and self.env.get("url"):
+                download_url = self.env.get("url")
+                if self.env.get("url_analysis_fallback") is True and download_url:
                     self.output(
                         "Falling back to get analysis report from download URL instead."
                     )
-                    url_identifier = self.get_base64_unpadded(self.env["url"])
+                    url_identifier = self.get_base64_unpadded(download_url)
                     report, report_status_code = self.virustotal_api_v3(
                         f"/urls/{url_identifier}"
                     )
@@ -342,8 +342,7 @@ class VirusTotalReporter(Processor):
                         self.process_summary_results(report, input_path)
                         return
 
-                    self.submit_new(self.env.get("url"), url_identifier, "url")
-                    report, _ = self.virustotal_api_v3(f"/urls/{url_identifier}")
+                    report = self.submit_new(self.env.get("url"), url_identifier, "url")
                     self.process_summary_results(report, input_path)
                     return
                 self.output(
@@ -352,8 +351,7 @@ class VirusTotalReporter(Processor):
                 )
                 return
 
-            self.submit_new(input_path, file_sha256, "file")
-            report, _ = self.virustotal_api_v3(f"/files/{file_sha256}")
+            report = self.submit_new(input_path, file_sha256, "file")
             self.process_summary_results(report, input_path)
             return
 
