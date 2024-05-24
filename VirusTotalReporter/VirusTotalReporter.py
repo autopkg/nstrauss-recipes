@@ -151,8 +151,7 @@ class VirusTotalReporter(Processor):
         except TimeoutError:
             raise ProcessorError("VirusTotal API response timed out.")
 
-        return response.read(), response.status
-        # return {"http_status_code": response.status, "response": response.read()}
+        return self.load_api_json(response.read()), response.status
 
     def curl_new_file(self, input_path: str) -> dict:
         """
@@ -161,8 +160,7 @@ class VirusTotalReporter(Processor):
 
         First get a one time upload URL to support a max file size limit of 650 MB.
         """
-        data, _ = self.virustotal_api_v3("/files/upload_url")
-        upload_url = self.load_api_json(data)
+        upload_url, _ = self.virustotal_api_v3("/files/upload_url")
         cmd = [
             self.curl_binary(),
             "--request",
@@ -201,7 +199,7 @@ class VirusTotalReporter(Processor):
             submission, _ = self.virustotal_api_v3("/urls", {"url": f"{resource}"})
         else:
             raise ProcessorError(f"Unknown type {type} for analysis submission.")
-        analysis_url = self.load_api_json(submission)["links"]["self"]
+        analysis_url = submission["links"]["self"]
 
         timer = 0
         while True:
@@ -219,7 +217,7 @@ class VirusTotalReporter(Processor):
             )
             if (
                 analysis_status_code == 200
-                and self.load_api_json(analysis_status)["attributes"]["status"]
+                and analysis_status["attributes"]["status"]
                 == "completed"
             ):
                 self.output("Analysis complete.")
@@ -255,8 +253,7 @@ class VirusTotalReporter(Processor):
 
     def process_summary_results(self, report: dict, input_path: str):
         """Write VirusTotal report data."""
-        data = self.load_api_json(report)
-        last_analysis_stats = data.get("attributes").get("last_analysis_stats")
+        last_analysis_stats = report.get("attributes").get("last_analysis_stats")
         harmless = last_analysis_stats.get("harmless", 0)
         malicious = last_analysis_stats.get("malicious", 0)
         suspicious = last_analysis_stats.get("suspicious", 0)
@@ -281,15 +278,15 @@ class VirusTotalReporter(Processor):
                 "suspicious": str(suspicious),
                 "undetected": str(undetected),
                 "ratio": f"{total_detected}/{total}",
-                "analysis_type": data.get("type", "file"),
-                "permalink": f"https://www.virustotal.com/gui/{data.get('type')}/{data.get('id')}",
+                "analysis_type": report.get("type", "file"),
+                "permalink": f"https://www.virustotal.com/gui/{report.get('type')}/{report.get('id')}",
             },
         }
         if self.env.get("output_full_report"):
             self.env["virus_total_analyzer_summary_result"]["data"][
                 "full_report"
-            ] = data
-        self.write_json_report(data)
+            ] = report
+        self.write_json_report(report)
 
     def write_json_report(self, data: dict):
         """Optionally Write the full VirusTotal report to JSON at the configured path."""
@@ -323,10 +320,9 @@ class VirusTotalReporter(Processor):
             return
 
         # When there's no matching file in the VirusTotal database, submit new if configured
-        error = self.load_api_json(report)
         if (
             report_status_code == 404
-            and error.get("code") == "NotFoundError"
+            and report["code"] == "NotFoundError"
             and self.env["VIRUSTOTAL_SUBMIT_NEW"]
         ):
             if round(os.path.getsize(input_path) / (1024 * 1024.0), 2) > 650:
@@ -372,7 +368,7 @@ class VirusTotalReporter(Processor):
 
         # Should never get here - an error occurred
         raise ProcessorError(
-            f"VirusTotal API call failed. {report_status_code}: {error.get('code')}. {error.get('message')}."
+            f"VirusTotal API call failed. {report_status_code}: {report.get('code')}. {report.get('message')}."
         )
 
 
