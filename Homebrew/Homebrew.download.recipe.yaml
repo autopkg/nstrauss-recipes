@@ -19,6 +19,6 @@ Process:
     Arguments:
       input_path: "%pathname%"
       expected_authority_names: 
-        - "Developer ID Installer: Mike McQuaid (6248TWFRH6)"
+        - "Developer ID Installer: Patrick Linnane (927JGANW46)"
         - Developer ID Certification Authority
         - Apple Root CA
