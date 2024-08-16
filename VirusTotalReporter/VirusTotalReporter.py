@@ -87,7 +87,7 @@ class VirusTotalReporter(Processor):
             "description": "Output the full VirusTotal report to the recipe result plist.",
         },
         "json_report_path": {
-            "default": None,
+            "default": "",
             "required": False,
             "description": "Write the full VirusTotal report to JSON at the configured path.",
         },
