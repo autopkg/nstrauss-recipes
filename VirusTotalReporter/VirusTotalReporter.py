@@ -205,7 +205,7 @@ class VirusTotalReporter(Processor):
         while True:
             time.sleep(30)
             timer += 30
-            if timer > self.env.get("submission_timeout"):
+            if timer > int(self.env.get("submission_timeout")):
                 raise ProcessorError(
                     f"New {type} submission timed out waiting for analysis to complete. "
                     f"Check report status at https://www.virustotal.com/gui/{type}/{identifier}"
