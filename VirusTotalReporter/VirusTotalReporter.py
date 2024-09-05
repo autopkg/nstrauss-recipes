@@ -331,6 +331,7 @@ class VirusTotalReporter(Processor):
             # When the VirusTotal API reports quota exceeded, back off and try again until maximum_backoff
             if (
                 report_status_code == 429
+                and report["code"] == "QuotaExceededError"
                 and backoff_total < int(self.env.get("maximum_backoff"))
             ):
                 if backoff_time == 0:
