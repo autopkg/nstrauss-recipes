@@ -339,7 +339,9 @@ class VirusTotalReporter(Processor):
                 else:
                     backoff_time *= 2
 
-                self.output(f"VirusTotal API Quota exceeded. Backing off for {backoff_time} seconds.")
+                self.output(
+                    f"VirusTotal API Quota exceeded. Backing off for {backoff_time} seconds."
+                )
 
                 time.sleep(backoff_time)
                 backoff_total += backoff_time
@@ -370,7 +372,9 @@ class VirusTotalReporter(Processor):
                             self.process_summary_results(report, input_path)
                             return
 
-                        report = self.submit_new(self.env.get("url"), url_identifier, "url")
+                        report = self.submit_new(
+                            self.env.get("url"), url_identifier, "url"
+                        )
                         self.process_summary_results(report, input_path)
                         return
                     self.output(
