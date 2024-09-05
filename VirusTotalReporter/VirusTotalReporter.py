@@ -91,6 +91,11 @@ class VirusTotalReporter(Processor):
             "required": False,
             "description": "Write the full VirusTotal report to JSON at the configured path.",
         },
+        "maximum_backoff": {
+            "default": 600,
+            "required": False,
+            "description": "Maximum cumulative backoff in seconds to wait for the API to become receptive again.",
+        },
         "submission_timeout": {
             "default": 300,
             "required": False,
@@ -312,62 +317,84 @@ class VirusTotalReporter(Processor):
             return
 
         file_sha256 = self.get_sha256(input_path)
-        report, report_status_code = self.virustotal_api_v3(f"/files/{file_sha256}")
 
-        if report_status_code == 200:
-            self.process_summary_results(report, input_path)
-            return
+        backoff_time = 0
+        backoff_total = 0
 
-        # When there's no matching file in the VirusTotal database, submit new if configured
-        if (
-            report_status_code == 404
-            and report["code"] == "NotFoundError"
-            and self.env["VIRUSTOTAL_SUBMIT_NEW"]
-        ):
-            if round(os.path.getsize(input_path) / (1024 * 1024.0), 2) > 650:
-                self.output(
-                    "WARNING: File size is over 650 MB. Too large to submit to VirusTotal for analysis."
-                )
-                download_url = self.env.get("url")
-                if self.env.get("url_analysis_fallback") is True and download_url:
+        while True:
+            report, report_status_code = self.virustotal_api_v3(f"/files/{file_sha256}")
+
+            if report_status_code == 200:
+                self.process_summary_results(report, input_path)
+                return
+
+            # When the VirusTotal API reports quota exceeded, back off and try again until maximum_backoff
+            if (
+                report_status_code == 429
+                and backoff_total < int(self.env.get("maximum_backoff"))
+            ):
+                if backoff_time == 0:
+                    backoff_time = 60
+                else:
+                    backoff_time *= 2
+
+                self.output(f"VirusTotal API Quota exceeded. Backing off for {backoff_time} seconds.")
+
+                time.sleep(backoff_time)
+                backoff_total += backoff_time
+
+                continue
+
+            # When there's no matching file in the VirusTotal database, submit new if configured
+            if (
+                report_status_code == 404
+                and report["code"] == "NotFoundError"
+                and self.env["VIRUSTOTAL_SUBMIT_NEW"]
+            ):
+                if round(os.path.getsize(input_path) / (1024 * 1024.0), 2) > 650:
                     self.output(
-                        "Falling back to get analysis report from download URL instead."
+                        "WARNING: File size is over 650 MB. Too large to submit to VirusTotal for analysis."
                     )
-                    url_identifier = self.get_base64_unpadded(download_url)
-                    report, report_status_code = self.virustotal_api_v3(
-                        f"/urls/{url_identifier}"
-                    )
+                    download_url = self.env.get("url")
+                    if self.env.get("url_analysis_fallback") is True and download_url:
+                        self.output(
+                            "Falling back to get analysis report from download URL instead."
+                        )
+                        url_identifier = self.get_base64_unpadded(download_url)
+                        report, report_status_code = self.virustotal_api_v3(
+                            f"/urls/{url_identifier}"
+                        )
 
-                    if report_status_code == 200:
+                        if report_status_code == 200:
+                            self.process_summary_results(report, input_path)
+                            return
+
+                        report = self.submit_new(self.env.get("url"), url_identifier, "url")
                         self.process_summary_results(report, input_path)
                         return
-
-                    report = self.submit_new(self.env.get("url"), url_identifier, "url")
-                    self.process_summary_results(report, input_path)
+                    self.output(
+                        "No download URL input variable found or "
+                        "URL analysis fallback is not configured. Skipping."
+                    )
                     return
+
+                report = self.submit_new(input_path, file_sha256, "file")
+                self.process_summary_results(report, input_path)
+                return
+
+            # No report for file found and not configured to submit new
+            if report_status_code == 404:
                 self.output(
-                    "No download URL input variable found or "
-                    "URL analysis fallback is not configured. Skipping."
+                    f"WARNING: No match found for {os.path.basename(input_path)} in VirusTotal database. "
+                    "Submission for new files is turned off by default. Set VIRUSTOTAL_SUBMIT_NEW to analyze and report on new files. "
+                    "No results will be included in this run."
                 )
                 return
 
-            report = self.submit_new(input_path, file_sha256, "file")
-            self.process_summary_results(report, input_path)
-            return
-
-        # No report for file found and not configured to submit new
-        if report_status_code == 404:
-            self.output(
-                f"WARNING: No match found for {os.path.basename(input_path)} in VirusTotal database. "
-                "Submission for new files is turned off by default. Set VIRUSTOTAL_SUBMIT_NEW to analyze and report on new files. "
-                "No results will be included in this run."
+            # Should never get here - an error occurred
+            raise ProcessorError(
+                f"VirusTotal API call failed. {report_status_code}: {report.get('code')}. {report.get('message')}."
             )
-            return
-
-        # Should never get here - an error occurred
-        raise ProcessorError(
-            f"VirusTotal API call failed. {report_status_code}: {report.get('code')}. {report.get('message')}."
-        )
 
 
 if __name__ == "__main__":
