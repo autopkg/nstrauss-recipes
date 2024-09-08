@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Downloads the latest release of CEmu from GitHub.</string>
+    <string>Downloads the latest release of CEmu from GitHub. GITHUB_ARCHITECTURE can be either 'arm' or 'intel'.</string>
     <key>Identifier</key>
     <string>com.github.nstrauss.download.CEmu</string>
     <key>Input</key>
