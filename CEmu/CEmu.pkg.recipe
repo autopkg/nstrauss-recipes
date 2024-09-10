@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Downloads the latest release of CEmu from GitHub and builds a package.</string>
+    <string>Downloads the latest release of CEmu from GitHub and builds a package. GITHUB_ARCHITECTURE can be either 'arm' or 'intel'.</string>
     <key>Identifier</key>
     <string>com.github.nstrauss.pkg.CEmu</string>
     <key>Input</key>
@@ -20,6 +20,11 @@
         <dict>
             <key>Processor</key>
             <string>AppPkgCreator</string>
+            <key>Arguments</key>
+            <dict>
+                <key>pkg_path</key>
+                <string>%RECIPE_CACHE_DIR%/%NAME%-%GITHUB_ARCHITECTURE%-%version%.pkg</string>
+            </dict>
         </dict>
     </array>
 </dict>
