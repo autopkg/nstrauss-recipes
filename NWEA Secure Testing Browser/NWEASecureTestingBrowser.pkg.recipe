@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Downloads latest NWEA Secure Testing Browser disk image and builds a package.</string>
+    <string>Downloads latest NWEA Secure Testing Browser disk image and builds a versioned package.</string>
     <key>Identifier</key>
     <string>com.github.nstrauss.pkg.NWEASecureTestingBrowser</string>
     <key>Input</key>
