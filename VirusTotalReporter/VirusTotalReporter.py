@@ -134,7 +134,7 @@ class VirusTotalReporter(Processor):
 
         raise ProcessorError("Unable to locate or execute any curl binary.")
 
-    def virustotal_api_v3(self, endpoint: str, form_data: dict = None) -> dict:
+    def virustotal_api_v3(self, endpoint: str, form_data: dict = None, time_out: int = 30) -> dict:
         """Get data from the VirusTotal API using a specified endpoint."""
         url = f"https://www.virustotal.com/api/v3{endpoint}"
         if form_data:
@@ -145,7 +145,7 @@ class VirusTotalReporter(Processor):
         request = Request(url, headers={"x-apikey": self.api_key()}, data=form_data)
 
         try:
-            response = opener.open(request, timeout=30)
+            response = opener.open(request, timeout=time_out)
         except URLError as err:
             raise ProcessorError(f"Failed to reach VirusTotal server: {err.reason}")
         except TimeoutError:
@@ -328,16 +328,15 @@ class VirusTotalReporter(Processor):
                 self.output(
                     "WARNING: File size is over 650 MB. Too large to submit to VirusTotal for analysis."
                 )
-                download_url = self.env.get("url")
+                download_url = self.env.get("url", None)
                 if self.env.get("url_analysis_fallback") is True and download_url:
                     self.output(
                         "Falling back to get analysis report from download URL instead."
                     )
                     url_identifier = self.get_base64_unpadded(download_url)
                     report, report_status_code = self.virustotal_api_v3(
-                        f"/urls/{url_identifier}"
+                        f"/urls/{url_identifier}", None, self.env['submission_timeout']
                     )
-
                     if report_status_code == 200:
                         self.process_summary_results(report, input_path)
                         return
