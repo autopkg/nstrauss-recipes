@@ -96,6 +96,11 @@ class VirusTotalReporter(Processor):
             "required": False,
             "description": "Timeout in seconds to wait for a newly submitted file report to be generated.",
         },
+        "url": {
+            "default": "",
+            "required": False,
+            "description": "The download URL to use when the file is over 650 MB.",
+        },
         "url_analysis_fallback": {
             "default": True,
             "required": False,
