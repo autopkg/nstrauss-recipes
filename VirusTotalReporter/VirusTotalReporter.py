@@ -94,7 +94,7 @@ class VirusTotalReporter(Processor):
         "submission_timeout": {
             "default": 300,
             "required": False,
-            "description": "Timeout in seconds to wait for a newly submitted file report to be generated.",
+            "description": "Timeout in seconds to wait for a newly submitted report to be generated.",
         },
         "url": {
             "default": "",
@@ -139,7 +139,7 @@ class VirusTotalReporter(Processor):
 
         raise ProcessorError("Unable to locate or execute any curl binary.")
 
-    def virustotal_api_v3(self, endpoint: str, form_data: dict = None) -> dict:
+    def virustotal_api_v3(self, endpoint: str, form_data: dict = None, api_timeout: int = 30) -> dict:
         """Get data from the VirusTotal API using a specified endpoint."""
         url = f"https://www.virustotal.com/api/v3{endpoint}"
         if form_data:
@@ -150,7 +150,7 @@ class VirusTotalReporter(Processor):
         request = Request(url, headers={"x-apikey": self.api_key()}, data=form_data)
 
         try:
-            response = opener.open(request, timeout=30)
+            response = opener.open(request, timeout=api_timeout)
         except URLError as err:
             raise ProcessorError(f"Failed to reach VirusTotal server: {err.reason}")
         except TimeoutError:
@@ -340,7 +340,7 @@ class VirusTotalReporter(Processor):
                     )
                     url_identifier = self.get_base64_unpadded(download_url)
                     report, report_status_code = self.virustotal_api_v3(
-                        f"/urls/{url_identifier}"
+                        f"/urls/{url_identifier}", None, self.env["submission_timeout"]
                     )
 
                     if report_status_code == 200:
