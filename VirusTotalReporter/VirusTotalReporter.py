@@ -139,7 +139,9 @@ class VirusTotalReporter(Processor):
 
         raise ProcessorError("Unable to locate or execute any curl binary.")
 
-    def virustotal_api_v3(self, endpoint: str, form_data: dict = None, api_timeout: int = 30) -> dict:
+    def virustotal_api_v3(
+        self, endpoint: str, form_data: dict = None, api_timeout: int = 30
+    ) -> dict:
         """Get data from the VirusTotal API using a specified endpoint."""
         url = f"https://www.virustotal.com/api/v3{endpoint}"
         if form_data:
