@@ -14,7 +14,7 @@
     <key>MinimumVersion</key>
     <string>1.0</string>
     <key>ParentRecipe</key>
-    <string>com.github.nstrauss.download.Anki</string>
+    <string>com.github.hansen-m.download.Anki</string>
     <key>Process</key>
     <array>
         <dict>
