@@ -3,13 +3,13 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Downloads the latest version of Autodesk Fusion 360 for Education.</string>
+    <string>Downloads the latest version of Autodesk Fusion.</string>
     <key>Identifier</key>
     <string>com.github.nstrauss.download.AutodeskFusion360</string>
     <key>Input</key>
     <dict>
         <key>NAME</key>
-        <string>Autodesk Fusion 360</string>
+        <string>Autodesk Fusion</string>
         <key>DOWNLOAD_URL</key>
         <string>https://dl.appstreaming.autodesk.com/production/installers/Autodesk%20Fusion%20Admin%20Install.pkg</string>
     </dict>
@@ -21,7 +21,7 @@
             <key>Arguments</key>
             <dict>
                 <key>filename</key>
-                <string>AutodeskFusion360.pkg</string>
+                <string>AutodeskFusion.pkg</string>
                 <key>url</key>
                 <string>%DOWNLOAD_URL%</string>
             </dict>
