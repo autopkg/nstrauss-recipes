@@ -32,6 +32,15 @@ Process:
           not_installed=0
           target_version="%version%"
 
+          # Get the current user
+          current_user="$(/usr/bin/stat -f%Su /dev/console)"
+
+          # If we're at the login window, Homebrew's .pkg will fail to install
+          if [[ $current_user == "root" || $current_user == "_mbsetupuser" || $current_user == "loginwindow" ]]; then
+            /bin/echo "No user account is logged in, so considering \"installed\" for now."
+            exit "$installed"
+          fi
+
           if [[ $(uname -m) == "x86_64" ]]; then
             brew="/usr/local/Homebrew/bin/brew"
           else
@@ -39,17 +48,18 @@ Process:
           fi
 
           if [[ ! -f "$brew" ]]; then
+            /bin/echo "$brew doesn't exist."
             exit "$not_installed"
           fi
 
-          current_version=$($brew --version | /usr/bin/head -n 1 | /usr/bin/awk '{ print $2 }')
+          current_version=$(/usr/bin/su -l $current_user -c "$brew --version" | /usr/bin/head -n 1 | /usr/bin/awk '{ print $2 }')
 
-          if [[ "$current_version" != "$target_version" ]]; then
-              exit "$not_installed"
-          elif [[ "$current_version" == "$target_version" ]]; then
-              exit "$installed"
+          if [[ "$current_version" == "$target_version" ]]; then
+            /bin/echo "$target_version is installed."
+            exit "$installed"
           else
-              exit "$not_installed"
+            /bin/echo "$current_version isn't $target_version."
+            exit "$not_installed"
           fi
 
   - Processor: MunkiImporter
