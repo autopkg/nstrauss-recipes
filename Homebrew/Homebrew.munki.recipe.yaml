@@ -44,6 +44,13 @@ Process:
             homebrew_pkg_user=$(echo "show State:/Users/ConsoleUser" | scutil | awk '/Name :/ { print $3 }')
           fi
 
+          non_users=(_mbsetupuser loginwindow root)
+          if [[ ${non_users[(r)$homebrew_pkg_user]} == $homebrew_pkg_user ]]
+          then
+            /bin/echo "No user account is logged in, so considering \"installed\" for now."
+            exit "$installed"
+          fi
+
           if [[ $(uname -m) == "x86_64" ]]; then
             brew="/usr/local/Homebrew/bin/brew"
           else
