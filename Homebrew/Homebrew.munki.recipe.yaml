@@ -34,13 +34,14 @@ Process:
           not_installed=0
           target_version="%version%"
 
-          # Get the current user
-          current_user="$(/usr/bin/stat -f%Su /dev/console)"
-
-          # If we're at the login window, Homebrew's .pkg will fail to install
-          if [[ $current_user == "root" || $current_user == "_mbsetupuser" || $current_user == "loginwindow" ]]; then
-            /bin/echo "No user account is logged in, so considering \"installed\" for now."
-            exit "$installed"
+          # optionally define an install user at /var/tmp/.homebrew_pkg_user.plist
+          homebrew_pkg_user_plist="/var/tmp/.homebrew_pkg_user.plist"
+          if [[ -f "${homebrew_pkg_user_plist}" ]] && [[ -n $(defaults read "${homebrew_pkg_user_plist}" HOMEBREW_PKG_USER) ]]
+          then
+            homebrew_pkg_user=$(defaults read /var/tmp/.homebrew_pkg_user HOMEBREW_PKG_USER)
+          # otherwise, get valid logged in user
+          else
+            homebrew_pkg_user=$(echo "show State:/Users/ConsoleUser" | scutil | awk '/Name :/ { print $3 }')
           fi
 
           if [[ $(uname -m) == "x86_64" ]]; then
@@ -54,7 +55,7 @@ Process:
             exit "$not_installed"
           fi
 
-          current_version=$(/usr/bin/su -l $current_user -c "$brew --version" | /usr/bin/head -n 1 | /usr/bin/awk '{ print $2 }')
+          current_version=$(/usr/bin/su -l $homebrew_pkg_user -c "$brew --version" | /usr/bin/head -n 1 | /usr/bin/awk '{ print $2 }')
 
           if  is-at-least "$target_version" "$current_version"; then
             /bin/echo "$current_version is greater than or equal to $target_version"
