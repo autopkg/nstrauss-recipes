@@ -28,6 +28,8 @@ Process:
         installcheck_script: |
           #!/bin/zsh
 
+          autoload is-at-least
+
           installed=1
           not_installed=0
           target_version="%version%"
@@ -54,11 +56,11 @@ Process:
 
           current_version=$(/usr/bin/su -l $current_user -c "$brew --version" | /usr/bin/head -n 1 | /usr/bin/awk '{ print $2 }')
 
-          if [[ "$current_version" == "$target_version" ]]; then
-            /bin/echo "$target_version is installed."
+          if  is-at-least "$target_version" "$current_version"; then
+            /bin/echo "$current_version is greater than or equal to $target_version"
             exit "$installed"
           else
-            /bin/echo "$current_version isn't $target_version."
+            /bin/echo "$current_version isn't at least $target_version."
             exit "$not_installed"
           fi
 
