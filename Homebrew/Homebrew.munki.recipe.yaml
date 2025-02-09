@@ -36,8 +36,7 @@ Process:
 
           # optionally define an install user at /var/tmp/.homebrew_pkg_user.plist
           homebrew_pkg_user_plist="/var/tmp/.homebrew_pkg_user.plist"
-          if [[ -f "${homebrew_pkg_user_plist}" ]] && [[ -n $(defaults read "${homebrew_pkg_user_plist}" HOMEBREW_PKG_USER) ]]
-          then
+          if [[ -f "${homebrew_pkg_user_plist}" ]] && [[ -n $(defaults read "${homebrew_pkg_user_plist}" HOMEBREW_PKG_USER) ]]; then
             homebrew_pkg_user=$(defaults read /var/tmp/.homebrew_pkg_user HOMEBREW_PKG_USER)
           # otherwise, get valid logged in user
           else
@@ -45,9 +44,8 @@ Process:
           fi
 
           non_users=(_mbsetupuser loginwindow root)
-          if [[ ${non_users[(r)$homebrew_pkg_user]} == $homebrew_pkg_user ]]
-          then
-            /bin/echo "No user account is logged in, so considering \"installed\" for now."
+          if [[ ${non_users[(r)$homebrew_pkg_user]} == "$homebrew_pkg_user" ]]; then
+            /bin/echo "No valid Homebrew package user available or at the login window. Considering \"installed\" for now."
             exit "$installed"
           fi
 
@@ -63,8 +61,7 @@ Process:
           fi
 
           current_version=$(/usr/bin/su -l $homebrew_pkg_user -c "$brew --version" | /usr/bin/head -n 1 | /usr/bin/awk '{ print $2 }')
-
-          if  is-at-least "$target_version" "$current_version"; then
+          if is-at-least "$target_version" "$current_version"; then
             /bin/echo "$current_version is greater than or equal to $target_version"
             exit "$installed"
           else
