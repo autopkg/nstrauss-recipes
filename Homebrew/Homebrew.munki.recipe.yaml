@@ -56,16 +56,16 @@ Process:
           fi
 
           if [[ ! -f "$brew" ]]; then
-            /bin/echo "$brew doesn't exist."
+            /bin/echo "$brew doesn't exist. Not installed."
             exit "$not_installed"
           fi
 
           current_version=$(/usr/bin/su -l $homebrew_pkg_user -c "$brew --version" | /usr/bin/head -n 1 | /usr/bin/awk '{ print $2 }')
           if is-at-least "$target_version" "$current_version"; then
-            /bin/echo "$current_version is greater than or equal to $target_version"
+            /bin/echo "$current_version is greater than or equal to $target_version. Already installed."
             exit "$installed"
           else
-            /bin/echo "$current_version isn't at least $target_version."
+            /bin/echo "$current_version isn't at least $target_version. Not installed."
             exit "$not_installed"
           fi
 
