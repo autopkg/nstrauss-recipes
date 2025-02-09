@@ -28,9 +28,26 @@ Process:
         installcheck_script: |
           #!/bin/zsh
 
+          autoload is-at-least
+
           installed=1
           not_installed=0
           target_version="%version%"
+
+          # optionally define an install user at /var/tmp/.homebrew_pkg_user.plist
+          homebrew_pkg_user_plist="/var/tmp/.homebrew_pkg_user.plist"
+          if [[ -f "${homebrew_pkg_user_plist}" ]] && [[ -n $(defaults read "${homebrew_pkg_user_plist}" HOMEBREW_PKG_USER) ]]; then
+            homebrew_pkg_user=$(defaults read /var/tmp/.homebrew_pkg_user HOMEBREW_PKG_USER)
+          # otherwise, get valid logged in user
+          else
+            homebrew_pkg_user=$(echo "show State:/Users/ConsoleUser" | scutil | awk '/Name :/ { print $3 }')
+          fi
+
+          non_users=(_mbsetupuser loginwindow root)
+          if [[ ${non_users[(r)$homebrew_pkg_user]} == "$homebrew_pkg_user" ]]; then
+            /bin/echo "No valid Homebrew package user available or at the login window. Considering \"installed\" for now."
+            exit "$installed"
+          fi
 
           if [[ $(uname -m) == "x86_64" ]]; then
             brew="/usr/local/Homebrew/bin/brew"
@@ -39,17 +56,17 @@ Process:
           fi
 
           if [[ ! -f "$brew" ]]; then
+            /bin/echo "$brew doesn't exist. Not installed."
             exit "$not_installed"
           fi
 
-          current_version=$($brew --version | /usr/bin/head -n 1 | /usr/bin/awk '{ print $2 }')
-
-          if [[ "$current_version" != "$target_version" ]]; then
-              exit "$not_installed"
-          elif [[ "$current_version" == "$target_version" ]]; then
-              exit "$installed"
+          current_version=$(/usr/bin/su -l $homebrew_pkg_user -c "$brew --version" | /usr/bin/head -n 1 | /usr/bin/awk '{ print $2 }')
+          if is-at-least "$target_version" "$current_version"; then
+            /bin/echo "$current_version is greater than or equal to $target_version. Already installed."
+            exit "$installed"
           else
-              exit "$not_installed"
+            /bin/echo "$current_version isn't at least $target_version. Not installed."
+            exit "$not_installed"
           fi
 
   - Processor: MunkiImporter
