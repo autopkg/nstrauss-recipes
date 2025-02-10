@@ -24,7 +24,21 @@ Input:
 Process:
   - Processor: MunkiPkginfoMerger
     Arguments:
-      additional_pkginfo: 
+      additional_pkginfo:
+        preinstall_script: |
+          #!/bin/zsh
+
+          if [[ $(uname -m) == "x86_64" ]]; then
+            brew_dir="/usr/local/Homebrew"
+          else
+            brew_dir="/opt/homebrew"
+          fi
+
+          if [[ -d $brew_dir ]]; then
+            /bin/echo "For clean upgrade, removing existing $brew_dir..."
+            /bin/rm -rf $brew_dir
+          fi
+
         installcheck_script: |
           #!/bin/zsh
 
