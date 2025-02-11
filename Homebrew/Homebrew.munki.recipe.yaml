@@ -34,9 +34,9 @@ Process:
           )
 
           if [[ $(uname -m) == "x86_64" ]]; then
-            brew_dir="/usr/local/Homebrew"
+              brew_dir="/usr/local/Homebrew"
           else
-            brew_dir="/opt/homebrew"
+              brew_dir="/opt/homebrew"
           fi
 
           for subdir in $subdirs; do
