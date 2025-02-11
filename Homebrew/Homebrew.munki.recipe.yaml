@@ -28,16 +28,23 @@ Process:
         preinstall_script: |
           #!/bin/zsh
 
+          subdirs=(
+              ".git"
+              "Library/Homebrew"
+          )
+
           if [[ $(uname -m) == "x86_64" ]]; then
             brew_dir="/usr/local/Homebrew"
           else
             brew_dir="/opt/homebrew"
           fi
 
-          if [[ -d $brew_dir ]]; then
-            /bin/echo "For clean upgrade, removing existing $brew_dir..."
-            /bin/rm -rf $brew_dir
-          fi
+          for subdir in $subdirs; do
+              if [[ -d "$brew_dir/$subdir" ]]; then
+                  /bin/echo "Deleting $brew_dir/$subdir for clean upgrade..."
+                  /bin/rm -rf $brew_dir/$subdir
+              fi
+          done
 
         installcheck_script: |
           #!/bin/zsh
