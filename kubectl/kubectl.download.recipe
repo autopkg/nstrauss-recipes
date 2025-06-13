@@ -13,7 +13,7 @@ Intel (amd64) or Apple silicon (arm64) version.
     <key>Input</key>
     <dict>
         <key>KUBECTL_ARCH</key>
-        <string>amd64</string>
+        <string>arm64</string>
         <key>NAME</key>
         <string>kubectl</string>
     </dict>
@@ -29,7 +29,7 @@ Intel (amd64) or Apple silicon (arm64) version.
                 <key>result_output_var_name</key>
                 <string>version</string>
                 <key>url</key>
-                <string>https://storage.googleapis.com/kubernetes-release/release/stable.txt</string>
+                <string>https://dl.k8s.io/release/stable.txt</string>
             </dict>
             <key>Processor</key>
             <string>URLTextSearcher</string>
@@ -38,7 +38,7 @@ Intel (amd64) or Apple silicon (arm64) version.
             <key>Arguments</key>
             <dict>
                 <key>url</key>
-                <string>https://storage.googleapis.com/kubernetes-release/release/v%version%/bin/darwin/%KUBECTL_ARCH%/kubectl</string>
+                <string>https://dl.k8s.io/release/v%version%/bin/darwin/%KUBECTL_ARCH%/kubectl</string>
             </dict>
             <key>Processor</key>
             <string>URLDownloader</string>
