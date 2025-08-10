@@ -29,6 +29,7 @@ import os
 import ssl
 import subprocess
 import time
+import random
 from urllib.error import URLError
 from urllib.parse import urlencode
 from urllib.request import HTTPErrorProcessor, HTTPSHandler, Request, build_opener
@@ -91,8 +92,13 @@ class VirusTotalReporter(Processor):
             "required": False,
             "description": "Write the full VirusTotal report to JSON at the configured path.",
         },
+        "max_backoff_timeout": {
+            "default": 600,
+            "required": False,
+            "description": "Maximum total time in seconds to spend on exponential backoff retries when API quota is exceeded.",
+        },
         "submission_timeout": {
-            "default": 300,
+            "default": 600,
             "required": False,
             "description": "Timeout in seconds to wait for a newly submitted report to be generated.",
         },
@@ -139,26 +145,97 @@ class VirusTotalReporter(Processor):
 
         raise ProcessorError("Unable to locate or execute any curl binary.")
 
+    def with_exponential_backoff(self, func, *args, **kwargs):
+        """
+        Wrapper function that implements exponential backoff for VirusTotal API calls.
+
+        Args:
+            func: The function to call (should return tuple of (result, status_code))
+            *args, **kwargs: Arguments to pass to the function
+
+        Returns:
+            tuple: (result, status_code) from the successful API call
+
+        Raises:
+            ProcessorError: If max backoff timeout is exceeded or other errors occur
+        """
+        max_timeout = int(self.env.get("max_backoff_timeout", 600))
+        base_delay = 1  # Start with 1 second
+        max_delay = 60  # Cap individual delays at 60 seconds
+        total_time = 0
+        attempt = 0
+
+        while total_time < max_timeout:
+            try:
+                result, status_code = func(*args, **kwargs)
+
+                # Check if the result indicates a quota exceeded error
+                if (
+                    isinstance(result, dict)
+                    and result.get("code") == "QuotaExceededError"
+                ):
+
+                    # Calculate delay with exponential backoff and jitter
+                    delay = min(base_delay * (2**attempt), max_delay)
+                    # Add jitter (±25% of delay) to avoid thundering herd
+                    jitter = delay * 0.25 * (2 * random.random() - 1)
+                    actual_delay = delay + jitter
+
+                    # Check if we have time for this delay
+                    if total_time + actual_delay >= max_timeout:
+                        break
+
+                    self.output(
+                        f"VirusTotal quota exceeded. Retrying in {actual_delay:.1f} seconds "
+                        f"(attempt {attempt + 1}, total wait time: {total_time:.1f}s)"
+                    )
+
+                    time.sleep(actual_delay)
+                    total_time += actual_delay
+                    attempt += 1
+                    continue
+
+                # Success or other type of error - return immediately
+                return result, status_code
+
+            except Exception as e:
+                # For non-quota errors, don't retry
+                raise e
+
+        # If we get here, we've exceeded the max backoff timeout
+        raise ProcessorError(
+            f"VirusTotal quota exceeded error persisted after {max_timeout} seconds of retries. "
+            "Try increasing max_backoff_timeout or reducing API usage frequency."
+        )
+
     def virustotal_api_v3(
         self, endpoint: str, form_data: dict = None, api_timeout: int = 30
     ) -> dict:
         """Get data from the VirusTotal API using a specified endpoint."""
-        url = f"https://www.virustotal.com/api/v3{endpoint}"
-        if form_data:
-            form_data = urlencode(form_data).encode("utf-8")
 
-        https_handler = HTTPSHandler(context=self.default_ssl_context())
-        opener = build_opener(https_handler, NoExceptionHTTPErrorProcessor())
-        request = Request(url, headers={"x-apikey": self.api_key()}, data=form_data)
+        def _make_api_call():
+            url = f"https://www.virustotal.com/api/v3{endpoint}"
+            if form_data:
+                form_data_encoded = urlencode(form_data).encode("utf-8")
+            else:
+                form_data_encoded = None
 
-        try:
-            response = opener.open(request, timeout=api_timeout)
-        except URLError as err:
-            raise ProcessorError(f"Failed to reach VirusTotal server: {err.reason}")
-        except TimeoutError:
-            raise ProcessorError("VirusTotal API response timed out.")
+            https_handler = HTTPSHandler(context=self.default_ssl_context())
+            opener = build_opener(https_handler, NoExceptionHTTPErrorProcessor())
+            request = Request(
+                url, headers={"x-apikey": self.api_key()}, data=form_data_encoded
+            )
 
-        return self.load_api_json(response.read()), response.status
+            try:
+                response = opener.open(request, timeout=api_timeout)
+            except URLError as err:
+                raise ProcessorError(f"Failed to reach VirusTotal server: {err.reason}")
+            except TimeoutError:
+                raise ProcessorError("VirusTotal API response timed out.")
+
+            return self.load_api_json(response.read()), response.status
+
+        return self.with_exponential_backoff(_make_api_call)
 
     def curl_new_file(self, input_path: str) -> dict:
         """
@@ -167,30 +244,38 @@ class VirusTotalReporter(Processor):
 
         First get a one time upload URL to support a max file size limit of 650 MB.
         """
-        upload_url, _ = self.virustotal_api_v3("/files/upload_url")
-        cmd = [
-            self.curl_binary(),
-            "--request",
-            "POST",
-            "--url",
-            upload_url,
-            "--header",
-            "accept: application/json",
-            "--header",
-            "content-type: multipart/form-data",
-            "--header",
-            f"x-apikey: {self.api_key()}",
-            "--form",
-            f"file=@{input_path}",
-        ]
 
-        try:
-            submit = subprocess.run(cmd, capture_output=True, check=True, text=True)
-        except subprocess.CalledProcessError as err:
-            self.output(f"ERROR: {err.stderr.removeprefix('curl: ')}")
-            raise ProcessorError(err.stderr) from err
+        def _make_curl_call():
+            upload_url, _ = self.virustotal_api_v3("/files/upload_url")
+            cmd = [
+                self.curl_binary(),
+                "--request",
+                "POST",
+                "--url",
+                upload_url,
+                "--header",
+                "accept: application/json",
+                "--header",
+                "content-type: multipart/form-data",
+                "--header",
+                f"x-apikey: {self.api_key()}",
+                "--form",
+                f"file=@{input_path}",
+            ]
 
-        return self.load_api_json(submit.stdout)
+            try:
+                submit = subprocess.run(cmd, capture_output=True, check=True, text=True)
+            except subprocess.CalledProcessError as err:
+                self.output(f"ERROR: {err.stderr.removeprefix('curl: ')}")
+                raise ProcessorError(err.stderr) from err
+
+            result = self.load_api_json(submit.stdout)
+            # curl doesn't provide status code in the same way, so we simulate it
+            # If we got here without exception, assume success (200)
+            return result, 200
+
+        result, _ = self.with_exponential_backoff(_make_curl_call)
+        return result
 
     def submit_new(self, resource: str, identifier: str, type: str) -> dict:
         """
