@@ -83,8 +83,6 @@
                     <string>menu.nomad.login.ad</string>
                     <key>scripts</key>
                     <string>scripts</string>
-                    <key>options</key>
-                    <string>purge_ds_store</string>
                     <key>chown</key>
                     <array>
                         <dict>
