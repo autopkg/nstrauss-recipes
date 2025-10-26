@@ -3,13 +3,20 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Download the latest release of the OpenWebStart installer from GitHub.</string>
+    <string>Download the latest release of the OpenWebStart installer from GitHub.
+    
+Acceptable values for ARCH include:
+- aarch64 (Apple Silicon, default)
+- x64 (Intel)
+</string>
     <key>Identifier</key>
     <string>com.github.nstrauss.download.OpenWebStart</string>
     <key>Input</key>
     <dict>
         <key>NAME</key>
         <string>OpenWebStart</string>
+        <key>ARCH</key>
+        <string>aarch64</string>
     </dict>
     <key>MinimumVersion</key>
     <string>1.0</string>
@@ -19,7 +26,7 @@
             <key>Arguments</key>
             <dict>
                 <key>asset_regex</key>
-                <string>^.*(macos).*$</string>
+                <string>OpenWebStart_macos-%ARCH%.+\.dmg$</string>
                 <key>github_repo</key>
                 <string>karakun/OpenWebStart</string>
             </dict>
