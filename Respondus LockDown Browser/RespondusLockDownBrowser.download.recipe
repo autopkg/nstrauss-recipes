@@ -76,6 +76,10 @@
             <string>URLDownloader</string>
         </dict>
         <dict>
+            <key>Processor</key>
+            <string>EndOfCheckPhase</string>
+        </dict>
+        <dict>
             <key>Arguments</key>
             <dict>
                 <key>archive_path</key>
@@ -87,10 +91,6 @@
             </dict>
             <key>Processor</key>
             <string>Unarchiver</string>
-        </dict>
-        <dict>
-            <key>Processor</key>
-            <string>EndOfCheckPhase</string>
         </dict>
         <dict>
             <key>Arguments</key>
