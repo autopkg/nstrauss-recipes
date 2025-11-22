@@ -24,4 +24,6 @@ Process:
     Arguments:
       url: "%chrome_download_url%"
 
+  - Processor: EndOfCheckPhase
+
   - Processor: Unarchiver
