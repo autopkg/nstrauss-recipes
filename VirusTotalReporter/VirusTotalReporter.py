@@ -258,12 +258,14 @@ class VirusTotalReporter(Processor):
             raise ProcessorError(f"Couldn't get VirusTotal API data. Error:\n {data}")
 
     def process_summary_results(self, report: dict, input_path: str):
-        """Write VirusTotal report data."""
-        last_analysis_stats = report.get("attributes").get("last_analysis_stats")
-        harmless = last_analysis_stats.get("harmless", 0)
-        malicious = last_analysis_stats.get("malicious", 0)
-        suspicious = last_analysis_stats.get("suspicious", 0)
-        undetected = last_analysis_stats.get("undetected", 0)
+        """Write VirusTotal report data.""" 
+        analysis_stats = report.get("attributes").get("last_analysis_stats")
+        if not analysis_stats:
+            analysis_stats = report.get("attributes").get("stats")
+        harmless = analysis_stats.get("harmless", 0)
+        malicious = analysis_stats.get("malicious", 0)
+        suspicious = analysis_stats.get("suspicious", 0)
+        undetected = analysis_stats.get("undetected", 0)
         total_detected = malicious + suspicious
         total = harmless + malicious + suspicious + undetected
 
