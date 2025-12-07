@@ -5,7 +5,7 @@ Description: |
   DOWNLOAD_VERSION: latest or a quoted version string e.g. "116.0.5845.96"
   RELEASE_CHANNEL: Stable, Beta, Dev, or Canary
 Identifier: com.github.nstrauss.download.ChromeforTesting
-MinimumVersion: "2.3"
+MinimumVersion: "2.4.1"
 
 Input:
   NAME: Chrome for Testing

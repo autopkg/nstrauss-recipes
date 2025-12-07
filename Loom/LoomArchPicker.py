@@ -28,9 +28,15 @@ class LoomArchPicker(URLGetter):
 
     description = __doc__
     input_variables = {
-        "loom_arch": {"required": False, "default": "x86", "descripton": "x86 or arm64. Defaults to x86.",},
+        "loom_arch": {
+            "required": False,
+            "default": "x86",
+            "descripton": "x86 or arm64. Defaults to x86.",
+        },
     }
-    output_variables = {"loom_url": {"description": "Loom download URL for the specificed arch."}}
+    output_variables = {
+        "loom_url": {"description": "Loom download URL for the specificed arch."}
+    }
 
     def main(self):
         loom_arch = self.env.get("loom_arch")
@@ -42,7 +48,7 @@ class LoomArchPicker(URLGetter):
         elif loom_arch == "arm64":
             self.env["loom_url"] = json.loads(response)["urls"][1]
         else:
-            self.env["loom_url"] = json.loads(response)["urls"][0] 
+            self.env["loom_url"] = json.loads(response)["urls"][0]
 
         self.output("{}".format(self.env["loom_url"]))
 

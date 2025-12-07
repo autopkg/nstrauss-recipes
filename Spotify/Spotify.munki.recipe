@@ -54,7 +54,7 @@ https://github.com/autopkg/recipes/issues/196
         </dict>
     </dict>
     <key>MinimumVersion</key>
-    <string>0.2.0</string>
+    <string>0.2.5</string>
     <key>ParentRecipe</key>
     <string>com.github.autopkg.download.Spotify</string>
     <key>Process</key>
