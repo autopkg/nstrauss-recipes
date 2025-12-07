@@ -38,7 +38,9 @@
             <key>unattended_uninstall</key>
             <true/>
             <key>supported_architectures</key>
-            <string>%DEVSPACE_ARCH%</string>
+            <array>
+                <string>%DEVSPACE_ARCH%</string>
+            </array>
         </dict>
     </dict>
     <key>MinimumVersion</key>

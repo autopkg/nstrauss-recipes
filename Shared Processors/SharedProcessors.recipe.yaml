@@ -1,0 +1,6 @@
+Description: Stub recipe for shared processors.
+Identifier: com.github.nstrauss.SharedProcessors
+MinimumVersion: "2.3"
+
+Input: {}
+Process: []

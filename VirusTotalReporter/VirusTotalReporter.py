@@ -258,7 +258,7 @@ class VirusTotalReporter(Processor):
             raise ProcessorError(f"Couldn't get VirusTotal API data. Error:\n {data}")
 
     def process_summary_results(self, report: dict, input_path: str):
-        """Write VirusTotal report data.""" 
+        """Write VirusTotal report data."""
         analysis_stats = report.get("attributes").get("last_analysis_stats")
         if not analysis_stats:
             analysis_stats = report.get("attributes").get("stats")
@@ -344,7 +344,9 @@ class VirusTotalReporter(Processor):
                     )
                     url_identifier = self.get_base64_unpadded(download_url)
                     report, report_status_code = self.virustotal_api_v3(
-                        f"/urls/{url_identifier}", None, int(self.env.get("submission_timeout"))
+                        f"/urls/{url_identifier}",
+                        None,
+                        int(self.env.get("submission_timeout")),
                     )
 
                     if report_status_code == 200:

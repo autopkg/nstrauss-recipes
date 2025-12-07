@@ -29,7 +29,7 @@
             <key>category</key>
             <string>%MUNKI_CATEGORY%</string>
             <key>description</key>
-            <string></string>
+            <string>placeholder</string>
             <key>developer</key>
             <string></string>
             <key>display_name</key>

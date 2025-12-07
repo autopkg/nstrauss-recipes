@@ -28,7 +28,7 @@
                 <string>onvue_osx_latest_version</string>
             </dict>
             <key>Processor</key>
-            <string>SimpleJSONParser</string>
+            <string>com.github.nstrauss.SharedProcessors/SimpleJSONParser</string>
         </dict>
         <dict>
             <key>Arguments</key>

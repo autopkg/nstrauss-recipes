@@ -35,9 +35,9 @@
             <key>Arguments</key>
             <dict>
                 <key>destination_path</key>
-                <string>%RECIPE_CACHE_DIR%/pkg/private/tmp/%NAME%.app</string>
+                <string>%RECIPE_CACHE_DIR%/pkg/private/tmp/OpenWebStart.app</string>
                 <key>source_path</key>
-                <string>%RECIPE_CACHE_DIR%/downloads/%NAME%-%version%.dmg/OpenWebStart Installer.app</string>
+                <string>%RECIPE_CACHE_DIR%/downloads/OpenWebStart-%version%.dmg/OpenWebStart Installer.app</string>
             </dict>
         <key>Processor</key>
         <string>Copier</string>
