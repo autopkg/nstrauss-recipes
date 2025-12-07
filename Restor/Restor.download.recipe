@@ -39,12 +39,12 @@
             <key>Processor</key>
             <string>EndOfCheckPhase</string>
         </dict>
-        <dict>   
-        <key>Processor</key>   
-        <string>CodeSignatureVerifier</string>   
-        <key>Arguments</key>   
-            <dict>   
-                <key>input_path</key>   
+        <dict>
+        <key>Processor</key>
+        <string>CodeSignatureVerifier</string>
+        <key>Arguments</key>
+            <dict>
+                <key>input_path</key>
                 <string>%pathname%/Restor.app</string>
                 <key>requirement</key>
                 <string>anchor apple generic and certificate leaf[subject.OU] = EQHXZ8M8AV</string>

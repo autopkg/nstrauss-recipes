@@ -3,8 +3,8 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Download the latest version of Okta Verify. 
-    
+    <string>Download the latest version of Okta Verify.
+
     OKTA_DOMAIN: Usually "okta.com"
     OKTA_ORG: Org tenant - "myorg" part of a subdomain like "myorg.okta.com"
     OKTA_RELEASE_CHANNEL: GA or EA

@@ -17,4 +17,3 @@ ows.update.strategy.launch=NEVER
 ows.update.strategy.launch.locked=true
 deployment.proxy.bypass.local=false
 deployment.proxy.type=0
-

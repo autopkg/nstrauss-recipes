@@ -24,8 +24,7 @@ class LightspeedRelaySmartAgentVersioner(Processor):
     input_variables = {
         "mobilefilter_path": {
             "required": True,
-            "description":
-                "path to mobilefilter binary.",
+            "description": "path to mobilefilter binary.",
         },
     }
     output_variables = {
@@ -44,6 +43,6 @@ class LightspeedRelaySmartAgentVersioner(Processor):
         self.output("Found version %s" % (self.env["version"]))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     processor = LightspeedRelaySmartAgentVersioner()
     processor.execute_shell()

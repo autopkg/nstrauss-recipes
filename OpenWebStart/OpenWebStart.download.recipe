@@ -4,7 +4,7 @@
 <dict>
     <key>Description</key>
     <string>Download the latest release of the OpenWebStart installer from GitHub.
-    
+
 Acceptable values for ARCH include:
 - aarch64 (Apple Silicon, default)
 - x64 (Intel)

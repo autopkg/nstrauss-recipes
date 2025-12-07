@@ -12,7 +12,7 @@
         <key>NAME</key>
         <string>OBS</string>
         <key>ARCH</key>
-        <string>intel</string>        
+        <string>intel</string>
         <key>RE_PATTERN</key>
         <string>href="(.*?%ARCH%.dmg)"</string>
         <key>SEARCH_URL</key>
