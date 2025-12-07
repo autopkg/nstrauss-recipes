@@ -9,7 +9,7 @@
     <key>Input</key>
     <dict>
         <key>NAME</key>
-        <string>Dremel DigiLab 3D Slicer</string> 
+        <string>Dremel DigiLab 3D Slicer</string>
     </dict>
     <key>ParentRecipe</key>
     <string>com.github.nstrauss.download.DremelDigiLab3DSlicer</string>

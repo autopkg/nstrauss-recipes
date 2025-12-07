@@ -60,7 +60,7 @@ Input:
 Though by default only detection values are included, the full, unredacted report direct from the VirusTotal API is available either through summary results or by writing JSON to a configured path. Set `output_full_report` to include in a recipe's report plist in `virus_total_analyzer_summary_result`. Set `json_report_path` to generate a JSON a report. When using `json_report_path` as a command line argument like `--key json_report_path=/my/full/path/report.json`, an absolute path must be used.
 
 ## curl
-There is support for `URLGetter`'s method of finding and defining the path to a `curl` binary. `CURL_PATH` can be set to use a custom path. 
+There is support for `URLGetter`'s method of finding and defining the path to a `curl` binary. `CURL_PATH` can be set to use a custom path.
 
 https://github.com/autopkg/autopkg/wiki/Downloading-from-the-Internet-in-Custom-Processors#figuring-out-where-curl-is
 

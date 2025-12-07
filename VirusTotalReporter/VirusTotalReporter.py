@@ -342,7 +342,9 @@ class VirusTotalReporter(Processor):
                     )
                     url_identifier = self.get_base64_unpadded(download_url)
                     report, report_status_code = self.virustotal_api_v3(
-                        f"/urls/{url_identifier}", None, int(self.env.get("submission_timeout"))
+                        f"/urls/{url_identifier}",
+                        None,
+                        int(self.env.get("submission_timeout")),
                     )
 
                     if report_status_code == 200:

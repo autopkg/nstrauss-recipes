@@ -28,8 +28,14 @@ class SimpleJSONParser(URLGetter):
 
     description = __doc__
     input_variables = {
-        "json_key": {"required": True, "descripton": "JSON key value to be parsed.",},
-        "json_url": {"required": True, "description": "URL of the JSON to be parsed.",},
+        "json_key": {
+            "required": True,
+            "descripton": "JSON key value to be parsed.",
+        },
+        "json_url": {
+            "required": True,
+            "description": "URL of the JSON to be parsed.",
+        },
     }
     output_variables = {"json_value": {"description": "JSON value from input key."}}
 

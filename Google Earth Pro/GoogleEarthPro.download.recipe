@@ -45,7 +45,7 @@
             <key>Processor</key>
             <string>EndOfCheckPhase</string>
         </dict>
-        <dict>  
+        <dict>
             <key>Arguments</key>
             <dict>
                 <key>input_path</key>

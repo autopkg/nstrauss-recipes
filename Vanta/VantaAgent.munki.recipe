@@ -15,7 +15,7 @@
         <key>NAME</key>
         <string>VantaAgent</string>
         <key>VANTA_KEY</key>
-        <string></string>       
+        <string></string>
         <key>pkginfo</key>
         <dict>
             <key>catalogs</key>

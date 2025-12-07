@@ -18,7 +18,7 @@ Process:
   - Processor: CodeSignatureVerifier
     Arguments:
       input_path: "%pathname%"
-      expected_authority_names: 
+      expected_authority_names:
         - "Developer ID Installer: Patrick Linnane (927JGANW46)"
         - Developer ID Certification Authority
         - Apple Root CA
