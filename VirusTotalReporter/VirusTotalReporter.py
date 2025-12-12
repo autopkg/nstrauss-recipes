@@ -216,9 +216,13 @@ class VirusTotalReporter(Processor):
             analysis_url = submission["links"]["self"]
         except KeyError:
             if submission.get("code", None).endswith("Error"):
-                raise ProcessorError(f"Retrieving analysis URL failed with: {submission.get('code')}: "
-                  f"{submission.get('message')}")
-            raise ProcessorError(f"Submission did not return an analysis URL, please try again.")
+                raise ProcessorError(
+                    f"Retrieving analysis URL failed with: {submission.get('code')}: "
+                    f"{submission.get('message')}"
+                )
+            raise ProcessorError(
+                f"Submission did not return an analysis URL, please try again."
+            )
 
         self.output(f"Retrieved analysis URL: {analysis_url}")
 
@@ -269,13 +273,17 @@ class VirusTotalReporter(Processor):
             key = next((k for k in valid_keys if k in json_data), None)
             return json.loads(data)[key]
         except (KeyError, json.decoder.JSONDecodeError) as error_message:
-            raise ProcessorError(f"Retrieiving VirusTotal API data failed with: {error_message}")
+            raise ProcessorError(
+                f"Retrieiving VirusTotal API data failed with: {error_message}"
+            )
 
     def process_summary_results(self, report: dict, input_path: str):
         """Write VirusTotal report data."""
         if report.get("code", None):
-            raise ProcessorError(f"Retrieiving report from VirusTotal failed with: {report.get('code')}: "
-              f"{report.get('message')}")
+            raise ProcessorError(
+                f"Retrieiving report from VirusTotal failed with: {report.get('code')}: "
+                f"{report.get('message')}"
+            )
 
         try:
             analysis_stats = report.get("attributes").get("last_analysis_stats")
@@ -335,7 +343,9 @@ class VirusTotalReporter(Processor):
             self.process_summary_results(report, "")
             return
         else:
-            raise ProcessorError(f"Submitting URL for analysis failed with: {error_message}")
+            raise ProcessorError(
+                f"Submitting URL for analysis failed with: {error_message}"
+            )
 
     def main(self):
         download_url = self.env.get("url")
@@ -347,9 +357,7 @@ class VirusTotalReporter(Processor):
 
         if self.env.get("VIRUSTOTAL_URL_ANALYSIS_ONLY", False):
             if self.env.get("url_analysis_fallback") is True and download_url:
-                self.output(
-                    "Generating analysis report from download URL."
-                )
+                self.output("Generating analysis report from download URL.")
                 self.submit_url(download_url)
             else:
                 self.output(
@@ -360,7 +368,9 @@ class VirusTotalReporter(Processor):
         else:
             input_path = self.env.get("pathname", None)
             if not input_path:
-                self.output("pathname empty. No file found to analyze. Skipping processor.")
+                self.output(
+                    "pathname empty. No file found to analyze. Skipping processor."
+                )
                 return
 
             if not self.env.get("download_changed") and not self.env.get(
