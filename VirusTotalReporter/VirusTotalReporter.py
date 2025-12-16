@@ -385,6 +385,7 @@ class VirusTotalReporter(Processor):
             self.process_summary_results(report, input_path)
             return
 
+        # Get file report from VirusTotal
         file_sha256 = self.get_sha256(input_path)
         report, report_status_code = self.virustotal_api_v3(f"/files/{file_sha256}")
 
