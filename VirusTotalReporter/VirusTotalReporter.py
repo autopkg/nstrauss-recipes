@@ -77,6 +77,11 @@ class VirusTotalReporter(Processor):
             "required": False,
             "description": "When a file isn't already in VirusTotal's database, submit it for analysis. 650 MB file size limit.",
         },
+        "VIRUSTOTAL_URL_ANALYSIS_ONLY": {
+            "default": False,
+            "required": False,
+            "description": "Send the files download URL for analysis only.",
+        },
         "pathname": {
             "required": False,
             "description": "File path to analyze.",
@@ -206,7 +211,20 @@ class VirusTotalReporter(Processor):
             submission, _ = self.virustotal_api_v3("/urls", {"url": f"{resource}"})
         else:
             raise ProcessorError(f"Unknown type {type} for analysis submission.")
-        analysis_url = submission["links"]["self"]
+
+        try:
+            analysis_url = submission["links"]["self"]
+        except KeyError:
+            if submission.get("code", None).endswith("Error"):
+                raise ProcessorError(
+                    f"Retrieving analysis URL failed with: {submission.get('code')}: "
+                    f"{submission.get('message')}"
+                )
+            raise ProcessorError(
+                f"Submission did not return an analysis URL, please try again."
+            )
+
+        self.output(f"Retrieved analysis URL: {analysis_url}")
 
         timer = 0
         while True:
@@ -254,14 +272,24 @@ class VirusTotalReporter(Processor):
             json_data = json.loads(data)
             key = next((k for k in valid_keys if k in json_data), None)
             return json.loads(data)[key]
-        except (KeyError, json.decoder.JSONDecodeError):
-            raise ProcessorError(f"Couldn't get VirusTotal API data. Error:\n {data}")
+        except (KeyError, json.decoder.JSONDecodeError) as error_message:
+            raise ProcessorError(
+                f"Retrieiving VirusTotal API data failed with: {error_message}"
+            )
 
     def process_summary_results(self, report: dict, input_path: str):
         """Write VirusTotal report data."""
-        analysis_stats = report.get("attributes").get("last_analysis_stats")
-        if not analysis_stats:
+        if report.get("code", None):
+            raise ProcessorError(
+                f"Retrieiving report from VirusTotal failed with: {report.get('code')}: "
+                f"{report.get('message')}"
+            )
+
+        try:
+            analysis_stats = report.get("attributes").get("last_analysis_stats")
+        except AttributeError:
             analysis_stats = report.get("attributes").get("stats")
+
         harmless = analysis_stats.get("harmless", 0)
         malicious = analysis_stats.get("malicious", 0)
         suspicious = analysis_stats.get("suspicious", 0)
@@ -302,69 +330,87 @@ class VirusTotalReporter(Processor):
             with open(self.env.get("json_report_path"), "w", encoding="utf-8") as f:
                 json.dump(data, f, ensure_ascii=False, indent=4)
 
+    def submit_url(self, download_url: str):
+        """Submits the URL for analysis"""
+        url_identifier = self.get_base64_unpadded(download_url)
+        report, report_status_code = self.virustotal_api_v3(
+            f"/urls/{url_identifier}",
+            None,
+            int(self.env.get("submission_timeout")),
+        )
+
+        if report_status_code == 200:
+            self.process_summary_results(report, "")
+            return
+        else:
+            raise ProcessorError(
+                f"Submitting URL for analysis failed with: {error_message}"
+            )
+
     def main(self):
+        download_url = self.env.get("url")
         if self.env.get("VIRUSTOTAL_SKIP", False):
             self.output(
                 f"VIRUSTOTAL_SKIP set to {self.env.get('VIRUSTOTAL_SKIP')}. Skipping processor."
             )
             return
 
-        input_path = self.env.get("pathname", None)
-        if not input_path:
-            self.output("pathname empty. No file found to analyze. Skipping processor.")
-            return
-
-        if not self.env.get("download_changed") and not self.env.get(
-            "VIRUSTOTAL_ALWAYS_REPORT"
-        ):
-            self.output("No new downloads. Skipping processor.")
-            return
-
-        file_sha256 = self.get_sha256(input_path)
-        report, report_status_code = self.virustotal_api_v3(f"/files/{file_sha256}")
-
-        if report_status_code == 200:
-            self.process_summary_results(report, input_path)
-            return
-
-        # When there's no matching file in the VirusTotal database, submit new if configured
-        if (
-            report_status_code == 404
-            and report["code"] == "NotFoundError"
-            and self.env["VIRUSTOTAL_SUBMIT_NEW"]
-        ):
-            if round(os.path.getsize(input_path) / (1024 * 1024.0), 2) > 650:
-                self.output(
-                    "WARNING: File size is over 650 MB. Too large to submit to VirusTotal for analysis."
-                )
-                download_url = self.env.get("url")
-                if self.env.get("url_analysis_fallback") is True and download_url:
-                    self.output(
-                        "Falling back to get analysis report from download URL instead."
-                    )
-                    url_identifier = self.get_base64_unpadded(download_url)
-                    report, report_status_code = self.virustotal_api_v3(
-                        f"/urls/{url_identifier}",
-                        None,
-                        int(self.env.get("submission_timeout")),
-                    )
-
-                    if report_status_code == 200:
-                        self.process_summary_results(report, input_path)
-                        return
-
-                    report = self.submit_new(self.env.get("url"), url_identifier, "url")
-                    self.process_summary_results(report, input_path)
-                    return
+        if self.env.get("VIRUSTOTAL_URL_ANALYSIS_ONLY", False):
+            if self.env.get("url_analysis_fallback") is True and download_url:
+                self.output("Generating analysis report from download URL.")
+                self.submit_url(download_url)
+            else:
                 self.output(
                     "No download URL input variable found or "
                     "URL analysis fallback is not configured. Skipping."
                 )
+            return
+        else:
+            input_path = self.env.get("pathname", None)
+            if not input_path:
+                self.output(
+                    "pathname empty. No file found to analyze. Skipping processor."
+                )
                 return
 
-            report = self.submit_new(input_path, file_sha256, "file")
-            self.process_summary_results(report, input_path)
-            return
+            if not self.env.get("download_changed") and not self.env.get(
+                "VIRUSTOTAL_ALWAYS_REPORT"
+            ):
+                self.output("No new downloads. Skipping processor.")
+                return
+
+            file_sha256 = self.get_sha256(input_path)
+            report, report_status_code = self.virustotal_api_v3(f"/files/{file_sha256}")
+
+            if report_status_code == 200:
+                self.process_summary_results(report, input_path)
+                return
+
+            # When there's no matching file in the VirusTotal database, submit new if configured
+            if (
+                report_status_code == 404
+                and report["code"] == "NotFoundError"
+                and self.env["VIRUSTOTAL_SUBMIT_NEW"]
+            ):
+                if round(os.path.getsize(input_path) / (1024 * 1024.0), 2) > 650:
+                    self.output(
+                        "WARNING: File size is over 650 MB. Too large to submit to VirusTotal for analysis."
+                    )
+                    if self.env.get("url_analysis_fallback") is True and download_url:
+                        self.output(
+                            "Falling back to get analysis report from download URL instead."
+                        )
+                        self.submit_url(download_url)
+                    else:
+                        self.output(
+                            "No download URL input variable found or "
+                            "URL analysis fallback is not configured. Skipping."
+                        )
+                    return
+
+                report = self.submit_new(input_path, file_sha256, "file")
+                self.process_summary_results(report, input_path)
+                return
 
         # No report for file found and not configured to submit new
         if report_status_code == 404:
