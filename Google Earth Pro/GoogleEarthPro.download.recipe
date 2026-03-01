@@ -10,10 +10,8 @@
     <dict>
         <key>NAME</key>
         <string>GoogleEarthPro</string>
-        <key>SEARCH_URL</key>
-        <string>https://support.google.com/earth/answer/168344</string>
-        <key>RE_PATTERN</key>
-        <string>&lt;a href=&quot;(?P&lt;url&gt;https:\/\/.*\/googleearthpromac.*\.dmg)&quot;</string>
+        <key>DOWNLOAD_URL</key>
+        <string>https://dl.google.com/earth/client/advanced/current/GoogleEarthProMac-Intel.dmg</string>
     </dict>
     <key>MinimumVersion</key>
     <string>1.0</string>
@@ -22,21 +20,10 @@
         <dict>
             <key>Arguments</key>
             <dict>
-                <key>re_pattern</key>
-                <string>%RE_PATTERN%</string>
                 <key>url</key>
-                <string>%SEARCH_URL%</string>
-            </dict>
-            <key>Processor</key>
-            <string>URLTextSearcher</string>
-        </dict>
-         <dict>
-            <key>Arguments</key>
-            <dict>
+                <string>%DOWNLOAD_URL%</string>
                 <key>filename</key>
-                <string>GoogleEarthPro.dmg</string>
-                <key>url</key>
-                <string>%match%</string>
+                <string>%NAME%.dmg</string>
             </dict>
             <key>Processor</key>
             <string>URLDownloader</string>
@@ -45,7 +32,7 @@
             <key>Processor</key>
             <string>EndOfCheckPhase</string>
         </dict>
-        <dict>  
+        <dict>
             <key>Arguments</key>
             <dict>
                 <key>input_path</key>
