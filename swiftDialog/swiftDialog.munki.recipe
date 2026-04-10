@@ -76,7 +76,6 @@
                     <key>installs_item_paths</key>
                     <array>
                         <string>/Library/Application Support/Dialog/Dialog.app</string>
-                        <string>/usr/local/bin/dialog</string>
                     </array>
                 </dict>
                 <key>Processor</key>
