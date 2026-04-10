@@ -36,6 +36,9 @@
                 <string>%DISPLAY_NAME%</string>
                 <key>name</key>
                 <string>%MUNKI_NAME%</string>
+                <key>postuninstall_script</key>
+                <string>#!/bin/zsh
+rm -rf /usr/local/bin/dialog</string>
                 <key>unattended_install</key>
                 <true/>
                 <key>unattended_uninstall</key>
