@@ -7,7 +7,7 @@
         <key>Identifier</key>
         <string>com.github.nstrauss.munki.swiftDialog</string>
         <key>ParentRecipe</key>
-        <string>com.github.zentralpro.download.swiftDialog</string>
+        <string>com.github.smithjw.download.swiftDialog</string>
         <key>MinimumVersion</key>
         <string>1.0.0</string>
         <key>Input</key>
