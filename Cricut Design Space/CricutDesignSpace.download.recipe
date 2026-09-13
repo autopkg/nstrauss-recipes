@@ -3,13 +3,15 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Download the latest Cricut Design Space disk image.</string>
+    <string>Download the latest Cricut Design Space disk image. Cricut ships separate Intel and Apple Silicon builds; use the ARCHITECTURE input key ("osx-x64" or "osx-arm64") to select which one to download.</string>
     <key>Identifier</key>
     <string>com.github.nstrauss.download.CricutDesignSpace</string>
     <key>Input</key>
     <dict>
         <key>NAME</key>
         <string>CricutDesignSpace</string>
+        <key>ARCHITECTURE</key>
+        <string>osx-x64</string>
     </dict>
     <key>MinimumVersion</key>
     <string>1.0</string>
@@ -19,7 +21,7 @@
             <key>Arguments</key>
             <dict>
                 <key>json_url</key>
-                <string>https://apis.cricut.com/desktopdownload/UpdateJson?operatingSystem=osxnative&amp;shard=a</string>
+                <string>https://apis.cricut.com/desktopdownload/UpdateJson?operatingSystem=%ARCHITECTURE%&amp;shard=a</string>
                 <key>json_key</key>
                 <string>result</string>
             </dict>
@@ -41,7 +43,7 @@
             <key>Arguments</key>
             <dict>
                 <key>json_url</key>
-                <string>https://apis.cricut.com/desktopdownload/InstallerFile?shard=a&amp;operatingSystem=osxnative&amp;fileName=%json_value%</string>
+                <string>https://apis.cricut.com/desktopdownload/InstallerFile?shard=a&amp;operatingSystem=%ARCHITECTURE%&amp;fileName=%json_value%</string>
                 <key>json_key</key>
                 <string>result</string>
             </dict>
