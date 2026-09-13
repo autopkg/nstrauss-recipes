@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Download the latest Cricut Design Space disk image. Cricut ships separate Intel and Apple Silicon builds; use the ARCHITECTURE input key ("osx-x64" or "osx-arm64") to select which one to download.</string>
+    <string>Download the latest Cricut Design Space disk image. Cricut ships separate Intel and Apple Silicon builds; use the ARCHITECTURE input key ("osx-arm64" or "osx-x64") to select which one to download.</string>
     <key>Identifier</key>
     <string>com.github.nstrauss.download.CricutDesignSpace</string>
     <key>Input</key>
@@ -11,7 +11,7 @@
         <key>NAME</key>
         <string>CricutDesignSpace</string>
         <key>ARCHITECTURE</key>
-        <string>osx-x64</string>
+        <string>osx-arm64</string>
     </dict>
     <key>MinimumVersion</key>
     <string>1.0</string>
