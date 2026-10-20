@@ -10,8 +10,6 @@
     <dict>
         <key>NAME</key>
         <string>Loom</string>
-        <key>LOOM_ARCH</key>
-        <string>x86</string>
     </dict>
     <key>MinimumVersion</key>
     <string>1.0</string>
@@ -20,17 +18,8 @@
         <dict>
             <key>Arguments</key>
             <dict>
-                <key>loom_arch</key>
-                <string>%LOOM_ARCH%</string>
-            </dict>
-            <key>Processor</key>
-            <string>LoomArchPicker</string>
-        </dict>
-        <dict>
-            <key>Arguments</key>
-            <dict>
                 <key>url</key>
-                <string>%loom_url%</string>
+                <string>https://packages.loom.com/mac/Loom.dmg</string>
             </dict>
             <key>Processor</key>
             <string>URLDownloader</string>
