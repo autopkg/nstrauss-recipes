@@ -21,7 +21,7 @@
             <key>Arguments</key>
             <dict>
                 <key>warning_message</key>
-                <string>This recipe is not longer maintained by me. Please use github.com/nfvcsd/recipes</string>
+                <string>This recipe is no longer maintained by me. Please use github.com/nfvcsd/recipes</string>
                 <key>destination_path</key>
                 <string>%RECIPE_CACHE_DIR%/TestNav.app</string>
                 <key>source_path</key>
