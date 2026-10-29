@@ -24,6 +24,8 @@ JSON_ARCH can be `arm` or `intel`.
         <dict>
             <key>Arguments</key>
             <dict>
+                <key>warning_message</key>
+                <string>This recipe is not longer maintained by me. Please use github.com/nfvcsd/recipes</string>
                 <key>json_url</key>
                 <string>%SEARCH_URL%</string>
                 <key>json_key</key>
@@ -40,6 +42,10 @@ JSON_ARCH can be `arm` or `intel`.
             </dict>
             <key>Processor</key>
             <string>URLDownloader</string>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>DeprecationWarning</string>
         </dict>
         <dict>
             <key>Processor</key>
