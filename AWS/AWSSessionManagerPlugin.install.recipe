@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Download and install the latest AWS Session Manager plugin package.
+
+DOWNLOAD_ARCH
+Use the values between double quotes below for arch specific downloads.
+- "" (empty): x86_64/Intel
+- "_arm64": arm64/Apple silicon
+    </string>
+    <key>Identifier</key>
+    <string>com.github.nstrauss.install.AWSSessionManagerPlugin</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>AWSSessionManagerPlugin</string>
+        <key>DOWNLOAD_ARCH</key>
+        <string></string>
+    </dict>
+    <key>MinimumVersion</key>
+    <string>1.0</string>
+    <key>ParentRecipe</key>
+    <string>com.github.nstrauss.download.AWSSessionManagerPlugin</string>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>pkg_path</key>
+                <string>%pathname%</string>
+            </dict>
+            <key>Processor</key>
+            <string>Installer</string>
+        </dict>
+    </array>
+</dict>
+</plist>
