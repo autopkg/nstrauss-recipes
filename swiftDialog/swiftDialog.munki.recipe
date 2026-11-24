@@ -9,7 +9,7 @@
         <key>ParentRecipe</key>
         <string>com.github.smithjw.download.swiftDialog</string>
         <key>MinimumVersion</key>
-        <string>1.0.0</string>
+        <string>2.6</string>
         <key>Input</key>
         <dict>
             <key>MUNKI_NAME</key>
