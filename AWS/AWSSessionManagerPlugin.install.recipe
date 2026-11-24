@@ -7,8 +7,13 @@
 
 DOWNLOAD_ARCH
 Use the values between double quotes below for arch specific downloads.
+- "_arm64" (default): arm64/Apple silicon
 - "" (empty): x86_64/Intel
-- "_arm64": arm64/Apple silicon
+
+Note: The AWS package does not create the /usr/local/bin/session-manager-plugin
+symlink, so the plugin will not be on PATH and the AWS CLI will not find it.
+Create it after install, per AWS documentation:
+https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html#install-plugin-macos-signed
     </string>
     <key>Identifier</key>
     <string>com.github.nstrauss.install.AWSSessionManagerPlugin</string>
@@ -17,7 +22,7 @@ Use the values between double quotes below for arch specific downloads.
         <key>NAME</key>
         <string>AWSSessionManagerPlugin</string>
         <key>DOWNLOAD_ARCH</key>
-        <string></string>
+        <string>_arm64</string>
     </dict>
     <key>MinimumVersion</key>
     <string>1.0</string>
